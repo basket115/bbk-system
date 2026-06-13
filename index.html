@@ -1081,10 +1081,11 @@ async function loadLiveData() {
           var shortText = text.length > 120 ? text.slice(0, 120) + '...' : text;
           var youtube = (n.YouTube || n.youtube || '').trim();
           var verein  = (n.Verein  || n.verein  || '').trim();
-          var fullText = text.replace(/'/g, "\'").replace(/"/g, '&quot;');
-          var titelEsc = titel.replace(/'/g, "\'").replace(/"/g, '&quot;');
-          var onclick = "openNewsModal('" + kat + "','" + titelEsc + "','" + fullText + "','" + datum + "','" + verein + "','" + youtube + "');return false;";
-          grid.innerHTML += '<a href="#" class="news-card' + isLarge + '" onclick="' + onclick + '">' +
+          // Index für Modal speichern
+          window._newsData = window._newsData || [];
+          window._newsData.push({ kat: kat, titel: titel, text: text, datum: datum, verein: verein, youtube: youtube });
+          var idx = window._newsData.length - 1;
+          grid.innerHTML += '<a href="#" class="news-card' + isLarge + '" onclick="openNewsModal(' + idx + ');return false;">' +
             '<div class="news-card-img">' + emoji + '</div>' +
             '<div class="news-card-body">' +
               '<div class="news-cat">' + kat.toUpperCase() + '</div>' +
@@ -1236,19 +1237,21 @@ document.addEventListener('click', e => {
 </div>
 
 <script>
-function openNewsModal(kat, titel, text, datum, verein, youtube) {
-  document.getElementById('modal-kat').textContent = kat;
-  document.getElementById('modal-titel').textContent = titel;
-  document.getElementById('modal-meta').textContent = '📅 ' + datum + (verein ? '  ·  ' + verein : '');
-  document.getElementById('modal-text').textContent = text;
+function openNewsModal(idx) {
+  var n = window._newsData[idx];
+  if (!n) return;
+  document.getElementById('modal-kat').textContent = n.kat;
+  document.getElementById('modal-titel').textContent = n.titel;
+  document.getElementById('modal-meta').textContent = '📅 ' + n.datum + (n.verein ? '  ·  ' + n.verein : '');
+  document.getElementById('modal-text').textContent = n.text;
   
   var ytDiv = document.getElementById('modal-youtube');
   ytDiv.innerHTML = '';
-  if (youtube && youtube.trim() !== '') {
-    var ytId = youtube.match(/(?:v=|youtu\.be\/)([^&\s]+)/);
-    if (ytId) {
+  if (n.youtube && n.youtube.trim() !== '') {
+    var ytMatch = n.youtube.match(/(?:v=|youtu\.be\/)([^&\s]+)/);
+    if (ytMatch) {
       ytDiv.innerHTML = '<div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:10px">' +
-        '<iframe src="https://www.youtube.com/embed/' + ytId[1] + '" style="position:absolute;top:0;left:0;width:100%;height:100%;border:none" allowfullscreen></iframe>' +
+        '<iframe src="https://www.youtube.com/embed/' + ytMatch[1] + '" style="position:absolute;top:0;left:0;width:100%;height:100%;border:none" allowfullscreen></iframe>' +
         '</div>';
     }
   }
