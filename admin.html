@@ -1077,23 +1077,43 @@ function previewYoutube(url) {
   }
 }
 
+async function uploadBildImgur(base64data) {
+  // Imgur Client ID - kostenlos, kein Login nötig
+  const IMGUR_CLIENT_ID = '546c25a59c58ad7';
+  try {
+    const res = await fetch('https://api.imgur.com/3/image', {
+      method: 'POST',
+      headers: { 'Authorization': 'Client-ID ' + IMGUR_CLIENT_ID },
+      body: JSON.stringify({ image: base64data.split(',')[1], type: 'base64' })
+    });
+    const data = await res.json();
+    if (data.success) return data.data.link;
+  } catch(e) { console.error('Imgur Upload Fehler:', e); }
+  return '';
+}
+
 async function saveNews() {
   const titel = document.getElementById('n-titel').value;
   if (!titel) { showToast('⚠️ Titel fehlt!'); return; }
 
-  // Bild als base64 falls vorhanden
-  let bildData = '';
+  // Titel bereinigen (Emojis am Anfang entfernen)
+  const titelClean = titel.replace(/^[^\w\s\u00C0-\u024F]+/, '').trim();
+
+  // Bild zu Imgur hochladen falls vorhanden
+  let bildUrl = '';
   const preview = document.getElementById('img-preview');
-  if (preview && preview.src && preview.style.display !== 'none') {
-    bildData = preview.src.substring(0, 200); // Gekürzt für Sheet
+  if (preview && preview.src && preview.src.startsWith('data:')) {
+    showToast('⏳ Bild wird hochgeladen...');
+    bildUrl = await uploadBildImgur(preview.src);
+    if (!bildUrl) showToast('⚠️ Bild-Upload fehlgeschlagen – News wird ohne Bild gespeichert');
   }
 
   const payload = {
-    Titel:     titel,
+    Titel:     titelClean,
     Kategorie: document.getElementById('n-kat').value || 'Allgemein',
     Verein:    document.getElementById('n-verein') ? document.getElementById('n-verein').value : '',
     Text:      document.getElementById('n-text').value || '',
-    Bild:      bildData,
+    Bild:      bildUrl,
     YouTube:   document.getElementById('n-youtube').value || '',
   };
 
