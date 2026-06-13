@@ -156,6 +156,22 @@ body{font-family:'DM Sans',sans-serif;background:var(--dark);color:var(--white);
 .two-col{display:grid;grid-template-columns:1.3fr 1fr;gap:16px;}
 .divider{border:none;border-top:1px solid var(--border);margin:16px 0;}
 
+
+/* LIGA TABS */
+.liga-tab{padding:8px 16px;border-radius:8px;border:1px solid var(--border);background:var(--dark3);color:var(--gray);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all .2s;}
+.liga-tab:hover{color:white;border-color:var(--orange);}
+.liga-tab.active{background:rgba(240,128,0,0.2);color:var(--orange);border-color:var(--orange);}
+.liga-panel{display:none;}
+.liga-panel.active{display:block;}
+
+
+/* LIGA TABS */
+.liga-tab{padding:7px 14px;border-radius:8px;border:1px solid var(--border);background:var(--dark3);color:var(--gray);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;cursor:pointer;transition:all .2s;}
+.liga-tab:hover{color:white;border-color:var(--orange);}
+.liga-tab.active{background:rgba(240,128,0,0.2);color:var(--orange);border-color:var(--orange);}
+.liga-panel{display:none;}
+.liga-panel.active{display:block;}
+
 /* MODAL SHARED */
 .bbk-modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85);z-index:9999;overflow-y:auto;}
 .bbk-modal-box{max-width:520px;margin:60px auto;background:var(--dark2);border-radius:16px;padding:32px;position:relative;}
@@ -472,48 +488,117 @@ body{font-family:'DM Sans',sans-serif;background:var(--dark);color:var(--white);
     <div class="page" id="page-tabellen">
       <div class="section-title-bar">
         <h2>TABELLEN</h2>
-        <button class="btn btn-blue btn-sm" onclick="showPage('import',null)">🔌 Via TeamSL importieren</button>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+          <button class="btn btn-primary btn-sm" onclick="addLigaRow()">➕ Zeile hinzufügen</button>
+          <button class="btn btn-blue btn-sm" onclick="showPage('import',null)">🔌 Via TeamSL importieren</button>
+        </div>
       </div>
-      <div class="card">
-        <div class="card-header"><h3>Kreisliga Herren – Saison 2025/26</h3><span class="tag tag-gray">Quelle: Manuell</span></div>
-        <div class="card-body" style="padding:0;overflow-x:auto">
-          <table class="data-table" id="tabellen-body">
-            <thead><tr><th>#</th><th>Verein</th><th>Sp</th><th>S</th><th>N</th><th>Pkt</th><th></th></tr></thead>
-            <tbody>
-              <tr data-idx="0" data-verein="DJK TUSA Düsseldorf" data-sp="22" data-s="19" data-n="3" data-pkt="38">
-                <td style="color:var(--orange);font-weight:700">1</td><td style="font-weight:600">DJK TUSA Düsseldorf</td><td>22</td><td>19</td><td>3</td><td style="font-weight:800">38</td>
-                <td><button class="btn btn-ghost btn-sm" onclick="openTabellenEdit(this.closest('tr'))">✏️</button></td>
-              </tr>
-              <tr data-idx="1" data-verein="ART 77/90 Düsseldorf" data-sp="22" data-s="17" data-n="5" data-pkt="34">
-                <td style="color:var(--orange);font-weight:700">2</td><td style="font-weight:600">ART 77/90 Düsseldorf</td><td>22</td><td>17</td><td>5</td><td style="font-weight:800">34</td>
-                <td><button class="btn btn-ghost btn-sm" onclick="openTabellenEdit(this.closest('tr'))">✏️</button></td>
-              </tr>
-              <tr data-idx="2" data-verein="TG Neuss" data-sp="22" data-s="15" data-n="7" data-pkt="30">
-                <td style="color:var(--orange);font-weight:700">3</td><td style="font-weight:600">TG Neuss</td><td>22</td><td>15</td><td>7</td><td style="font-weight:800">30</td>
-                <td><button class="btn btn-ghost btn-sm" onclick="openTabellenEdit(this.closest('tr'))">✏️</button></td>
-              </tr>
-              <tr data-idx="3" data-verein="Black Eagles Düsseldorf" data-sp="22" data-s="13" data-n="9" data-pkt="26">
-                <td style="color:var(--gray)">4</td><td style="font-weight:600">Black Eagles Düsseldorf</td><td>22</td><td>13</td><td>9</td><td style="font-weight:800">26</td>
-                <td><button class="btn btn-ghost btn-sm" onclick="openTabellenEdit(this.closest('tr'))">✏️</button></td>
-              </tr>
-              <tr data-idx="4" data-verein="Capitol Bascats" data-sp="22" data-s="11" data-n="11" data-pkt="22">
-                <td style="color:var(--gray)">5</td><td style="font-weight:600">Capitol Bascats</td><td>22</td><td>11</td><td>11</td><td style="font-weight:800">22</td>
-                <td><button class="btn btn-ghost btn-sm" onclick="openTabellenEdit(this.closest('tr'))">✏️</button></td>
-              </tr>
-              <tr data-idx="5" data-verein="BG Kaarst-Büttgen" data-sp="22" data-s="10" data-n="12" data-pkt="20">
-                <td style="color:var(--gray)">6</td><td style="font-weight:600">BG Kaarst-Büttgen</td><td>22</td><td>10</td><td>12</td><td style="font-weight:800">20</td>
-                <td><button class="btn btn-ghost btn-sm" onclick="openTabellenEdit(this.closest('tr'))">✏️</button></td>
-              </tr>
-              <tr data-idx="6" data-verein="SG RW Gierath" data-sp="22" data-s="8" data-n="14" data-pkt="16">
-                <td style="color:var(--gray)">7</td><td style="font-weight:600">SG RW Gierath</td><td>22</td><td>8</td><td>14</td><td style="font-weight:800">16</td>
-                <td><button class="btn btn-ghost btn-sm" onclick="openTabellenEdit(this.closest('tr'))">✏️</button></td>
-              </tr>
-              <tr data-idx="7" data-verein="TSV Norf" data-sp="22" data-s="5" data-n="17" data-pkt="10">
-                <td style="color:var(--gray)">8</td><td style="font-weight:600">TSV Norf</td><td>22</td><td>5</td><td>17</td><td style="font-weight:800">10</td>
-                <td><button class="btn btn-ghost btn-sm" onclick="openTabellenEdit(this.closest('tr'))">✏️</button></td>
-              </tr>
-            </tbody>
-          </table>
+
+      <!-- LIGA TABS -->
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px">
+        <button class="liga-tab active" onclick="switchLiga('herren',this)">🏀 Kreisliga Herren</button>
+        <button class="liga-tab" onclick="switchLiga('damen',this)">🏀 Kreisliga Damen</button>
+        <button class="liga-tab" onclick="switchLiga('u18',this)">U18 Jugend</button>
+        <button class="liga-tab" onclick="switchLiga('u16',this)">U16 Jugend</button>
+        <button class="liga-tab" onclick="switchLiga('u14',this)">U14 Jugend</button>
+        <button class="liga-tab" onclick="switchLiga('u12',this)">U12 Jugend</button>
+        <button class="liga-tab" onclick="switchLiga('u8',this)">U8 Spielrunde</button>
+      </div>
+
+      <!-- HERREN -->
+      <div class="liga-panel active" id="panel-herren">
+        <div class="card">
+          <div class="card-header"><h3>Kreisliga Herren – Saison 2025/26</h3><span class="tag tag-gray">Quelle: Manuell</span></div>
+          <div class="card-body" style="padding:0;overflow-x:auto">
+            <table class="data-table" id="tabellen-herren">
+              <thead><tr><th>#</th><th>Verein</th><th>Sp</th><th>S</th><th>N</th><th>Pkt</th><th></th></tr></thead>
+              <tbody>
+                <tr data-verein="DJK TUSA Düsseldorf" data-sp="22" data-s="19" data-n="3" data-pkt="38"><td style="color:var(--orange);font-weight:700">1</td><td style="font-weight:600">DJK TUSA Düsseldorf</td><td>22</td><td>19</td><td>3</td><td style="font-weight:800">38</td><td><button class="btn btn-ghost btn-sm" onclick="openTabellenEdit(this.closest('tr'))">✏️</button></td></tr>
+                <tr data-verein="ART 77/90 Düsseldorf" data-sp="22" data-s="17" data-n="5" data-pkt="34"><td style="color:var(--orange);font-weight:700">2</td><td style="font-weight:600">ART 77/90 Düsseldorf</td><td>22</td><td>17</td><td>5</td><td style="font-weight:800">34</td><td><button class="btn btn-ghost btn-sm" onclick="openTabellenEdit(this.closest('tr'))">✏️</button></td></tr>
+                <tr data-verein="TG Neuss" data-sp="22" data-s="15" data-n="7" data-pkt="30"><td style="color:var(--orange);font-weight:700">3</td><td style="font-weight:600">TG Neuss</td><td>22</td><td>15</td><td>7</td><td style="font-weight:800">30</td><td><button class="btn btn-ghost btn-sm" onclick="openTabellenEdit(this.closest('tr'))">✏️</button></td></tr>
+                <tr data-verein="Black Eagles Düsseldorf" data-sp="22" data-s="13" data-n="9" data-pkt="26"><td style="color:var(--gray)">4</td><td style="font-weight:600">Black Eagles Düsseldorf</td><td>22</td><td>13</td><td>9</td><td style="font-weight:800">26</td><td><button class="btn btn-ghost btn-sm" onclick="openTabellenEdit(this.closest('tr'))">✏️</button></td></tr>
+                <tr data-verein="Capitol Bascats" data-sp="22" data-s="11" data-n="11" data-pkt="22"><td style="color:var(--gray)">5</td><td style="font-weight:600">Capitol Bascats</td><td>22</td><td>11</td><td>11</td><td style="font-weight:800">22</td><td><button class="btn btn-ghost btn-sm" onclick="openTabellenEdit(this.closest('tr'))">✏️</button></td></tr>
+                <tr data-verein="BG Kaarst-Büttgen" data-sp="22" data-s="10" data-n="12" data-pkt="20"><td style="color:var(--gray)">6</td><td style="font-weight:600">BG Kaarst-Büttgen</td><td>22</td><td>10</td><td>12</td><td style="font-weight:800">20</td><td><button class="btn btn-ghost btn-sm" onclick="openTabellenEdit(this.closest('tr'))">✏️</button></td></tr>
+                <tr data-verein="SG RW Gierath" data-sp="22" data-s="8" data-n="14" data-pkt="16"><td style="color:var(--gray)">7</td><td style="font-weight:600">SG RW Gierath</td><td>22</td><td>8</td><td>14</td><td style="font-weight:800">16</td><td><button class="btn btn-ghost btn-sm" onclick="openTabellenEdit(this.closest('tr'))">✏️</button></td></tr>
+                <tr data-verein="TSV Norf" data-sp="22" data-s="5" data-n="17" data-pkt="10"><td style="color:var(--gray)">8</td><td style="font-weight:600">TSV Norf</td><td>22</td><td>5</td><td>17</td><td style="font-weight:800">10</td><td><button class="btn btn-ghost btn-sm" onclick="openTabellenEdit(this.closest('tr'))">✏️</button></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- DAMEN -->
+      <div class="liga-panel" id="panel-damen">
+        <div class="card">
+          <div class="card-header"><h3>Kreisliga Damen – Saison 2025/26</h3><span class="tag tag-gray">Quelle: Manuell</span></div>
+          <div class="card-body" style="padding:0;overflow-x:auto">
+            <table class="data-table" id="tabellen-damen">
+              <thead><tr><th>#</th><th>Verein</th><th>Sp</th><th>S</th><th>N</th><th>Pkt</th><th></th></tr></thead>
+              <tbody>
+                <tr data-verein="TG Neuss" data-sp="18" data-s="14" data-n="4" data-pkt="28"><td style="color:var(--orange);font-weight:700">1</td><td style="font-weight:600">TG Neuss</td><td>18</td><td>14</td><td>4</td><td style="font-weight:800">28</td><td><button class="btn btn-ghost btn-sm" onclick="openTabellenEdit(this.closest('tr'))">✏️</button></td></tr>
+                <tr data-verein="Capitol Bascats" data-sp="18" data-s="12" data-n="6" data-pkt="24"><td style="color:var(--orange);font-weight:700">2</td><td style="font-weight:600">Capitol Bascats</td><td>18</td><td>12</td><td>6</td><td style="font-weight:800">24</td><td><button class="btn btn-ghost btn-sm" onclick="openTabellenEdit(this.closest('tr'))">✏️</button></td></tr>
+                <tr data-verein="TuS Maccabi Düsseldorf" data-sp="18" data-s="8" data-n="10" data-pkt="16"><td style="color:var(--orange);font-weight:700">3</td><td style="font-weight:600">TuS Maccabi Düsseldorf</td><td>18</td><td>8</td><td>10</td><td style="font-weight:800">16</td><td><button class="btn btn-ghost btn-sm" onclick="openTabellenEdit(this.closest('tr'))">✏️</button></td></tr>
+                <tr data-verein="DJK TUSA Düsseldorf" data-sp="18" data-s="6" data-n="12" data-pkt="12"><td style="color:var(--gray)">4</td><td style="font-weight:600">DJK TUSA Düsseldorf</td><td>18</td><td>6</td><td>12</td><td style="font-weight:800">12</td><td><button class="btn btn-ghost btn-sm" onclick="openTabellenEdit(this.closest('tr'))">✏️</button></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- U18 / U16 / U14 / U12 / U8 – leer -->
+      <div class="liga-panel" id="panel-u18">
+        <div class="card">
+          <div class="card-header"><h3>U18 Jugend – Saison 2025/26</h3><span class="tag tag-gray">Quelle: Manuell</span></div>
+          <div class="card-body" style="padding:24px;text-align:center;color:var(--gray)">
+            <div style="font-size:32px;margin-bottom:8px">📋</div>
+            <div style="font-weight:600;margin-bottom:4px">Noch keine Daten</div>
+            <div style="font-size:12px;margin-bottom:12px">Tabelle via TeamSL importieren oder manuell eintragen</div>
+            <button class="btn btn-primary btn-sm" onclick="addLigaRow()">➕ Zeile hinzufügen</button>
+          </div>
+        </div>
+      </div>
+      <div class="liga-panel" id="panel-u16">
+        <div class="card">
+          <div class="card-header"><h3>U16 Jugend – Saison 2025/26</h3><span class="tag tag-gray">Quelle: Manuell</span></div>
+          <div class="card-body" style="padding:24px;text-align:center;color:var(--gray)">
+            <div style="font-size:32px;margin-bottom:8px">📋</div>
+            <div style="font-weight:600;margin-bottom:4px">Noch keine Daten</div>
+            <div style="font-size:12px;margin-bottom:12px">Tabelle via TeamSL importieren oder manuell eintragen</div>
+            <button class="btn btn-primary btn-sm" onclick="addLigaRow()">➕ Zeile hinzufügen</button>
+          </div>
+        </div>
+      </div>
+      <div class="liga-panel" id="panel-u14">
+        <div class="card">
+          <div class="card-header"><h3>U14 Jugend – Saison 2025/26</h3><span class="tag tag-gray">Quelle: Manuell</span></div>
+          <div class="card-body" style="padding:24px;text-align:center;color:var(--gray)">
+            <div style="font-size:32px;margin-bottom:8px">📋</div>
+            <div style="font-weight:600;margin-bottom:4px">Noch keine Daten</div>
+            <div style="font-size:12px;margin-bottom:12px">Tabelle via TeamSL importieren oder manuell eintragen</div>
+            <button class="btn btn-primary btn-sm" onclick="addLigaRow()">➕ Zeile hinzufügen</button>
+          </div>
+        </div>
+      </div>
+      <div class="liga-panel" id="panel-u12">
+        <div class="card">
+          <div class="card-header"><h3>U12 Jugend – Saison 2025/26</h3><span class="tag tag-gray">Quelle: Manuell</span></div>
+          <div class="card-body" style="padding:24px;text-align:center;color:var(--gray)">
+            <div style="font-size:32px;margin-bottom:8px">📋</div>
+            <div style="font-weight:600;margin-bottom:4px">Noch keine Daten</div>
+            <div style="font-size:12px;margin-bottom:12px">Tabelle via TeamSL importieren oder manuell eintragen</div>
+            <button class="btn btn-primary btn-sm" onclick="addLigaRow()">➕ Zeile hinzufügen</button>
+          </div>
+        </div>
+      </div>
+      <div class="liga-panel" id="panel-u8">
+        <div class="card">
+          <div class="card-header"><h3>U8 Spielrunde – Saison 2025/26</h3><span class="tag tag-gray">Quelle: Manuell</span></div>
+          <div class="card-body" style="padding:24px;text-align:center;color:var(--gray)">
+            <div style="font-size:32px;margin-bottom:8px">📋</div>
+            <div style="font-weight:600;margin-bottom:4px">Noch keine Daten</div>
+            <div style="font-size:12px;margin-bottom:12px">Tabelle via TeamSL importieren oder manuell eintragen</div>
+            <button class="btn btn-primary btn-sm" onclick="addLigaRow()">➕ Zeile hinzufügen</button>
+          </div>
         </div>
       </div>
     </div>
@@ -1394,6 +1479,92 @@ document.addEventListener('keydown', function(e) {
     closeEditModal();
   }
 });
+
+
+// ── LIGA TABS ─────────────────────────────────────────────────
+function switchLiga(id, btn) {
+  document.querySelectorAll('.liga-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.liga-tab').forEach(b => b.classList.remove('active'));
+  var panel = document.getElementById('panel-' + id);
+  if (panel) panel.classList.add('active');
+  if (btn) btn.classList.add('active');
+  window._aktiveLiga = id;
+}
+
+function addLigaRow() {
+  var ligaId = window._aktiveLiga || 'herren';
+  var tableId = 'tabellen-' + ligaId;
+  var table = document.getElementById(tableId);
+  if (!table) {
+    // Leere Tabelle anlegen
+    var panel = document.getElementById('panel-' + ligaId);
+    if (!panel) return;
+    var card = panel.querySelector('.card');
+    if (!card) return;
+    card.innerHTML = '<div class="card-header"><h3>' + panel.querySelector('h3').textContent + '</h3><span class="tag tag-gray">Quelle: Manuell</span></div>' +
+      '<div class="card-body" style="padding:0;overflow-x:auto"><table class="data-table" id="' + tableId + '">' +
+      '<thead><tr><th>#</th><th>Verein</th><th>Sp</th><th>S</th><th>N</th><th>Pkt</th><th></th></tr></thead><tbody></tbody></table></div>';
+    table = document.getElementById(tableId);
+  }
+  var tbody = table.querySelector('tbody');
+  var platz = tbody.querySelectorAll('tr').length + 1;
+  var platzStyle = platz <= 3 ? 'color:var(--orange);font-weight:700' : 'color:var(--gray)';
+  var row = document.createElement('tr');
+  row.innerHTML = '<td style="' + platzStyle + '">' + platz + '</td>' +
+    '<td style="font-weight:600"><input type="text" placeholder="Vereinsname" style="background:transparent;border:none;color:white;font-size:13px;width:100%;font-family:'DM Sans',sans-serif" onblur="this.parentElement.textContent=this.value||'–'"></td>' +
+    '<td>0</td><td>0</td><td>0</td><td style="font-weight:800">0</td>' +
+    '<td><button class="btn btn-ghost btn-sm" onclick="openTabellenEdit(this.closest('tr'))">✏️</button></td>';
+  tbody.appendChild(row);
+  row.querySelector('input').focus();
+}
+
+window._aktiveLiga = 'herren';
+
+
+// ── LIGA TABS ─────────────────────────────────────────────────
+window._aktiveLiga = 'herren';
+
+function switchLiga(id, btn) {
+  document.querySelectorAll('.liga-panel').forEach(function(p){ p.classList.remove('active'); });
+  document.querySelectorAll('.liga-tab').forEach(function(b){ b.classList.remove('active'); });
+  var panel = document.getElementById('panel-' + id);
+  if (panel) panel.classList.add('active');
+  if (btn) btn.classList.add('active');
+  window._aktiveLiga = id;
+}
+
+function addLigaRow() {
+  var id = window._aktiveLiga || 'herren';
+  var tableId = 'tabellen-' + id;
+  var tbl = document.getElementById(tableId);
+  if (!tbl) {
+    // Tabelle neu anlegen in leerem Panel
+    var panel = document.getElementById('panel-' + id);
+    if (!panel) return;
+    var card = panel.querySelector('.card');
+    var h3 = card.querySelector('h3');
+    var title = h3 ? h3.textContent : id.toUpperCase();
+    card.innerHTML = '<div class="card-header"><h3>' + title + '</h3><span class="tag tag-gray">Quelle: Manuell</span></div>' +
+      '<div class="card-body" style="padding:0;overflow-x:auto">' +
+      '<table class="data-table" id="' + tableId + '">' +
+      '<thead><tr><th>#</th><th>Verein</th><th>Sp</th><th>S</th><th>N</th><th>Pkt</th><th></th></tr></thead>' +
+      '<tbody></tbody></table></div>';
+    tbl = document.getElementById(tableId);
+  }
+  var tbody = tbl.querySelector('tbody');
+  var platz = tbody.querySelectorAll('tr').length + 1;
+  var pStyle = platz <= 3 ? 'color:var(--orange);font-weight:700' : 'color:var(--gray)';
+  var tr = document.createElement('tr');
+  tr.innerHTML = '<td style="' + pStyle + '">' + platz + '</td>' +
+    '<td style="font-weight:600"><input type="text" placeholder="Vereinsname eingeben..." ' +
+    'style="background:transparent;border:none;border-bottom:1px solid var(--orange);color:white;' +
+    'font-size:13px;width:100%;font-family:'DM Sans',sans-serif;padding:2px 0;outline:none" ' +
+    'onblur="this.closest('td').textContent=this.value||'–'" onkeydown="if(event.key==='Enter')this.blur()"></td>' +
+    '<td>0</td><td>0</td><td>0</td><td style="font-weight:800">0</td>' +
+    '<td><button class="btn btn-ghost btn-sm" onclick="openTabellenEdit(this.closest('tr'))">✏️</button></td>';
+  tbody.appendChild(tr);
+  tr.querySelector('input').focus();
+}
 
 // ── INIT ──────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', function() {
