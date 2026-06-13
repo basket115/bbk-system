@@ -1022,11 +1022,14 @@ function parseDatum(raw) {
 
 async function loadLiveData() {
   try {
-    // Zuerst News laden
-    const resNews = await fetch(BBK_API + "?action=news");
+    // News laden mit Timeout
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 8000);
+    
+    const resNews = await fetch(BBK_API + "?action=news", { signal: controller.signal });
+    clearTimeout(timeout);
     const jsonNews = await resNews.json();
     
-    // Dann Ergebnisse laden  
     const resErg = await fetch(BBK_API + "?action=ergebnisse");
     const jsonErg = await resErg.json();
 
@@ -1039,6 +1042,12 @@ async function loadLiveData() {
     // Ladeindikator entfernen
     const loading = document.getElementById('news-loading');
     if (loading) loading.remove();
+    
+    // Falls keine News → Demo-Fallback zeigen
+    if (!d.news || d.news.length === 0) {
+      document.getElementById('news-grid').innerHTML = '<p style="color:var(--gray);padding:20px">Keine News verfügbar.</p>';
+      return;
+    }
 
     // NEWS – komplett aus Google Sheet aufbauen
     if (d.news && d.news.length) {
@@ -1050,23 +1059,23 @@ async function loadLiveData() {
           'Schiedsrichter': '🧑‍⚖️', 'Ergebnis': '🏆', 'Ergebnisse': '🏆'
         };
         grid.innerHTML = '';
-        d.news.slice(0, 6).forEach((n, i) => {
-          const kat   = (n.Kategorie || n.kategorie || 'Allgemein').trim();
-          const titel = (n.Titel || n.titel || '').trim();
-          const text  = (n.Text  || n.text  || '').trim();
-          const datum = (n.Datum || n.datum || '').trim();
-          const emoji = emojiMap[kat] || '📰';
-          const isLarge = i === 0 ? ' large' : '';
-          const shortText = text.length > 120 ? text.slice(0, 120) + '...' : text;
-          grid.innerHTML += \`<a href="#" class="news-card\${isLarge}">
-            <div class="news-card-img">\${emoji}</div>
-            <div class="news-card-body">
-              <div class="news-cat">\${kat.toUpperCase()}</div>
-              <h3>\${titel}</h3>
-              <p>\${shortText}</p>
-              <div class="news-meta">📅 \${datum}</div>
-            </div>
-          </a>\`;
+        d.news.slice(0, 6).forEach(function(n, i) {
+          var kat   = (n.Kategorie || n.kategorie || 'Allgemein').trim();
+          var titel = (n.Titel || n.titel || '').trim();
+          var text  = (n.Text  || n.text  || '').trim();
+          var datum = (n.Datum || n.datum || '').trim();
+          var emoji = emojiMap[kat] || '📰';
+          var isLarge = i === 0 ? ' large' : '';
+          var shortText = text.length > 120 ? text.slice(0, 120) + '...' : text;
+          grid.innerHTML += '<a href="#" class="news-card' + isLarge + '">' +
+            '<div class="news-card-img">' + emoji + '</div>' +
+            '<div class="news-card-body">' +
+              '<div class="news-cat">' + kat.toUpperCase() + '</div>' +
+              '<h3>' + titel + '</h3>' +
+              '<p>' + shortText + '</p>' +
+              '<div class="news-meta">&#128197; ' + datum + '</div>' +
+            '</div>' +
+          '</a>';
         });
       }
     }
