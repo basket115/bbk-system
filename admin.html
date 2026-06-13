@@ -1078,17 +1078,27 @@ function previewYoutube(url) {
 }
 
 async function uploadBildImgur(base64data) {
-  // Imgur Client ID - kostenlos, kein Login nötig
-  const IMGUR_CLIENT_ID = '546c25a59c58ad7';
+  const IMGUR_CLIENT_ID = 'f4fb4e7c7d5a1c1';
   try {
+    // Base64 ohne Header extrahieren
+    const base64 = base64data.includes(',') ? base64data.split(',')[1] : base64data;
+    const formData = new FormData();
+    formData.append('image', base64);
+    formData.append('type', 'base64');
+    
     const res = await fetch('https://api.imgur.com/3/image', {
       method: 'POST',
       headers: { 'Authorization': 'Client-ID ' + IMGUR_CLIENT_ID },
-      body: JSON.stringify({ image: base64data.split(',')[1], type: 'base64' })
+      body: formData
     });
     const data = await res.json();
-    if (data.success) return data.data.link;
-  } catch(e) { console.error('Imgur Upload Fehler:', e); }
+    if (data && data.success && data.data && data.data.link) {
+      return data.data.link;
+    }
+    console.error('Imgur Antwort:', JSON.stringify(data));
+  } catch(e) { 
+    console.error('Imgur Upload Fehler:', e);
+  }
   return '';
 }
 
