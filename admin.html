@@ -1503,27 +1503,34 @@ function addLigaRow() {
     var card = panel.querySelector('.card');
     var h3 = card.querySelector('h3');
     var title = h3 ? h3.textContent : id.toUpperCase();
-    card.innerHTML = '<div class="card-header"><h3>' + title + '</h3><span class="tag tag-gray">Quelle: Manuell</span></div>' +
-      '<div class="card-body" style="padding:0;overflow-x:auto">' +
-      '<table class="data-table" id="' + tableId + '">' +
-      '<thead><tr><th>#</th><th>Verein</th><th>Sp</th><th>S</th><th>N</th><th>Pkt</th><th></th></tr></thead>' +
-      '<tbody></tbody></table></div>';
+    card.innerHTML = '<div class="card-header"><h3>' + title + '</h3><span class="tag tag-gray">Quelle: Manuell</span></div><div class="card-body" style="padding:0;overflow-x:auto"><table class="data-table" id="' + tableId + '"><thead><tr><th>#</th><th>Verein</th><th>Sp</th><th>S</th><th>N</th><th>Pkt</th><th></th></tr></thead><tbody></tbody></table></div>';
     tbl = document.getElementById(tableId);
   }
   var tbody = tbl.querySelector('tbody');
   var platz = tbody.querySelectorAll('tr').length + 1;
   var pStyle = platz <= 3 ? 'color:var(--orange);font-weight:700' : 'color:var(--gray)';
   var tr = document.createElement('tr');
-  tr.innerHTML = '<td style="' + pStyle + '">' + platz + '</td>' +
-    '<td style="font-weight:600"><input type="text" placeholder="Vereinsname..." ' +
-    'style="background:transparent;border:none;border-bottom:1px solid var(--orange);color:white;' +
-    'font-size:13px;width:100%;outline:none;padding:2px 0" ' +
-    'onblur="this.closest('td').textContent=this.value||'–'" ' +
-    'onkeydown="if(event.key==='Enter')this.blur()"></td>' +
-    '<td>0</td><td>0</td><td>0</td><td style="font-weight:800">0</td>' +
-    '<td><button class="btn btn-ghost btn-sm" onclick="openTabellenEdit(this.closest('tr'))">✏️</button></td>';
+  var btn = document.createElement('button');
+  btn.className = 'btn btn-ghost btn-sm';
+  btn.textContent = '✏️';
+  btn.onclick = function(){ openTabellenEdit(this.closest('tr')); };
+  var inp = document.createElement('input');
+  inp.type = 'text';
+  inp.placeholder = 'Vereinsname...';
+  inp.style.cssText = 'background:transparent;border:none;border-bottom:1px solid var(--orange);color:white;font-size:13px;width:100%;outline:none;padding:2px 0';
+  inp.addEventListener('blur', function(){ this.closest('td').textContent = this.value || '–'; });
+  inp.addEventListener('keydown', function(e){ if(e.key==='Enter') this.blur(); });
+  var tdName = document.createElement('td');
+  tdName.style.fontWeight = '600';
+  tdName.appendChild(inp);
+  tr.innerHTML = '<td style="' + pStyle + '">' + platz + '</td>';
+  tr.appendChild(tdName);
+  tr.innerHTML += '<td>0</td><td>0</td><td>0</td><td style="font-weight:800">0</td>';
+  var tdBtn = document.createElement('td');
+  tdBtn.appendChild(btn);
+  tr.appendChild(tdBtn);
   tbody.appendChild(tr);
-  tr.querySelector('input').focus();
+  inp.focus();
 }
 
 // ── INIT ──────────────────────────────────────────────────────
