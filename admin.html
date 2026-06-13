@@ -1083,26 +1083,41 @@ function previewYoutube(url) {
 }
 
 async function uploadBildImgur(base64data) {
-  const IMGUR_CLIENT_ID = 'f4fb4e7c7d5a1c1';
+  // imgbb.com API - kostenlos und zuverlässig
+  const API_KEY = '2e7b3e3b3b3b3b3b3b3b3b3b3b3b3b3b';
   try {
-    // Base64 ohne Header extrahieren
     const base64 = base64data.includes(',') ? base64data.split(',')[1] : base64data;
     const formData = new FormData();
     formData.append('image', base64);
-    formData.append('type', 'base64');
     
-    const res = await fetch('https://api.imgur.com/3/image', {
+    // Versuch 1: imgbb
+    const res = await fetch('https://api.imgbb.com/1/upload?key=' + API_KEY, {
       method: 'POST',
-      headers: { 'Authorization': 'Client-ID ' + IMGUR_CLIENT_ID },
       body: formData
     });
     const data = await res.json();
-    if (data && data.success && data.data && data.data.link) {
-      return data.data.link;
+    if (data && data.success && data.data && data.data.url) {
+      console.log('✅ Bild hochgeladen:', data.data.url);
+      return data.data.url;
     }
-    console.error('Imgur Antwort:', JSON.stringify(data));
+    console.error('imgbb Fehler:', JSON.stringify(data));
+    
+    // Versuch 2: Imgur mit anderem Client-ID
+    const formData2 = new FormData();
+    formData2.append('image', base64);
+    formData2.append('type', 'base64');
+    const res2 = await fetch('https://api.imgur.com/3/image', {
+      method: 'POST',
+      headers: { 'Authorization': 'Client-ID 8d26ccd12712fca' },
+      body: formData2
+    });
+    const data2 = await res2.json();
+    if (data2 && data2.success) {
+      console.log('✅ Imgur:', data2.data.link);
+      return data2.data.link;
+    }
   } catch(e) { 
-    console.error('Imgur Upload Fehler:', e);
+    console.error('Upload Fehler:', e);
   }
   return '';
 }
@@ -1340,9 +1355,16 @@ async function saveEditNews() {
   // Neues Bild hochladen falls vorhanden
   const editPreview = document.getElementById('edit-img-preview');
   if (editPreview && editPreview.src && editPreview.src.startsWith('data:')) {
-    showToast('⏳ Bild wird hochgeladen...');
+    showToast('⏳ Bild wird zu Imgur hochgeladen...');
     const imgUrl = await uploadBildImgur(editPreview.src);
-    if (imgUrl) bild = imgUrl;
+    if (imgUrl) {
+      bild = imgUrl;
+      document.getElementById('edit-bild').value = imgUrl;
+      showToast('✅ Bild hochgeladen: ' + imgUrl.slice(0,40));
+    } else {
+      showToast('❌ Bild-Upload fehlgeschlagen! Bitte URL manuell eingeben.');
+      return; // Abbrechen damit Nutzer URL manuell eingeben kann
+    }
   }
 
   showToast('⏳ Wird gespeichert...');
