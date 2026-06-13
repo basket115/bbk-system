@@ -1081,12 +1081,17 @@ async function loadLiveData() {
           var shortText = text.length > 120 ? text.slice(0, 120) + '...' : text;
           var youtube = (n.YouTube || n.youtube || '').trim();
           var verein  = (n.Verein  || n.verein  || '').trim();
+          var bild    = (n.Bild    || n.bild    || '').trim();
           // Index für Modal speichern
           window._newsData = window._newsData || [];
-          window._newsData.push({ kat: kat, titel: titel, text: text, datum: datum, verein: verein, youtube: youtube });
+          window._newsData.push({ kat: kat, titel: titel, text: text, datum: datum, verein: verein, youtube: youtube, bild: bild });
           var idx = window._newsData.length - 1;
+          // Bild oder Emoji als Karten-Header
+          var imgHtml = bild
+            ? '<div class="news-card-img" style="background-image:url(' + bild + ');background-size:cover;background-position:center;font-size:0"></div>'
+            : '<div class="news-card-img">' + emoji + '</div>';
           grid.innerHTML += '<a href="#" class="news-card' + isLarge + '" onclick="openNewsModal(' + idx + ');return false;">' +
-            '<div class="news-card-img">' + emoji + '</div>' +
+            imgHtml +
             '<div class="news-card-body">' +
               '<div class="news-cat">' + kat.toUpperCase() + '</div>' +
               '<h3>' + titel + '</h3>' +
@@ -1231,6 +1236,7 @@ document.addEventListener('click', e => {
     <div id="modal-kat" style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--orange);margin-bottom:12px"></div>
     <h2 id="modal-titel" style="font-family:'Bebas Neue',sans-serif;font-size:32px;margin-bottom:16px;line-height:1.2"></h2>
     <div id="modal-meta" style="font-size:12px;color:var(--gray);margin-bottom:24px"></div>
+    <div id="modal-bild"></div>
     <div id="modal-text" style="font-size:15px;line-height:1.8;color:var(--light);white-space:pre-wrap;margin-bottom:24px"></div>
     <div id="modal-youtube" style="margin-top:16px"></div>
   </div>
@@ -1244,6 +1250,16 @@ function openNewsModal(idx) {
   document.getElementById('modal-titel').textContent = n.titel;
   document.getElementById('modal-meta').textContent = '📅 ' + n.datum + (n.verein ? '  ·  ' + n.verein : '');
   document.getElementById('modal-text').textContent = n.text;
+  
+  // Bild im Modal
+  var modalBild = document.getElementById('modal-bild');
+  if (modalBild) {
+    if (n.bild && n.bild.trim() !== '') {
+      modalBild.innerHTML = '<img src="' + n.bild + '" style="width:100%;border-radius:10px;margin-bottom:16px;max-height:300px;object-fit:cover">';
+    } else {
+      modalBild.innerHTML = '';
+    }
+  }
   
   var ytDiv = document.getElementById('modal-youtube');
   ytDiv.innerHTML = '';
