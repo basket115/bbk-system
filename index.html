@@ -1022,10 +1022,23 @@ function parseDatum(raw) {
 
 async function loadLiveData() {
   try {
-    const res  = await fetch(BBK_API + "?action=all");
-    const json = await res.json();
-    if (json.status !== "ok") return;
-    const d = json.data;
+    // Zuerst News laden
+    const resNews = await fetch(BBK_API + "?action=news");
+    const jsonNews = await resNews.json();
+    
+    // Dann Ergebnisse laden  
+    const resErg = await fetch(BBK_API + "?action=ergebnisse");
+    const jsonErg = await resErg.json();
+
+    const d = {
+      news:       (jsonNews.status === "ok") ? jsonNews.data : [],
+      ergebnisse: (jsonErg.status  === "ok") ? jsonErg.data  : [],
+      spielplan:  []
+    };
+    
+    // Ladeindikator entfernen
+    const loading = document.getElementById('news-loading');
+    if (loading) loading.remove();
 
     // NEWS – komplett aus Google Sheet aufbauen
     if (d.news && d.news.length) {
