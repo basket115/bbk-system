@@ -1088,9 +1088,17 @@ async function loadLiveData() {
           window._newsData.push({ kat: kat, titel: titel, text: text, datum: datum, verein: verein, youtube: youtube, bild: bild });
           var idx = window._newsData.length - 1;
           // Bild oder Emoji als Karten-Header
+          // YouTube-Thumbnail als Fallback wenn kein Bild vorhanden
+          var ytId = '';
+          if (!bild && youtube) {
+            var ytMatch2 = youtube.match(/(?:v=|youtu\.be\/)([^&\s]+)/);
+            if (ytMatch2) ytId = ytMatch2[1];
+          }
           var imgHtml = bild
             ? '<div class="news-card-img" style="background-image:url(' + bild + ');background-size:cover;background-position:center top;font-size:0;min-height:200px"></div>'
-            : '<div class="news-card-img">' + emoji + '</div>';
+            : ytId
+              ? '<div class="news-card-img" style="background-image:url(https://img.youtube.com/vi/' + ytId + '/maxresdefault.jpg);background-size:cover;background-position:center top;font-size:0;min-height:200px"></div>'
+              : '<div class="news-card-img">' + emoji + '</div>';
           grid.innerHTML += '<a href="#" class="news-card' + isLarge + '" onclick="openNewsModal(' + idx + ');return false;">' +
             imgHtml +
             '<div class="news-card-body">' +
