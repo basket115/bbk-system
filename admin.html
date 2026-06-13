@@ -1482,46 +1482,6 @@ document.addEventListener('keydown', function(e) {
 
 
 // ── LIGA TABS ─────────────────────────────────────────────────
-function switchLiga(id, btn) {
-  document.querySelectorAll('.liga-panel').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.liga-tab').forEach(b => b.classList.remove('active'));
-  var panel = document.getElementById('panel-' + id);
-  if (panel) panel.classList.add('active');
-  if (btn) btn.classList.add('active');
-  window._aktiveLiga = id;
-}
-
-function addLigaRow() {
-  var ligaId = window._aktiveLiga || 'herren';
-  var tableId = 'tabellen-' + ligaId;
-  var table = document.getElementById(tableId);
-  if (!table) {
-    // Leere Tabelle anlegen
-    var panel = document.getElementById('panel-' + ligaId);
-    if (!panel) return;
-    var card = panel.querySelector('.card');
-    if (!card) return;
-    card.innerHTML = '<div class="card-header"><h3>' + panel.querySelector('h3').textContent + '</h3><span class="tag tag-gray">Quelle: Manuell</span></div>' +
-      '<div class="card-body" style="padding:0;overflow-x:auto"><table class="data-table" id="' + tableId + '">' +
-      '<thead><tr><th>#</th><th>Verein</th><th>Sp</th><th>S</th><th>N</th><th>Pkt</th><th></th></tr></thead><tbody></tbody></table></div>';
-    table = document.getElementById(tableId);
-  }
-  var tbody = table.querySelector('tbody');
-  var platz = tbody.querySelectorAll('tr').length + 1;
-  var platzStyle = platz <= 3 ? 'color:var(--orange);font-weight:700' : 'color:var(--gray)';
-  var row = document.createElement('tr');
-  row.innerHTML = '<td style="' + platzStyle + '">' + platz + '</td>' +
-    '<td style="font-weight:600"><input type="text" placeholder="Vereinsname" style="background:transparent;border:none;color:white;font-size:13px;width:100%;font-family:'DM Sans',sans-serif" onblur="this.parentElement.textContent=this.value||'–'"></td>' +
-    '<td>0</td><td>0</td><td>0</td><td style="font-weight:800">0</td>' +
-    '<td><button class="btn btn-ghost btn-sm" onclick="openTabellenEdit(this.closest('tr'))">✏️</button></td>';
-  tbody.appendChild(row);
-  row.querySelector('input').focus();
-}
-
-window._aktiveLiga = 'herren';
-
-
-// ── LIGA TABS ─────────────────────────────────────────────────
 window._aktiveLiga = 'herren';
 
 function switchLiga(id, btn) {
@@ -1538,7 +1498,6 @@ function addLigaRow() {
   var tableId = 'tabellen-' + id;
   var tbl = document.getElementById(tableId);
   if (!tbl) {
-    // Tabelle neu anlegen in leerem Panel
     var panel = document.getElementById('panel-' + id);
     if (!panel) return;
     var card = panel.querySelector('.card');
@@ -1556,10 +1515,11 @@ function addLigaRow() {
   var pStyle = platz <= 3 ? 'color:var(--orange);font-weight:700' : 'color:var(--gray)';
   var tr = document.createElement('tr');
   tr.innerHTML = '<td style="' + pStyle + '">' + platz + '</td>' +
-    '<td style="font-weight:600"><input type="text" placeholder="Vereinsname eingeben..." ' +
+    '<td style="font-weight:600"><input type="text" placeholder="Vereinsname..." ' +
     'style="background:transparent;border:none;border-bottom:1px solid var(--orange);color:white;' +
-    'font-size:13px;width:100%;font-family:'DM Sans',sans-serif;padding:2px 0;outline:none" ' +
-    'onblur="this.closest('td').textContent=this.value||'–'" onkeydown="if(event.key==='Enter')this.blur()"></td>' +
+    'font-size:13px;width:100%;outline:none;padding:2px 0" ' +
+    'onblur="this.closest('td').textContent=this.value||'–'" ' +
+    'onkeydown="if(event.key==='Enter')this.blur()"></td>' +
     '<td>0</td><td>0</td><td>0</td><td style="font-weight:800">0</td>' +
     '<td><button class="btn btn-ghost btn-sm" onclick="openTabellenEdit(this.closest('tr'))">✏️</button></td>';
   tbody.appendChild(tr);
