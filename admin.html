@@ -969,21 +969,55 @@ function publishAll() {
   document.getElementById('m-hp').value = '';
   document.getElementById('m-gp').value = '';
   document.getElementById('m-spieltag').value = '';
-  showToast(`✅ ${n} Ergebnis${n > 1 ? 'se' : ''} gespeichert & Website aktualisiert!`);
+  // Alle ans Sheet senden
+  const savePromises = [...tempQueue].map(e => apiPost('saveErgebnis', {
+    Heimteam: e.heim, Gastteam: e.gast,
+    Punkte_Heim: e.hp, Punkte_Gast: e.gp,
+    Liga: e.liga, Datum: e.datum || '',
+  }).catch(() => null));
+  Promise.all(savePromises).then(() => {
+    showToast(`✅ ${n} Ergebnis${n > 1 ? 'se' : ''} im Google Sheet gespeichert!`);
+  });
 }
 
-function saveErgebnis() {
+async function saveErgebnis() {
   const heim = document.getElementById('e-heim').value;
   const gast = document.getElementById('e-gast').value;
   const hp   = document.getElementById('e-hp').value;
   const gp   = document.getElementById('e-gp').value;
   const liga = document.getElementById('e-liga').value;
+  const datum = document.getElementById('e-datum').value;
   if (!hp || !gp) { showToast('⚠️ Bitte Punkte eintragen!'); return; }
-  const row = `<tr><td>${heim.split(' ').slice(0,2).join(' ')} vs. ${gast.split(' ').slice(0,2).join(' ')}</td><td style="font-weight:800;color:var(--orange)">${hp}:${gp}</td><td><span class="tag tag-orange">${liga.split(' ')[0]}</span></td><td><span class="tag tag-gray">Manuell</span></td></tr>`;
-  document.querySelector('#ergebnis-liste tbody').insertAdjacentHTML('afterbegin', row);
-  document.getElementById('e-hp').value = '';
-  document.getElementById('e-gp').value = '';
-  showToast('✅ Ergebnis gespeichert!');
+  if (heim === gast) { showToast('⚠️ Heim- und Gastteam dürfen nicht gleich sein!'); return; }
+
+  showToast('⏳ Wird gespeichert...');
+  try {
+    const result = await apiPost('saveErgebnis', {
+      Heimteam:    heim,
+      Gastteam:    gast,
+      Punkte_Heim: hp,
+      Punkte_Gast: gp,
+      Liga:        liga,
+      Datum:       datum ? new Date(datum).toLocaleDateString('de-DE') : '',
+    });
+    if (result.status === 'ok') {
+      const row = `<tr>
+        <td>${heim.split(' ').slice(0,2).join(' ')} vs. ${gast.split(' ').slice(0,2).join(' ')}</td>
+        <td style="font-weight:800;color:var(--orange)">${hp}:${gp}</td>
+        <td><span class="tag tag-orange">${liga.split(' ')[0]}</span></td>
+        <td><span class="tag tag-green">✅ Sheet</span></td>
+      </tr>`;
+      document.querySelector('#ergebnis-liste tbody').insertAdjacentHTML('afterbegin', row);
+      document.getElementById('e-hp').value = '';
+      document.getElementById('e-gp').value = '';
+      showToast('✅ Ergebnis im Google Sheet gespeichert!');
+    } else {
+      showToast('❌ Fehler: ' + (result.message || ''));
+    }
+  } catch(err) {
+    showToast('❌ Verbindungsfehler');
+    console.error(err);
+  }
 }
 
 function previewImage(input) {
@@ -1024,19 +1058,119 @@ function previewYoutube(url) {
   }
 }
 
-function saveNews() {
+async function saveNews() {
   const titel = document.getElementById('n-titel').value;
   if (!titel) { showToast('⚠️ Titel fehlt!'); return; }
-  const today = new Date().toLocaleDateString('de-DE',{day:'2-digit',month:'2-digit'});
-  const row = `<tr><td>${titel}</td><td><span class="tag tag-orange">${document.getElementById('n-kat').value.slice(0,4)}</span></td><td style="color:var(--gray)">${today}</td><td><button class="btn btn-danger btn-sm">🗑</button></td></tr>`;
-  document.querySelector('#news-liste tbody').insertAdjacentHTML('afterbegin', row);
-  document.getElementById('n-titel').value = '';
-  document.getElementById('n-text').value  = '';
-  document.getElementById('n-youtube').value = '';
-  previewYoutube('');
-  removeImage();
-  showToast('📰 News veröffentlicht!');
+
+  // Bild als base64 falls vorhanden
+  let bildData = '';
+  const preview = document.getElementById('img-preview');
+  if (preview && preview.src && preview.style.display !== 'none') {
+    bildData = preview.src.substring(0, 200); // Gekürzt für Sheet
+  }
+
+  const payload = {
+    Titel:     titel,
+    Kategorie: document.getElementById('n-kat').value || 'Allgemein',
+    Verein:    document.getElementById('n-verein') ? document.getElementById('n-verein').value : '',
+    Text:      document.getElementById('n-text').value || '',
+    Bild:      bildData,
+    YouTube:   document.getElementById('n-youtube').value || '',
+  };
+
+  showToast('⏳ Wird gespeichert...');
+
+  try {
+    const result = await apiPost('saveNews', payload);
+    if (result.status === 'ok') {
+      // Tabelle aktualisieren
+      const today = new Date().toLocaleDateString('de-DE',{day:'2-digit',month:'2-digit',year:'numeric'});
+      const row = `<tr>
+        <td>${titel}</td>
+        <td><span class="tag tag-orange">${payload.Kategorie.slice(0,8)}</span></td>
+        <td style="color:var(--gray)">${today}</td>
+        <td><button class="btn btn-danger btn-sm" onclick="deleteNewsItem(this,'${result.id}')">🗑</button></td>
+      </tr>`;
+      document.querySelector('#news-liste tbody').insertAdjacentHTML('afterbegin', row);
+      // Felder leeren
+      document.getElementById('n-titel').value = '';
+      document.getElementById('n-text').value  = '';
+      document.getElementById('n-youtube').value = '';
+      previewYoutube('');
+      removeImage();
+      showToast('✅ News im Google Sheet gespeichert!');
+    } else {
+      showToast('❌ Fehler: ' + (result.message || 'Unbekannt'));
+    }
+  } catch(err) {
+    showToast('❌ Verbindungsfehler – bitte prüfe die API-URL');
+    console.error(err);
+  }
 }
+
+async function deleteNewsItem(btn, id) {
+  if (!confirm('News wirklich löschen?')) return;
+  try {
+    const result = await apiPost('deleteNews', { id });
+    if (result.status === 'ok') {
+      btn.closest('tr').remove();
+      showToast('🗑 News gelöscht');
+    }
+  } catch(err) { showToast('❌ Löschfehler'); }
+}
+
+
+// News beim Start laden
+async function loadNewsFromSheet() {
+  try {
+    const result = await apiGet('news');
+    if (result.status !== 'ok' || !result.data.length) return;
+    const tbody = document.querySelector('#news-liste tbody');
+    if (!tbody) return;
+    tbody.innerHTML = '';
+    result.data.slice(0, 10).forEach(n => {
+      const row = `<tr>
+        <td>${n.Titel || ''}</td>
+        <td><span class="tag tag-orange">${(n.Kategorie||'').slice(0,8)}</span></td>
+        <td style="color:var(--gray)">${n.Datum || ''}</td>
+        <td><button class="btn btn-danger btn-sm" onclick="deleteNewsItem(this,'${n.ID}')">🗑</button></td>
+      </tr>`;
+      tbody.insertAdjacentHTML('beforeend', row);
+    });
+  } catch(e) { /* Sheet leer oder API nicht erreichbar */ }
+}
+
+// Ergebnisse laden beim Start
+async function loadErgebnisseFromSheet() {
+  try {
+    const result = await apiGet('ergebnisse');
+    if (result.status !== 'ok' || !result.data.length) return;
+    const tbody = document.querySelector('#ergebnis-liste tbody');
+    if (!tbody) return;
+    tbody.innerHTML = '';
+    result.data.slice(0, 10).forEach(e => {
+      const hp = e.Punkte_Heim || '', gp = e.Punkte_Gast || '';
+      const row = `<tr>
+        <td>${e.Heimteam||''} vs. ${e.Gastteam||''}</td>
+        <td style="font-weight:800;color:var(--orange)">${hp}:${gp}</td>
+        <td><span class="tag tag-orange">${(e.Liga||'').split(' ')[0]}</span></td>
+        <td><span class="tag tag-green">✅ Sheet</span></td>
+      </tr>`;
+      tbody.insertAdjacentHTML('beforeend', row);
+    });
+  } catch(e) { /* Sheet leer */ }
+}
+
+// Nach Login laden
+const origLogin = typeof doLogin === 'function' ? doLogin : null;
+document.addEventListener('DOMContentLoaded', () => {
+  // Nach erfolgreichem Login nachladen
+  const pwBtn = document.querySelector('.btn-primary[onclick="doLogin()"]');
+  if (pwBtn) {
+    const origOnclick = pwBtn.getAttribute('onclick');
+    pwBtn.setAttribute('onclick', origOnclick + '; setTimeout(()=>{loadNewsFromSheet();loadErgebnisseFromSheet();},800);');
+  }
+});
 
 document.getElementById('e-datum').valueAsDate = new Date();
 </script>
