@@ -1072,21 +1072,37 @@ async function loadLiveData() {
     if (json.status !== "ok") return;
     const d = json.data;
 
-    // NEWS
+    // NEWS – aus Google Sheet laden (Spalten: ID, Datum, Kategorie, Titel, Text, Verein, Status)
     if (d.news && d.news.length) {
       const grid = document.querySelector('.news-grid');
       if (grid) {
         const cards = grid.querySelectorAll('.news-card');
-        d.news.slice(0, Math.min(d.news.length, cards.length)).forEach((n, i) => {
+        const newsData = d.news.slice(0, cards.length);
+        newsData.forEach((n, i) => {
           const card = cards[i];
+          if (!card) return;
           const cat  = card.querySelector('.news-cat');
           const h3   = card.querySelector('h3');
           const p    = card.querySelector('p');
           const meta = card.querySelector('.news-meta');
-          if (cat)  cat.textContent  = n.Kategorie || '';
-          if (h3)   h3.textContent   = n.Titel     || '';
-          if (p)    p.textContent    = (n.Text||'').slice(0,120) + '...';
-          if (meta) meta.textContent = '📅 ' + (n.Datum || '');
+          // Emoji je Kategorie
+          const emojiMap = {
+            'Kreisliga': '🏀', 'Allgemein': '📋', 'Kreistag': '📢',
+            'Jugend': '🏅', 'Verein': '🏛️', 'Ausbildung': '📚',
+            'Schiedsrichter': '🧑‍⚖️', 'Ergebnis': '🏆'
+          };
+          const kat = n.Kategorie || n.kategorie || '';
+          const emoji = emojiMap[kat] || '📰';
+          if (cat)  cat.textContent  = kat.toUpperCase();
+          if (h3)   h3.textContent   = n.Titel || n.titel || '';
+          if (p) {
+            const text = (n.Text || n.text || '').trim();
+            p.textContent = text.length > 120 ? text.slice(0, 120) + '...' : text;
+          }
+          if (meta) meta.textContent = '📅 ' + (n.Datum || n.datum || '');
+          // Emoji als Platzhalter-Bild
+          const imgDiv = card.querySelector('.news-card-img');
+          if (imgDiv && !imgDiv.querySelector('img')) imgDiv.textContent = emoji;
         });
       }
     }
