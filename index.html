@@ -616,63 +616,18 @@ footer .logo-text strong { font-size: 15px; }
     <a href="#" class="link-all">Alle News →</a>
   </div>
 
-  <div class="news-grid">
-    <!-- Main news -->
-    <a href="#" class="news-card large">
-      <div class="news-card-img">🏆</div>
+  <!-- News werden dynamisch aus Google Sheet geladen -->
+  <div class="news-grid" id="news-grid">
+    <!-- Ladeanzeige -->
+    <div class="news-card large" id="news-loading">
+      <div class="news-card-img">⏳</div>
       <div class="news-card-body">
-        <div class="news-cat">Kreismeisterschaft</div>
-        <h3>DJK TUSA Düsseldorf ist Kreismeister Herren 2026/27!</h3>
-        <p>Nach einer starken Saison sicherte sich DJK TUSA Düsseldorf souverän den Titel in der Kreisliga Herren – herzlichen Glückwunsch an alle Beteiligten!</p>
-        <div class="news-meta">📅 07. Juni 2026 &nbsp;·&nbsp; Kreisliga Herren</div>
+        <div class="news-cat">Laden...</div>
+        <h3>News werden geladen</h3>
+        <p>Bitte einen Moment warten.</p>
+        <div class="news-meta">📅</div>
       </div>
-    </a>
-    <!-- Side news -->
-    <a href="#" class="news-card">
-      <div class="news-card-img">📋</div>
-      <div class="news-card-body">
-        <div class="news-cat">Saison 2026/27</div>
-        <h3>Meldebogen für neue Saison jetzt verfügbar</h3>
-        <p>Abgabefrist: 21. Juni 2026. Auch weibliche Kreisligen neu dabei.</p>
-        <div class="news-meta">📅 05. Juni 2026</div>
-      </div>
-    </a>
-    <a href="#" class="news-card">
-      <div class="news-card-img">🧑‍⚖️</div>
-      <div class="news-card-body">
-        <div class="news-cat">Ausbildung</div>
-        <h3>Schiedsrichter-Basisausbildung in Düsseldorf</h3>
-        <p>Jetzt anmelden – wir brauchen neue Schiedsrichter für die kommende Saison!</p>
-        <div class="news-meta">📅 02. Juni 2026</div>
-      </div>
-    </a>
-    <a href="#" class="news-card">
-      <div class="news-card-img">⛹️</div>
-      <div class="news-card-body">
-        <div class="news-cat">Verein</div>
-        <h3>TSV Urdenbach sucht Basketball-Trainer</h3>
-        <p>Die Basketballabteilung des TSV Urdenbach sucht Trainer für die neue Saison.</p>
-        <div class="news-meta">📅 28. Mai 2026</div>
-      </div>
-    </a>
-    <a href="#" class="news-card">
-      <div class="news-card-img">🏅</div>
-      <div class="news-card-body">
-        <div class="news-cat">Jugend</div>
-        <h3>U8-Spielrunde: Großer Erfolg beim TSV Urdenbach</h3>
-        <p>Über 80 Kinder nahmen an der 2. U8-Spielrunde teil – Basketball von Anfang an!</p>
-        <div class="news-meta">📅 26. April 2026</div>
-      </div>
-    </a>
-    <a href="#" class="news-card">
-      <div class="news-card-img">📣</div>
-      <div class="news-card-body">
-        <div class="news-cat">Kreistag</div>
-        <h3>Kreistag am 23. Juni im Provinzial-Forum Düsseldorf</h3>
-        <p>Alle Mitgliedsvereine sind eingeladen – wichtige Beschlüsse zur neuen Saison.</p>
-        <div class="news-meta">📅 20. Mai 2026</div>
-      </div>
-    </a>
+    </div>
   </div>
 </div>
 
@@ -1072,37 +1027,33 @@ async function loadLiveData() {
     if (json.status !== "ok") return;
     const d = json.data;
 
-    // NEWS – aus Google Sheet laden (Spalten: ID, Datum, Kategorie, Titel, Text, Verein, Status)
+    // NEWS – komplett aus Google Sheet aufbauen
     if (d.news && d.news.length) {
-      const grid = document.querySelector('.news-grid');
+      const grid = document.getElementById('news-grid');
       if (grid) {
-        const cards = grid.querySelectorAll('.news-card');
-        const newsData = d.news.slice(0, cards.length);
-        newsData.forEach((n, i) => {
-          const card = cards[i];
-          if (!card) return;
-          const cat  = card.querySelector('.news-cat');
-          const h3   = card.querySelector('h3');
-          const p    = card.querySelector('p');
-          const meta = card.querySelector('.news-meta');
-          // Emoji je Kategorie
-          const emojiMap = {
-            'Kreisliga': '🏀', 'Allgemein': '📋', 'Kreistag': '📢',
-            'Jugend': '🏅', 'Verein': '🏛️', 'Ausbildung': '📚',
-            'Schiedsrichter': '🧑‍⚖️', 'Ergebnis': '🏆'
-          };
-          const kat = n.Kategorie || n.kategorie || '';
+        const emojiMap = {
+          'Kreisliga': '🏀', 'Allgemein': '📋', 'Kreistag': '📢',
+          'Jugend': '🏅', 'Verein': '🏛️', 'Ausbildung': '📚',
+          'Schiedsrichter': '🧑‍⚖️', 'Ergebnis': '🏆', 'Ergebnisse': '🏆'
+        };
+        grid.innerHTML = '';
+        d.news.slice(0, 6).forEach((n, i) => {
+          const kat   = (n.Kategorie || n.kategorie || 'Allgemein').trim();
+          const titel = (n.Titel || n.titel || '').trim();
+          const text  = (n.Text  || n.text  || '').trim();
+          const datum = (n.Datum || n.datum || '').trim();
           const emoji = emojiMap[kat] || '📰';
-          if (cat)  cat.textContent  = kat.toUpperCase();
-          if (h3)   h3.textContent   = n.Titel || n.titel || '';
-          if (p) {
-            const text = (n.Text || n.text || '').trim();
-            p.textContent = text.length > 120 ? text.slice(0, 120) + '...' : text;
-          }
-          if (meta) meta.textContent = '📅 ' + (n.Datum || n.datum || '');
-          // Emoji als Platzhalter-Bild
-          const imgDiv = card.querySelector('.news-card-img');
-          if (imgDiv && !imgDiv.querySelector('img')) imgDiv.textContent = emoji;
+          const isLarge = i === 0 ? ' large' : '';
+          const shortText = text.length > 120 ? text.slice(0, 120) + '...' : text;
+          grid.innerHTML += \`<a href="#" class="news-card\${isLarge}">
+            <div class="news-card-img">\${emoji}</div>
+            <div class="news-card-body">
+              <div class="news-cat">\${kat.toUpperCase()}</div>
+              <h3>\${titel}</h3>
+              <p>\${shortText}</p>
+              <div class="news-meta">📅 \${datum}</div>
+            </div>
+          </a>\`;
         });
       }
     }
