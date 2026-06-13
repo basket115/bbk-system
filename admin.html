@@ -809,6 +809,11 @@ const PASS = 'BBK2026!';
 function doLogin() {
   if (document.getElementById('pw-input').value === PASS) {
     document.getElementById('login-screen').style.display = 'none';
+    // News und Ergebnisse aus Sheet laden
+    setTimeout(function() {
+      loadNewsFromSheet();
+      loadErgebnisseFromSheet();
+    }, 500);
   } else {
     document.getElementById('login-error').style.display = 'block';
     document.getElementById('pw-input').value = '';
@@ -1178,21 +1183,19 @@ async function loadNewsFromSheet() {
     if (!tbody) return;
     tbody.innerHTML = '';
     result.data.slice(0, 10).forEach(n => {
-      const t = (n.Titel||'').replace(/'/g,"\'");
-      const kt = (n.Kategorie||'').replace(/'/g,"\'");
-      const vr = (n.Verein||'').replace(/'/g,"\'");
-      const tx = (n.Text||'').replace(/'/g,"\'").replace(/\n/g,'\\n');
-      const yt = (n.YouTube||'').replace(/'/g,"\'");
-      const bl = (n.Bild||'').replace(/'/g,"\'");
-      const row = `<tr>
-        <td>${n.Titel || ''}</td>
-        <td><span class="tag tag-orange">${(n.Kategorie||'').slice(0,8)}</span></td>
-        <td style="color:var(--gray)">${n.Datum || ''}</td>
-        <td style="white-space:nowrap">
-          <button class="btn btn-ghost btn-sm" onclick="openEditModal('${n.ID}','${t}','${kt}','${vr}','${tx}','${yt}','${bl}')">✏️</button>
-          <button class="btn btn-danger btn-sm" onclick="deleteNewsItem(this,'${n.ID}')">🗑</button>
-        </td>
-      </tr>`;
+      // News in globalem Cache speichern für Edit
+      window._newsCache = window._newsCache || {};
+      window._newsCache[n.ID] = n;
+      const nid = n.ID || '';
+      const row = '<tr>' +
+        '<td>' + (n.Titel||'') + '</td>' +
+        '<td><span class="tag tag-orange">' + (n.Kategorie||'').slice(0,8) + '</span></td>' +
+        '<td style="color:var(--gray)">' + (n.Datum||'') + '</td>' +
+        '<td style="white-space:nowrap">' +
+          '<button class="btn btn-ghost btn-sm" onclick="openEditFromCache(\'' + nid + '\')">✏️</button> ' +
+          '<button class="btn btn-danger btn-sm" onclick="deleteNewsItem(this,\'' + nid + '\')">🗑</button>' +
+        '</td>' +
+      '</tr>';
       tbody.insertAdjacentHTML('beforeend', row);
     });
   } catch(e) { /* Sheet leer oder API nicht erreichbar */ }
@@ -1275,6 +1278,65 @@ ment.getElementById('e-datum').valueAsDate = new Date();
     </div>
   </div>
 </div>
+
+
+<script>
+// ── NEWS BEARBEITEN ──────────────────────────────────────────
+function openEditFromCache(id) {
+  var n = (window._newsCache || {})[id];
+  if (!n) { showToast('⚠️ News nicht gefunden'); return; }
+  document.getElementById('edit-id').value      = id;
+  document.getElementById('edit-titel').value   = n.Titel    || '';
+  document.getElementById('edit-kat').value     = n.Kategorie|| 'Allgemein';
+  document.getElementById('edit-verein').value  = n.Verein   || '';
+  document.getElementById('edit-text').value    = n.Text     || '';
+  document.getElementById('edit-youtube').value = n.YouTube  || '';
+  document.getElementById('edit-bild').value    = n.Bild     || '';
+  document.getElementById('edit-modal').style.display = 'block';
+  document.body.style.overflow = 'hidden';
+}
+
+function closeEditModal() {
+  document.getElementById('edit-modal').style.display = 'none';
+  document.body.style.overflow = '';
+}
+
+async function saveEditNews() {
+  const id      = document.getElementById('edit-id').value;
+  const titel   = document.getElementById('edit-titel').value;
+  const kat     = document.getElementById('edit-kat').value;
+  const verein  = document.getElementById('edit-verein').value;
+  const text    = document.getElementById('edit-text').value;
+  const youtube = document.getElementById('edit-youtube').value;
+  const bild    = document.getElementById('edit-bild').value;
+
+  if (!titel) { showToast('⚠️ Titel fehlt!'); return; }
+  showToast('⏳ Wird gespeichert...');
+
+  try {
+    await apiPost('deleteNews', { id: id });
+    const result = await apiPost('saveNewsWithId', {
+      ID: id, Titel: titel, Kategorie: kat, Verein: verein,
+      Text: text, YouTube: youtube, Bild: bild
+    });
+    if (result.status === 'ok') {
+      showToast('✅ News aktualisiert!');
+      closeEditModal();
+      setTimeout(loadNewsFromSheet, 600);
+    } else {
+      showToast('❌ Fehler: ' + (result.message || ''));
+    }
+  } catch(e) {
+    showToast('❌ Verbindungsfehler');
+    console.error(e);
+  }
+}
+
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeEditModal();
+});
+// ─────────────────────────────────────────────────────────────
+</script>
 
 </body>
 </html>
