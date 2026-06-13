@@ -1058,6 +1058,18 @@ async function loadLiveData() {
           'Jugend': '🏅', 'Verein': '🏛️', 'Ausbildung': '📚',
           'Schiedsrichter': '🧑‍⚖️', 'Ergebnis': '🏆', 'Ergebnisse': '🏆'
         };
+        // Neueste News zuerst sortieren
+        d.news.sort(function(a, b) {
+          var da = a.Datum || a.datum || '';
+          var db = b.Datum || b.datum || '';
+          // Format dd.MM.yyyy → yyyy-MM-dd zum Vergleichen
+          function toSort(s) {
+            var p = s.split('.');
+            return p.length === 3 ? p[2] + p[1] + p[0] : s;
+          }
+          return toSort(db).localeCompare(toSort(da));
+        });
+
         grid.innerHTML = '';
         d.news.slice(0, 6).forEach(function(n, i) {
           var kat   = (n.Kategorie || n.kategorie || 'Allgemein').trim();
@@ -1067,7 +1079,12 @@ async function loadLiveData() {
           var emoji = emojiMap[kat] || '📰';
           var isLarge = i === 0 ? ' large' : '';
           var shortText = text.length > 120 ? text.slice(0, 120) + '...' : text;
-          grid.innerHTML += '<a href="#" class="news-card' + isLarge + '">' +
+          var youtube = (n.YouTube || n.youtube || '').trim();
+          var verein  = (n.Verein  || n.verein  || '').trim();
+          var fullText = text.replace(/'/g, "\'").replace(/"/g, '&quot;');
+          var titelEsc = titel.replace(/'/g, "\'").replace(/"/g, '&quot;');
+          var onclick = "openNewsModal('" + kat + "','" + titelEsc + "','" + fullText + "','" + datum + "','" + verein + "','" + youtube + "');return false;";
+          grid.innerHTML += '<a href="#" class="news-card' + isLarge + '" onclick="' + onclick + '">' +
             '<div class="news-card-img">' + emoji + '</div>' +
             '<div class="news-card-body">' +
               '<div class="news-cat">' + kat.toUpperCase() + '</div>' +
@@ -1202,6 +1219,51 @@ function closeMenu() {
 // Close on outside click
 document.addEventListener('click', e => {
   if (!e.target.closest('header') && !e.target.closest('.mobile-nav')) closeMenu();
+});
+</script>
+
+
+<!-- NEWS MODAL -->
+<div id="news-modal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85);z-index:9999;overflow-y:auto;" onclick="closeNewsModal(event)">
+  <div style="max-width:700px;margin:60px auto;background:var(--dark2);border-radius:16px;padding:40px;position:relative;" onclick="event.stopPropagation()">
+    <button onclick="document.getElementById('news-modal').style.display='none'" style="position:absolute;top:16px;right:16px;background:none;border:none;color:var(--gray);font-size:24px;cursor:pointer;">✕</button>
+    <div id="modal-kat" style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--orange);margin-bottom:12px"></div>
+    <h2 id="modal-titel" style="font-family:'Bebas Neue',sans-serif;font-size:32px;margin-bottom:16px;line-height:1.2"></h2>
+    <div id="modal-meta" style="font-size:12px;color:var(--gray);margin-bottom:24px"></div>
+    <div id="modal-text" style="font-size:15px;line-height:1.8;color:var(--light);white-space:pre-wrap;margin-bottom:24px"></div>
+    <div id="modal-youtube" style="margin-top:16px"></div>
+  </div>
+</div>
+
+<script>
+function openNewsModal(kat, titel, text, datum, verein, youtube) {
+  document.getElementById('modal-kat').textContent = kat;
+  document.getElementById('modal-titel').textContent = titel;
+  document.getElementById('modal-meta').textContent = '📅 ' + datum + (verein ? '  ·  ' + verein : '');
+  document.getElementById('modal-text').textContent = text;
+  
+  var ytDiv = document.getElementById('modal-youtube');
+  ytDiv.innerHTML = '';
+  if (youtube && youtube.trim() !== '') {
+    var ytId = youtube.match(/(?:v=|youtu\.be\/)([^&\s]+)/);
+    if (ytId) {
+      ytDiv.innerHTML = '<div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:10px">' +
+        '<iframe src="https://www.youtube.com/embed/' + ytId[1] + '" style="position:absolute;top:0;left:0;width:100%;height:100%;border:none" allowfullscreen></iframe>' +
+        '</div>';
+    }
+  }
+  
+  document.getElementById('news-modal').style.display = 'block';
+  document.body.style.overflow = 'hidden';
+}
+
+function closeNewsModal(event) {
+  document.getElementById('news-modal').style.display = 'none';
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeNewsModal();
 });
 </script>
 
