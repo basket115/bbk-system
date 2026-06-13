@@ -83,46 +83,27 @@ body{font-family:'DM Sans',sans-serif;background:var(--dark);color:var(--white);
 .card-header h3{font-size:14px;font-weight:700;}
 .card-body{padding:18px;}
 
-/* API MODE TOGGLE - THE KEY FEATURE */
-.mode-toggle {
-  display:flex; align-items:center; gap:0;
-  background:var(--dark3); border:1px solid var(--border);
-  border-radius:8px; overflow:hidden; margin-bottom:20px;
-}
-.mode-btn {
-  flex:1; padding:10px 20px; border:none; cursor:pointer;
-  font-family:'DM Sans',sans-serif; font-size:13px; font-weight:700;
-  background:transparent; color:var(--gray); transition:all .2s;
-  display:flex; align-items:center; justify-content:center; gap:8px;
-}
-.mode-btn.active-manual { background:rgba(240,128,0,0.2); color:var(--orange); }
-.mode-btn.active-api    { background:rgba(34,197,94,0.2);  color:var(--green); }
-.mode-panel { display:none; }
-.mode-panel.active { display:block; }
+/* API MODE TOGGLE */
+.mode-toggle{display:flex;align-items:center;gap:0;background:var(--dark3);border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:20px;}
+.mode-btn{flex:1;padding:10px 20px;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;background:transparent;color:var(--gray);transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px;}
+.mode-btn.active-manual{background:rgba(240,128,0,0.2);color:var(--orange);}
+.mode-btn.active-api{background:rgba(34,197,94,0.2);color:var(--green);}
+.mode-panel{display:none;}
+.mode-panel.active{display:block;}
 
 /* API STATUS */
-.api-status {
-  display:flex; align-items:center; gap:10px;
-  padding:12px 16px; border-radius:8px; margin-bottom:16px;
-  font-size:13px; font-weight:600;
-}
-.api-status.connected { background:rgba(34,197,94,0.1); border:1px solid rgba(34,197,94,0.25); color:var(--green); }
-.api-status.disconnected { background:rgba(239,68,68,0.1); border:1px solid rgba(239,68,68,0.25); color:var(--red); }
-.api-status.pending { background:rgba(240,128,0,0.1); border:1px solid rgba(240,128,0,0.3); color:var(--orange); }
-.pulse { width:8px;height:8px;border-radius:50%;flex-shrink:0; }
-.pulse-green { background:var(--green); animation:pulse 2s infinite; }
-.pulse-red   { background:var(--red); }
-.pulse-orange{ background:var(--orange); animation:pulse 2s infinite; }
+.api-status{display:flex;align-items:center;gap:10px;padding:12px 16px;border-radius:8px;margin-bottom:16px;font-size:13px;font-weight:600;}
+.api-status.connected{background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.25);color:var(--green);}
+.api-status.disconnected{background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.25);color:var(--red);}
+.api-status.pending{background:rgba(240,128,0,0.1);border:1px solid rgba(240,128,0,0.3);color:var(--orange);}
+.pulse{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.pulse-green{background:var(--green);animation:pulse 2s infinite;}
+.pulse-red{background:var(--red);}
+.pulse-orange{background:var(--orange);animation:pulse 2s infinite;}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
 
 /* TEAMSL PREVIEW */
-.teamsl-preview {
-  background:var(--dark3); border:1px solid var(--border);
-  border-radius:10px; padding:20px;
-  font-family:monospace; font-size:12px; color:#7AABCF;
-  max-height:200px; overflow-y:auto; margin:12px 0;
-  white-space:pre-wrap;
-}
+.teamsl-preview{background:var(--dark3);border:1px solid var(--border);border-radius:10px;padding:20px;font-family:monospace;font-size:12px;color:#7AABCF;max-height:200px;overflow-y:auto;margin:12px 0;white-space:pre-wrap;}
 
 /* FORMS */
 .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
@@ -162,19 +143,24 @@ body{font-family:'DM Sans',sans-serif;background:var(--dark);color:var(--white);
 .section-title-bar h2{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:1px;}
 
 /* TOAST */
-.toast{position:fixed;bottom:24px;right:24px;background:var(--dark2);border:1px solid var(--green);border-radius:10px;padding:12px 20px;display:flex;align-items:center;gap:10px;font-size:14px;font-weight:600;color:var(--green);transform:translateY(80px);opacity:0;transition:all .3s;z-index:999;box-shadow:0 8px 24px rgba(0,0,0,0.4);}
+.toast{position:fixed;bottom:24px;right:24px;background:var(--dark2);border:1px solid var(--green);border-radius:10px;padding:12px 20px;display:flex;align-items:center;gap:10px;font-size:14px;font-weight:600;color:var(--green);transform:translateY(80px);opacity:0;transition:all .3s;z-index:9998;box-shadow:0 8px 24px rgba(0,0,0,0.4);}
 .toast.show{transform:translateY(0);opacity:1;}
 
 /* LOGIN */
 #login-screen{position:fixed;inset:0;z-index:1000;background:var(--dark);display:flex;align-items:center;justify-content:center;}
 .login-box{background:var(--dark2);border:1px solid var(--border);border-radius:16px;padding:44px 38px;width:370px;max-width:92vw;box-shadow:0 20px 60px rgba(0,0,0,0.5);}
-.login-box .logo-badge{width:50px;height:50px;font-size:20px;margin-bottom:18px;}
 .login-box h2{font-family:'Bebas Neue',sans-serif;font-size:30px;letter-spacing:1px;margin-bottom:4px;}
 .login-box p{font-size:13px;color:var(--gray);margin-bottom:24px;}
 .login-error{font-size:12px;color:var(--red);margin-top:8px;display:none;}
 
 .two-col{display:grid;grid-template-columns:1.3fr 1fr;gap:16px;}
 .divider{border:none;border-top:1px solid var(--border);margin:16px 0;}
+
+/* MODAL SHARED */
+.bbk-modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85);z-index:9999;overflow-y:auto;}
+.bbk-modal-box{max-width:520px;margin:60px auto;background:var(--dark2);border-radius:16px;padding:32px;position:relative;}
+.bbk-modal-box h3{font-family:'Bebas Neue',sans-serif;font-size:24px;margin-bottom:20px;color:var(--orange);}
+.modal-close{position:absolute;top:16px;right:16px;background:none;border:none;color:var(--gray);font-size:24px;cursor:pointer;}
 </style>
 </head>
 <body>
@@ -182,7 +168,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--dark);color:var(--white);
 <!-- LOGIN -->
 <div id="login-screen">
   <div class="login-box">
-    <img src="data:image/png;base64,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" alt="BBK Logo" style="width:50px;height:50px;object-fit:contain;border-radius:8px;margin-bottom:18px;">
+    <div class="logo-badge" style="width:50px;height:50px;font-size:20px;margin-bottom:18px;">BBK</div>
     <h2>Admin-Panel</h2>
     <p>Basketballkreis Düsseldorf/Neuss</p>
     <div class="form-group">
@@ -197,7 +183,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--dark);color:var(--white);
 <!-- SIDEBAR -->
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-logo">
-    <img src="data:image/png;base64,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" alt="BBK Logo" style="width:38px;height:38px;object-fit:contain;border-radius:8px;">
+    <div class="logo-badge">BBK</div>
     <div class="logo-info">
       <strong>BBK Admin</strong>
       <span>Düsseldorf/Neuss</span>
@@ -258,8 +244,6 @@ body{font-family:'DM Sans',sans-serif;background:var(--dark);color:var(--white);
         <div class="kpi"><div><label>News online</label><strong>6</strong><small>aktuell</small></div><div class="kpi-icon">📰</div></div>
         <div class="kpi"><div><label>Aktive Ligen</label><strong>8</strong><small>Saison 25/26</small></div><div class="kpi-icon">📊</div></div>
       </div>
-
-      <!-- TeamSL API Banner -->
       <div class="card" style="border-color:rgba(240,128,0,0.3);margin-bottom:16px">
         <div class="card-body" style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">
           <div style="display:flex;align-items:center;gap:14px">
@@ -272,14 +256,13 @@ body{font-family:'DM Sans',sans-serif;background:var(--dark);color:var(--white);
           <button class="btn btn-primary" onclick="showPage('import',null)" style="flex-shrink:0">API einrichten →</button>
         </div>
       </div>
-
       <div class="two-col">
         <div class="card">
           <div class="card-header"><h3>📋 Offene Ergebnisse</h3><button class="btn btn-primary btn-sm" onclick="showPage('ergebnisse',null)">Eintragen</button></div>
           <div class="card-body" style="padding:0">
             <table class="data-table">
               <thead><tr><th>Paarung</th><th>Liga</th><th>Datum</th><th></th></tr></thead>
-              <tbody id="offen-liste">
+              <tbody>
                 <tr><td style="font-weight:600">TUSA vs. ART 77/90</td><td><span class="tag tag-orange">Herren</span></td><td style="color:var(--gray)">14.06.</td><td><button class="btn btn-primary btn-sm" onclick="showPage('ergebnisse',null)">→</button></td></tr>
                 <tr><td style="font-weight:600">TG Neuss vs. Bascats</td><td><span class="tag tag-orange">Damen</span></td><td style="color:var(--gray)">14.06.</td><td><button class="btn btn-primary btn-sm" onclick="showPage('ergebnisse',null)">→</button></td></tr>
                 <tr><td style="font-weight:600">SG RW Gierath vs. OTV</td><td><span class="tag tag-gray">U16</span></td><td style="color:var(--gray)">15.06.</td><td><button class="btn btn-primary btn-sm" onclick="showPage('ergebnisse',null)">→</button></td></tr>
@@ -309,97 +292,42 @@ body{font-family:'DM Sans',sans-serif;background:var(--dark);color:var(--white);
       </div>
     </div>
 
-    <!-- ══ DATEN-IMPORT (HERZSTÜCK) ══ -->
+    <!-- ══ DATEN-IMPORT ══ -->
     <div class="page" id="page-import">
       <div class="section-title-bar">
         <h2>DATEN-IMPORT</h2>
         <span class="tag tag-orange">Manuell & Automatisch</span>
       </div>
-
-      <!-- MODE TOGGLE -->
       <div class="mode-toggle">
-        <button class="mode-btn active-manual" id="btn-manual" onclick="setMode('manual')">
-          ✏️ Manueller Modus &nbsp;<small style="font-weight:400;opacity:.7">– jetzt verfügbar</small>
-        </button>
-        <button class="mode-btn" id="btn-api" onclick="setMode('api')">
-          🔌 TeamSL API &nbsp;<small style="font-weight:400;opacity:.7">– automatisch, kommt bald</small>
-        </button>
+        <button class="mode-btn active-manual" id="btn-manual" onclick="setMode('manual')">✏️ Manueller Modus &nbsp;<small style="font-weight:400;opacity:.7">– jetzt verfügbar</small></button>
+        <button class="mode-btn" id="btn-api" onclick="setMode('api')">🔌 TeamSL API &nbsp;<small style="font-weight:400;opacity:.7">– automatisch, kommt bald</small></button>
       </div>
-
-      <!-- MANUELLER MODUS -->
       <div class="mode-panel active" id="panel-manual">
         <div class="card">
-          <div class="card-header">
-            <h3>✏️ Manuell: Ergebnis eintragen</h3>
-            <span class="tag tag-orange">Aktueller Modus</span>
-          </div>
+          <div class="card-header"><h3>✏️ Manuell: Ergebnis eintragen</h3><span class="tag tag-orange">Aktueller Modus</span></div>
           <div class="card-body">
             <div class="form-grid">
-              <div class="form-group">
-                <label>Liga</label>
-                <select id="m-liga">
-                  <option>Kreisliga Herren</option><option>Kreisliga Damen</option>
-                  <option>U18 Jugend</option><option>U16 Jugend</option>
-                  <option>U14 Jugend</option><option>U12 Jugend</option><option>U8 Spielrunde</option>
-                </select>
+              <div class="form-group"><label>Liga</label>
+                <select id="m-liga"><option>Kreisliga Herren</option><option>Kreisliga Damen</option><option>U18 Jugend</option><option>U16 Jugend</option><option>U14 Jugend</option><option>U12 Jugend</option><option>U8 Spielrunde</option></select>
               </div>
-              <div class="form-group">
-                <label>Spieltag</label>
-                <input type="number" id="m-spieltag" placeholder="24" min="1">
+              <div class="form-group"><label>Spieltag</label><input type="number" id="m-spieltag" placeholder="24" min="1"></div>
+              <div class="form-group"><label>Heimteam</label>
+                <select id="m-heim"><option>DJK TUSA Düsseldorf</option><option>ART 77/90 Düsseldorf</option><option>TG Neuss</option><option>Black Eagles Düsseldorf</option><option>Capitol Bascats</option><option>BG Kaarst-Büttgen</option><option>SG RW Gierath</option><option>TSV Norf</option><option>TSV Urdenbach</option><option>FSV Jüchen</option><option>ISD Sportverein</option><option>Greek Baskets Düsseldorf</option><option>ART Giants Düsseldorf</option><option>Osterather TV</option><option>TuS Maccabi Düsseldorf</option><option>TV Grafenberg 1888</option><option>SSV Düsseldorf-Knittkuhl</option></select>
               </div>
-              <div class="form-group">
-                <label>Heimteam</label>
-                <select id="m-heim">
-                  <option>DJK TUSA Düsseldorf</option><option>ART 77/90 Düsseldorf</option>
-                  <option>TG Neuss</option><option>Black Eagles Düsseldorf</option>
-                  <option>Capitol Bascats</option><option>BG Kaarst-Büttgen</option>
-                  <option>SG RW Gierath</option><option>TSV Norf</option>
-                  <option>TSV Urdenbach</option><option>FSV Jüchen</option>
-                  <option>ISD Sportverein</option><option>Greek Baskets Düsseldorf</option>
-                  <option>ART Giants Düsseldorf</option><option>Osterather TV</option>
-                  <option>TuS Maccabi Düsseldorf</option><option>TV Grafenberg 1888</option>
-                  <option>SSV Düsseldorf-Knittkuhl</option>
-                </select>
+              <div class="form-group"><label>Gastteam</label>
+                <select id="m-gast"><option>ART 77/90 Düsseldorf</option><option>DJK TUSA Düsseldorf</option><option>TG Neuss</option><option>Black Eagles Düsseldorf</option><option>Capitol Bascats</option><option>BG Kaarst-Büttgen</option><option>SG RW Gierath</option><option>TSV Norf</option><option>TSV Urdenbach</option><option>FSV Jüchen</option><option>ISD Sportverein</option><option>Greek Baskets Düsseldorf</option><option>ART Giants Düsseldorf</option><option>Osterather TV</option><option>TuS Maccabi Düsseldorf</option><option>TV Grafenberg 1888</option><option>SSV Düsseldorf-Knittkuhl</option></select>
               </div>
-              <div class="form-group">
-                <label>Gastteam</label>
-                <select id="m-gast">
-                  <option>ART 77/90 Düsseldorf</option><option>DJK TUSA Düsseldorf</option>
-                  <option>TG Neuss</option><option>Black Eagles Düsseldorf</option>
-                  <option>Capitol Bascats</option><option>BG Kaarst-Büttgen</option>
-                  <option>SG RW Gierath</option><option>TSV Norf</option>
-                  <option>TSV Urdenbach</option><option>FSV Jüchen</option>
-                  <option>ISD Sportverein</option><option>Greek Baskets Düsseldorf</option>
-                  <option>ART Giants Düsseldorf</option><option>Osterather TV</option>
-                  <option>TuS Maccabi Düsseldorf</option><option>TV Grafenberg 1888</option>
-                  <option>SSV Düsseldorf-Knittkuhl</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label>Punkte Heim</label>
-                <input type="number" id="m-hp" placeholder="87" min="0">
-              </div>
-              <div class="form-group">
-                <label>Punkte Gast</label>
-                <input type="number" id="m-gp" placeholder="74" min="0">
-              </div>
+              <div class="form-group"><label>Punkte Heim</label><input type="number" id="m-hp" placeholder="87" min="0"></div>
+              <div class="form-group"><label>Punkte Gast</label><input type="number" id="m-gp" placeholder="74" min="0"></div>
             </div>
-            <div class="form-group">
-              <label>Datum</label>
-              <input type="date" id="m-datum">
-            </div>
+            <div class="form-group"><label>Datum</label><input type="date" id="m-datum"></div>
             <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
               <button class="btn btn-primary" onclick="saveManual(false)">✅ Speichern & Website aktualisieren</button>
               <button class="btn btn-ghost" onclick="saveManual(true)">➕ Weiteres Spiel hinzufügen</button>
-              <span style="font-size:12px;color:var(--gray)">→ Ins Google Sheet übertragen</span>
             </div>
-
-            <!-- STAGING QUEUE -->
             <div id="staging-wrap" style="display:none;margin-top:16px;background:var(--dark3);border-radius:10px;padding:14px;border:1px solid rgba(240,128,0,0.25)">
               <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;flex-wrap:wrap;gap:8px">
-                <div style="font-size:12px;font-weight:700;color:var(--orange);text-transform:uppercase;letter-spacing:1px">
-                  📋 Warteschlange – <span id="staging-count">0</span> Spiel(e) bereit
-                </div>
+                <div style="font-size:12px;font-weight:700;color:var(--orange);text-transform:uppercase;letter-spacing:1px">📋 Warteschlange – <span id="staging-count">0</span> Spiel(e)</div>
                 <div style="display:flex;gap:8px">
                   <button class="btn btn-ghost btn-sm" onclick="clearStaging()">✕ Leeren</button>
                   <button class="btn btn-primary btn-sm" onclick="publishAll()">🚀 Alle veröffentlichen</button>
@@ -409,7 +337,6 @@ body{font-family:'DM Sans',sans-serif;background:var(--dark);color:var(--white);
             </div>
           </div>
         </div>
-
         <div class="card">
           <div class="card-header"><h3>📋 Zuletzt eingetragen</h3></div>
           <div class="card-body" style="padding:0">
@@ -417,122 +344,32 @@ body{font-family:'DM Sans',sans-serif;background:var(--dark);color:var(--white);
               <thead><tr><th>Paarung</th><th>Ergebnis</th><th>Liga</th><th>Datum</th><th>Quelle</th></tr></thead>
               <tbody>
                 <tr><td>Black Eagles vs. TUSA</td><td style="font-weight:800;color:var(--orange)">76:72</td><td><span class="tag tag-orange">Herren</span></td><td style="color:var(--gray)">07.06.</td><td><span class="tag tag-gray">Manuell</span></td></tr>
-                <tr><td>TG Neuss vs. Bascats</td><td style="font-weight:800;color:var(--orange)">68:54</td><td><span class="tag tag-orange">Damen</span></td><td style="color:var(--gray)">07.06.</td><td><span class="tag tag-gray">Manuell</span></td></tr>
               </tbody>
             </table>
           </div>
         </div>
       </div>
-
-      <!-- API MODUS -->
       <div class="mode-panel" id="panel-api">
-
         <div id="api-not-configured">
-          <div class="api-status pending">
-            <div class="pulse pulse-orange"></div>
-            TeamSL API – Noch nicht verbunden. API-Key von Luca erforderlich.
-          </div>
-
+          <div class="api-status pending"><div class="pulse pulse-orange"></div>TeamSL API – Noch nicht verbunden. API-Key von Luca erforderlich.</div>
           <div class="card">
             <div class="card-header"><h3>🔌 TeamSL API einrichten</h3></div>
             <div class="card-body">
-              <p style="font-size:13px;color:var(--gray);margin-bottom:16px;line-height:1.6">
-                Sobald du den API-Key von Luca (Telekom Baskets Bonn / NBBL) erhältst, trägst du ihn hier ein.
-                Danach werden <strong style="color:white">alle Spielpläne, Ergebnisse und Tabellen automatisch</strong>
-                aus TeamSL importiert – du musst nichts mehr manuell eintragen.
-              </p>
               <div class="form-grid">
-                <div class="form-group">
-                  <label>TeamSL API-Key</label>
-                  <input type="text" id="api-key-input" placeholder="Von Luca – kommt noch">
-                </div>
-                <div class="form-group">
-                  <label>Kreis-ID im TeamSL-System</label>
-                  <input type="text" id="api-kreisid" placeholder="z.B. bbk-duesseldorf-neuss">
-                </div>
+                <div class="form-group"><label>TeamSL API-Key</label><input type="text" id="api-key-input" placeholder="Von Luca – kommt noch"></div>
+                <div class="form-group"><label>Kreis-ID</label><input type="text" id="api-kreisid" placeholder="z.B. bbk-duesseldorf-neuss"></div>
               </div>
-              <div class="form-group">
-                <label>Welche Daten automatisch importieren?</label>
-                <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:6px">
-                  <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer;text-transform:none;letter-spacing:0;color:white">
-                    <input type="checkbox" checked> Spielpläne
-                  </label>
-                  <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer;text-transform:none;letter-spacing:0;color:white">
-                    <input type="checkbox" checked> Ergebnisse
-                  </label>
-                  <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer;text-transform:none;letter-spacing:0;color:white">
-                    <input type="checkbox" checked> Tabellenstände
-                  </label>
-                  <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer;text-transform:none;letter-spacing:0;color:white">
-                    <input type="checkbox"> Mannschaftsfotos
-                  </label>
-                </div>
-              </div>
-              <div style="display:flex;gap:10px;flex-wrap:wrap">
-                <button class="btn btn-primary" onclick="testApiConnection()">🔌 Verbindung testen</button>
-                <button class="btn btn-ghost" onclick="showPage('einstellungen',null)">⚙️ Erweiterte Einstellungen</button>
-              </div>
-            </div>
-          </div>
-
-          <!-- HOW IT WORKS -->
-          <div class="card" style="border-color:rgba(240,128,0,0.2)">
-            <div class="card-header"><h3>💡 So funktioniert der automatische Import</h3></div>
-            <div class="card-body">
-              <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:14px;text-align:center">
-                <div style="padding:16px;background:var(--dark3);border-radius:8px">
-                  <div style="font-size:28px;margin-bottom:8px">🏀</div>
-                  <div style="font-size:12px;font-weight:700;color:white;margin-bottom:4px">TeamSL</div>
-                  <div style="font-size:11px;color:var(--gray)">Offizielle Liga-Datenbank des BBB</div>
-                </div>
-                <div style="display:flex;align-items:center;justify-content:center;font-size:24px;color:var(--orange)">→</div>
-                <div style="padding:16px;background:var(--dark3);border-radius:8px">
-                  <div style="font-size:28px;margin-bottom:8px">⚙️</div>
-                  <div style="font-size:12px;font-weight:700;color:white;margin-bottom:4px">BBK Admin</div>
-                  <div style="font-size:11px;color:var(--gray)">Empfängt & verarbeitet die Daten</div>
-                </div>
-              </div>
-              <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:14px;text-align:center;margin-top:14px">
-                <div style="padding:14px;background:var(--dark3);border-radius:8px;border:1px solid rgba(240,128,0,0.2)">
-                  <div style="font-size:20px;margin-bottom:6px">🌐</div>
-                  <div style="font-size:11px;font-weight:700;color:var(--orange)">Website aktuell</div>
-                  <div style="font-size:10px;color:var(--gray)">Tabellen & Spielplan live</div>
-                </div>
-                <div style="padding:14px;background:var(--dark3);border-radius:8px;border:1px solid rgba(240,128,0,0.2)">
-                  <div style="font-size:20px;margin-bottom:6px">📊</div>
-                  <div style="font-size:11px;font-weight:700;color:var(--orange)">Google Sheet</div>
-                  <div style="font-size:10px;color:var(--gray)">Alle Daten zentral</div>
-                </div>
-                <div style="padding:14px;background:var(--dark3);border-radius:8px;border:1px solid rgba(240,128,0,0.2)">
-                  <div style="font-size:20px;margin-bottom:6px">📱</div>
-                  <div style="font-size:11px;font-weight:700;color:var(--orange)">Social Media</div>
-                  <div style="font-size:10px;color:var(--gray)">via Make.com auto</div>
-                </div>
-              </div>
+              <button class="btn btn-primary" onclick="testApiConnection()">🔌 Verbindung testen</button>
             </div>
           </div>
         </div>
-
-        <!-- AFTER CONNECTION (hidden until test succeeds) -->
         <div id="api-configured" style="display:none">
-          <div class="api-status connected">
-            <div class="pulse pulse-green"></div>
-            TeamSL API verbunden – Letzter Import: <span id="last-import">gerade eben</span>
-          </div>
+          <div class="api-status connected"><div class="pulse pulse-green"></div>TeamSL API verbunden – Letzter Import: <span id="last-import">gerade eben</span></div>
           <div class="card">
-            <div class="card-header">
-              <h3>🔄 Automatischer Import aktiv</h3>
-              <div style="display:flex;gap:8px">
-                <button class="btn btn-green btn-sm" onclick="runImport()">▶ Jetzt importieren</button>
-                <button class="btn btn-ghost btn-sm">⚙️ Einstellungen</button>
-              </div>
-            </div>
+            <div class="card-header"><h3>🔄 Automatischer Import aktiv</h3><button class="btn btn-green btn-sm" onclick="runImport()">▶ Jetzt importieren</button></div>
             <div class="card-body">
               <div class="teamsl-preview" id="api-preview">Warte auf Import...</div>
-              <div style="display:flex;gap:10px;margin-top:12px;flex-wrap:wrap">
-                <button class="btn btn-primary" onclick="runImport()">🔄 Alle Daten jetzt importieren</button>
-                <button class="btn btn-ghost">📋 Import-Log ansehen</button>
-              </div>
+              <button class="btn btn-primary" style="margin-top:12px" onclick="runImport()">🔄 Alle Daten jetzt importieren</button>
             </div>
           </div>
         </div>
@@ -547,16 +384,10 @@ body{font-family:'DM Sans',sans-serif;background:var(--dark);color:var(--white);
           <div class="card-header"><h3>🏀 Ergebnis eintragen</h3></div>
           <div class="card-body">
             <div class="form-grid">
-              <div class="form-group"><label>Liga</label>
-                <select id="e-liga"><option>Kreisliga Herren</option><option>Kreisliga Damen</option><option>U18</option><option>U16</option><option>U14</option><option>U12</option></select>
-              </div>
+              <div class="form-group"><label>Liga</label><select id="e-liga"><option>Kreisliga Herren</option><option>Kreisliga Damen</option><option>U18</option><option>U16</option><option>U14</option><option>U12</option></select></div>
               <div class="form-group"><label>Datum</label><input type="date" id="e-datum"></div>
-              <div class="form-group"><label>Heimteam</label>
-                <select id="e-heim"><option>DJK TUSA Düsseldorf</option><option>ART 77/90 Düsseldorf</option><option>TG Neuss</option><option>Black Eagles</option><option>Capitol Bascats</option><option>BG Kaarst-Büttgen</option><option>SG RW Gierath</option><option>TSV Norf</option><option>FSV Jüchen</option><option>TSV Urdenbach</option></select>
-              </div>
-              <div class="form-group"><label>Gastteam</label>
-                <select id="e-gast"><option>ART 77/90 Düsseldorf</option><option>DJK TUSA Düsseldorf</option><option>TG Neuss</option><option>Black Eagles</option><option>Capitol Bascats</option><option>BG Kaarst-Büttgen</option><option>SG RW Gierath</option><option>TSV Norf</option><option>FSV Jüchen</option><option>TSV Urdenbach</option></select>
-              </div>
+              <div class="form-group"><label>Heimteam</label><select id="e-heim"><option>DJK TUSA Düsseldorf</option><option>ART 77/90 Düsseldorf</option><option>TG Neuss</option><option>Black Eagles</option><option>Capitol Bascats</option><option>BG Kaarst-Büttgen</option><option>SG RW Gierath</option><option>TSV Norf</option><option>FSV Jüchen</option><option>TSV Urdenbach</option></select></div>
+              <div class="form-group"><label>Gastteam</label><select id="e-gast"><option>ART 77/90 Düsseldorf</option><option>DJK TUSA Düsseldorf</option><option>TG Neuss</option><option>Black Eagles</option><option>Capitol Bascats</option><option>BG Kaarst-Büttgen</option><option>SG RW Gierath</option><option>TSV Norf</option><option>FSV Jüchen</option><option>TSV Urdenbach</option></select></div>
               <div class="form-group"><label>Punkte Heim</label><input type="number" id="e-hp" placeholder="87"></div>
               <div class="form-group"><label>Punkte Gast</label><input type="number" id="e-gp" placeholder="74"></div>
             </div>
@@ -570,7 +401,6 @@ body{font-family:'DM Sans',sans-serif;background:var(--dark);color:var(--white);
               <thead><tr><th>Paarung</th><th>Ergebnis</th><th>Liga</th><th>Quelle</th></tr></thead>
               <tbody>
                 <tr><td>Black Eagles vs. TUSA</td><td style="font-weight:800;color:var(--orange)">76:72</td><td><span class="tag tag-orange">Herren</span></td><td><span class="tag tag-gray">Manuell</span></td></tr>
-                <tr><td>TG Neuss vs. Bascats</td><td style="font-weight:800;color:var(--orange)">68:54</td><td><span class="tag tag-orange">Damen</span></td><td><span class="tag tag-gray">Manuell</span></td></tr>
               </tbody>
             </table>
           </div>
@@ -591,13 +421,14 @@ body{font-family:'DM Sans',sans-serif;background:var(--dark);color:var(--white);
         <div class="card-header"><h3>➕ Neues Spiel</h3></div>
         <div class="card-body">
           <div class="form-grid">
-            <div class="form-group"><label>Liga</label><select><option>Kreisliga Herren</option><option>Kreisliga Damen</option><option>U18</option><option>U16</option></select></div>
-            <div class="form-group"><label>Datum & Uhrzeit</label><input type="datetime-local"></div>
-            <div class="form-group"><label>Heimteam</label><select><option>DJK TUSA Düsseldorf</option><option>ART 77/90 Düsseldorf</option><option>TG Neuss</option><option>SG RW Gierath</option></select></div>
-            <div class="form-group"><label>Gastteam</label><select><option>ART 77/90 Düsseldorf</option><option>DJK TUSA Düsseldorf</option><option>Black Eagles</option><option>Capitol Bascats</option></select></div>
+            <div class="form-group"><label>Liga</label><select id="neu-liga"><option>Kreisliga Herren</option><option>Kreisliga Damen</option><option>U18</option><option>U16</option></select></div>
+            <div class="form-group"><label>Datum</label><input type="date" id="neu-datum"></div>
+            <div class="form-group"><label>Uhrzeit</label><input type="time" id="neu-zeit" value="15:00"></div>
+            <div class="form-group"><label>Heimteam</label><select id="neu-heim"><option>DJK TUSA Düsseldorf</option><option>ART 77/90 Düsseldorf</option><option>TG Neuss</option><option>SG RW Gierath</option><option>Black Eagles Düsseldorf</option><option>Capitol Bascats</option><option>BG Kaarst-Büttgen</option><option>TSV Norf</option><option>FSV Jüchen</option><option>ART Giants Düsseldorf</option><option>Osterather TV</option></select></div>
+            <div class="form-group"><label>Gastteam</label><select id="neu-gast"><option>ART 77/90 Düsseldorf</option><option>DJK TUSA Düsseldorf</option><option>Black Eagles Düsseldorf</option><option>Capitol Bascats</option><option>BG Kaarst-Büttgen</option><option>TG Neuss</option><option>TSV Norf</option><option>SG RW Gierath</option><option>FSV Jüchen</option><option>Osterather TV</option><option>ART Giants Düsseldorf</option></select></div>
           </div>
           <div style="display:flex;gap:10px">
-            <button class="btn btn-primary" onclick="showToast('Spiel gespeichert!');document.getElementById('spiel-form').style.display='none'">Speichern</button>
+            <button class="btn btn-primary" onclick="addNeuesSpiel()">Speichern</button>
             <button class="btn btn-ghost" onclick="document.getElementById('spiel-form').style.display='none'">Abbrechen</button>
           </div>
         </div>
@@ -608,14 +439,29 @@ body{font-family:'DM Sans',sans-serif;background:var(--dark);color:var(--white);
           <span class="tag tag-gray">Quelle: Manuell</span>
         </div>
         <div class="card-body" style="padding:0;overflow-x:auto">
-          <table class="data-table">
+          <table class="data-table" id="spielplan-tabelle">
             <thead><tr><th>Datum</th><th>Zeit</th><th>Liga</th><th>Heimteam</th><th>Gastteam</th><th>Status</th><th></th></tr></thead>
-            <tbody>
-              <tr><td>14.06.2026</td><td>15:00</td><td><span class="tag tag-orange">Herren</span></td><td>DJK TUSA</td><td>ART 77/90</td><td><span class="tag tag-red">Offen</span></td><td><button class="btn btn-ghost btn-sm">✏️</button></td></tr>
-              <tr><td>14.06.2026</td><td>13:00</td><td><span class="tag tag-orange">Damen</span></td><td>TG Neuss</td><td>Capitol Bascats</td><td><span class="tag tag-red">Offen</span></td><td><button class="btn btn-ghost btn-sm">✏️</button></td></tr>
-              <tr><td>15.06.2026</td><td>11:00</td><td><span class="tag tag-gray">U16</span></td><td>SG RW Gierath</td><td>Osterather TV</td><td><span class="tag tag-red">Offen</span></td><td><button class="btn btn-ghost btn-sm">✏️</button></td></tr>
-              <tr><td>15.06.2026</td><td>17:00</td><td><span class="tag tag-orange">Herren</span></td><td>Black Eagles</td><td>BG Kaarst-Büttgen</td><td><span class="tag tag-red">Offen</span></td><td><button class="btn btn-ghost btn-sm">✏️</button></td></tr>
-              <tr><td>21.06.2026</td><td>12:00</td><td><span class="tag tag-gray">U18</span></td><td>ART Giants</td><td>FSV Jüchen</td><td><span class="tag tag-red">Offen</span></td><td><button class="btn btn-ghost btn-sm">✏️</button></td></tr>
+            <tbody id="spielplan-body">
+              <tr data-idx="0" data-datum="2026-06-14" data-zeit="15:00" data-liga="Kreisliga Herren" data-heim="DJK TUSA" data-gast="ART 77/90" data-status="Offen">
+                <td>14.06.2026</td><td>15:00</td><td><span class="tag tag-orange">Herren</span></td><td>DJK TUSA</td><td>ART 77/90</td><td><span class="tag tag-red">Offen</span></td>
+                <td><button class="btn btn-ghost btn-sm" onclick="openSpielplanEdit(this.closest('tr'))">✏️</button></td>
+              </tr>
+              <tr data-idx="1" data-datum="2026-06-14" data-zeit="13:00" data-liga="Kreisliga Damen" data-heim="TG Neuss" data-gast="Capitol Bascats" data-status="Offen">
+                <td>14.06.2026</td><td>13:00</td><td><span class="tag tag-orange">Damen</span></td><td>TG Neuss</td><td>Capitol Bascats</td><td><span class="tag tag-red">Offen</span></td>
+                <td><button class="btn btn-ghost btn-sm" onclick="openSpielplanEdit(this.closest('tr'))">✏️</button></td>
+              </tr>
+              <tr data-idx="2" data-datum="2026-06-15" data-zeit="11:00" data-liga="U16" data-heim="SG RW Gierath" data-gast="Osterather TV" data-status="Offen">
+                <td>15.06.2026</td><td>11:00</td><td><span class="tag tag-gray">U16</span></td><td>SG RW Gierath</td><td>Osterather TV</td><td><span class="tag tag-red">Offen</span></td>
+                <td><button class="btn btn-ghost btn-sm" onclick="openSpielplanEdit(this.closest('tr'))">✏️</button></td>
+              </tr>
+              <tr data-idx="3" data-datum="2026-06-15" data-zeit="17:00" data-liga="Kreisliga Herren" data-heim="Black Eagles" data-gast="BG Kaarst-Büttgen" data-status="Offen">
+                <td>15.06.2026</td><td>17:00</td><td><span class="tag tag-orange">Herren</span></td><td>Black Eagles</td><td>BG Kaarst-Büttgen</td><td><span class="tag tag-red">Offen</span></td>
+                <td><button class="btn btn-ghost btn-sm" onclick="openSpielplanEdit(this.closest('tr'))">✏️</button></td>
+              </tr>
+              <tr data-idx="4" data-datum="2026-06-21" data-zeit="12:00" data-liga="U18" data-heim="ART Giants" data-gast="FSV Jüchen" data-status="Offen">
+                <td>21.06.2026</td><td>12:00</td><td><span class="tag tag-gray">U18</span></td><td>ART Giants</td><td>FSV Jüchen</td><td><span class="tag tag-red">Offen</span></td>
+                <td><button class="btn btn-ghost btn-sm" onclick="openSpielplanEdit(this.closest('tr'))">✏️</button></td>
+              </tr>
             </tbody>
           </table>
         </div>
@@ -631,17 +477,41 @@ body{font-family:'DM Sans',sans-serif;background:var(--dark);color:var(--white);
       <div class="card">
         <div class="card-header"><h3>Kreisliga Herren – Saison 2025/26</h3><span class="tag tag-gray">Quelle: Manuell</span></div>
         <div class="card-body" style="padding:0;overflow-x:auto">
-          <table class="data-table">
+          <table class="data-table" id="tabellen-body">
             <thead><tr><th>#</th><th>Verein</th><th>Sp</th><th>S</th><th>N</th><th>Pkt</th><th></th></tr></thead>
             <tbody>
-              <tr><td style="color:var(--orange);font-weight:700">1</td><td style="font-weight:600">DJK TUSA Düsseldorf</td><td>22</td><td>19</td><td>3</td><td style="font-weight:800">38</td><td><button class="btn btn-ghost btn-sm">✏️</button></td></tr>
-              <tr><td style="color:var(--orange);font-weight:700">2</td><td style="font-weight:600">ART 77/90 Düsseldorf</td><td>22</td><td>17</td><td>5</td><td style="font-weight:800">34</td><td><button class="btn btn-ghost btn-sm">✏️</button></td></tr>
-              <tr><td style="color:var(--orange);font-weight:700">3</td><td style="font-weight:600">TG Neuss</td><td>22</td><td>15</td><td>7</td><td style="font-weight:800">30</td><td><button class="btn btn-ghost btn-sm">✏️</button></td></tr>
-              <tr><td style="color:var(--gray)">4</td><td style="font-weight:600">Black Eagles Düsseldorf</td><td>22</td><td>13</td><td>9</td><td style="font-weight:800">26</td><td><button class="btn btn-ghost btn-sm">✏️</button></td></tr>
-              <tr><td style="color:var(--gray)">5</td><td style="font-weight:600">Capitol Bascats</td><td>22</td><td>11</td><td>11</td><td style="font-weight:800">22</td><td><button class="btn btn-ghost btn-sm">✏️</button></td></tr>
-              <tr><td style="color:var(--gray)">6</td><td style="font-weight:600">BG Kaarst-Büttgen</td><td>22</td><td>10</td><td>12</td><td style="font-weight:800">20</td><td><button class="btn btn-ghost btn-sm">✏️</button></td></tr>
-              <tr><td style="color:var(--gray)">7</td><td style="font-weight:600">SG RW Gierath</td><td>22</td><td>8</td><td>14</td><td style="font-weight:800">16</td><td><button class="btn btn-ghost btn-sm">✏️</button></td></tr>
-              <tr><td style="color:var(--gray)">8</td><td style="font-weight:600">TSV Norf</td><td>22</td><td>5</td><td>17</td><td style="font-weight:800">10</td><td><button class="btn btn-ghost btn-sm">✏️</button></td></tr>
+              <tr data-idx="0" data-verein="DJK TUSA Düsseldorf" data-sp="22" data-s="19" data-n="3" data-pkt="38">
+                <td style="color:var(--orange);font-weight:700">1</td><td style="font-weight:600">DJK TUSA Düsseldorf</td><td>22</td><td>19</td><td>3</td><td style="font-weight:800">38</td>
+                <td><button class="btn btn-ghost btn-sm" onclick="openTabellenEdit(this.closest('tr'))">✏️</button></td>
+              </tr>
+              <tr data-idx="1" data-verein="ART 77/90 Düsseldorf" data-sp="22" data-s="17" data-n="5" data-pkt="34">
+                <td style="color:var(--orange);font-weight:700">2</td><td style="font-weight:600">ART 77/90 Düsseldorf</td><td>22</td><td>17</td><td>5</td><td style="font-weight:800">34</td>
+                <td><button class="btn btn-ghost btn-sm" onclick="openTabellenEdit(this.closest('tr'))">✏️</button></td>
+              </tr>
+              <tr data-idx="2" data-verein="TG Neuss" data-sp="22" data-s="15" data-n="7" data-pkt="30">
+                <td style="color:var(--orange);font-weight:700">3</td><td style="font-weight:600">TG Neuss</td><td>22</td><td>15</td><td>7</td><td style="font-weight:800">30</td>
+                <td><button class="btn btn-ghost btn-sm" onclick="openTabellenEdit(this.closest('tr'))">✏️</button></td>
+              </tr>
+              <tr data-idx="3" data-verein="Black Eagles Düsseldorf" data-sp="22" data-s="13" data-n="9" data-pkt="26">
+                <td style="color:var(--gray)">4</td><td style="font-weight:600">Black Eagles Düsseldorf</td><td>22</td><td>13</td><td>9</td><td style="font-weight:800">26</td>
+                <td><button class="btn btn-ghost btn-sm" onclick="openTabellenEdit(this.closest('tr'))">✏️</button></td>
+              </tr>
+              <tr data-idx="4" data-verein="Capitol Bascats" data-sp="22" data-s="11" data-n="11" data-pkt="22">
+                <td style="color:var(--gray)">5</td><td style="font-weight:600">Capitol Bascats</td><td>22</td><td>11</td><td>11</td><td style="font-weight:800">22</td>
+                <td><button class="btn btn-ghost btn-sm" onclick="openTabellenEdit(this.closest('tr'))">✏️</button></td>
+              </tr>
+              <tr data-idx="5" data-verein="BG Kaarst-Büttgen" data-sp="22" data-s="10" data-n="12" data-pkt="20">
+                <td style="color:var(--gray)">6</td><td style="font-weight:600">BG Kaarst-Büttgen</td><td>22</td><td>10</td><td>12</td><td style="font-weight:800">20</td>
+                <td><button class="btn btn-ghost btn-sm" onclick="openTabellenEdit(this.closest('tr'))">✏️</button></td>
+              </tr>
+              <tr data-idx="6" data-verein="SG RW Gierath" data-sp="22" data-s="8" data-n="14" data-pkt="16">
+                <td style="color:var(--gray)">7</td><td style="font-weight:600">SG RW Gierath</td><td>22</td><td>8</td><td>14</td><td style="font-weight:800">16</td>
+                <td><button class="btn btn-ghost btn-sm" onclick="openTabellenEdit(this.closest('tr'))">✏️</button></td>
+              </tr>
+              <tr data-idx="7" data-verein="TSV Norf" data-sp="22" data-s="5" data-n="17" data-pkt="10">
+                <td style="color:var(--gray)">8</td><td style="font-weight:600">TSV Norf</td><td>22</td><td>5</td><td>17</td><td style="font-weight:800">10</td>
+                <td><button class="btn btn-ghost btn-sm" onclick="openTabellenEdit(this.closest('tr'))">✏️</button></td>
+              </tr>
             </tbody>
           </table>
         </div>
@@ -658,28 +528,18 @@ body{font-family:'DM Sans',sans-serif;background:var(--dark);color:var(--white);
             <div class="form-group"><label>Titel</label><input type="text" id="n-titel" placeholder="Überschrift der Meldung"></div>
             <div class="form-grid">
               <div class="form-group"><label>Kategorie</label><select id="n-kat"><option>Kreisliga</option><option>Jugend</option><option>Ausbildung</option><option>Verein</option><option>Kreistag</option><option>Allgemein</option></select></div>
-              <div class="form-group"><label>Verein (optional)</label><select><option value="">– Alle –</option><option>DJK TUSA</option><option>ART 77/90</option><option>TG Neuss</option><option>SG RW Gierath</option><option>FSV Jüchen</option><option>TSV Urdenbach</option></select></div>
+              <div class="form-group"><label>Verein (optional)</label><select id="n-verein"><option value="">– Alle –</option><option>DJK TUSA</option><option>ART 77/90</option><option>TG Neuss</option><option>SG RW Gierath</option><option>FSV Jüchen</option><option>TSV Urdenbach</option></select></div>
             </div>
             <div class="form-group"><label>Inhalt</label><textarea id="n-text" rows="4" placeholder="Text der Meldung..."></textarea></div>
-
-            <!-- BILD UPLOAD -->
             <div class="form-group">
               <label>📷 Bild vom PC (optional)</label>
               <div id="img-drop-zone" onclick="document.getElementById('n-img').click()" style="border:2px dashed var(--border);border-radius:8px;padding:18px;text-align:center;cursor:pointer;transition:all .2s;background:var(--dark3)" onmouseover="this.style.borderColor='var(--orange)'" onmouseout="this.style.borderColor='var(--border)'">
-                <div id="img-preview-wrap" style="display:none;margin-bottom:10px">
-                  <img id="img-preview" style="max-height:120px;border-radius:6px;max-width:100%;object-fit:cover">
-                </div>
-                <div id="img-placeholder">
-                  <div style="font-size:28px;margin-bottom:6px">🖼️</div>
-                  <div style="font-size:12px;font-weight:600;color:white">Klicken zum Bild auswählen</div>
-                  <div style="font-size:11px;color:var(--gray);margin-top:2px">JPG, PNG, WebP – max. 5 MB</div>
-                </div>
+                <div id="img-preview-wrap" style="display:none;margin-bottom:10px"><img id="img-preview" style="max-height:120px;border-radius:6px;max-width:100%;object-fit:cover"></div>
+                <div id="img-placeholder"><div style="font-size:28px;margin-bottom:6px">🖼️</div><div style="font-size:12px;font-weight:600;color:white">Klicken zum Bild auswählen</div><div style="font-size:11px;color:var(--gray);margin-top:2px">JPG, PNG, WebP – max. 5 MB</div></div>
               </div>
               <input type="file" id="n-img" accept="image/*" style="display:none" onchange="previewImage(this)">
               <button id="img-remove-btn" onclick="removeImage()" style="display:none;margin-top:6px" class="btn btn-danger btn-sm">✕ Bild entfernen</button>
             </div>
-
-            <!-- YOUTUBE -->
             <div class="form-group">
               <label>▶️ YouTube-Video URL (optional)</label>
               <input type="text" id="n-youtube" placeholder="https://www.youtube.com/watch?v=..." oninput="previewYoutube(this.value)">
@@ -687,7 +547,6 @@ body{font-family:'DM Sans',sans-serif;background:var(--dark);color:var(--white);
                 <iframe id="yt-iframe" width="100%" height="100%" frameborder="0" allowfullscreen style="border-radius:8px;display:block"></iframe>
               </div>
             </div>
-
             <button class="btn btn-primary" onclick="saveNews()">📰 Veröffentlichen</button>
           </div>
         </div>
@@ -697,12 +556,12 @@ body{font-family:'DM Sans',sans-serif;background:var(--dark);color:var(--white);
             <table class="data-table" id="news-liste">
               <thead><tr><th>Titel</th><th>Kat.</th><th style="width:80px">Aktionen</th></tr></thead>
               <tbody>
-                <tr><td>TUSA ist Kreismeister!</td><td><span class="tag tag-orange">KL</span></td><td style="color:var(--gray)">07.06.</td><td><button class="btn btn-danger btn-sm">🗑</button></td></tr>
-                <tr><td>Meldebogen Saison 26/27</td><td><span class="tag tag-gray">Allg.</span></td><td style="color:var(--gray)">05.06.</td><td><button class="btn btn-danger btn-sm">🗑</button></td></tr>
-                <tr><td>Schiri-Ausbildung</td><td><span class="tag tag-gray">Ausb.</span></td><td style="color:var(--gray)">02.06.</td><td><button class="btn btn-danger btn-sm">🗑</button></td></tr>
-                <tr><td>TSV Urdenbach sucht Trainer</td><td><span class="tag tag-gray">Verein</span></td><td style="color:var(--gray)">28.05.</td><td><button class="btn btn-danger btn-sm">🗑</button></td></tr>
-                <tr><td>U8-Spielrunde beim TSV</td><td><span class="tag tag-gray">Jugend</span></td><td style="color:var(--gray)">26.04.</td><td><button class="btn btn-danger btn-sm">🗑</button></td></tr>
-                <tr><td>Kreistag 23. Juni</td><td><span class="tag tag-orange">KT</span></td><td style="color:var(--gray)">20.05.</td><td><button class="btn btn-danger btn-sm">🗑</button></td></tr>
+                <tr><td>TUSA ist Kreismeister!</td><td><span class="tag tag-orange">KL</span></td><td><button class="btn btn-danger btn-sm">🗑</button></td></tr>
+                <tr><td>Meldebogen Saison 26/27</td><td><span class="tag tag-gray">Allg.</span></td><td><button class="btn btn-danger btn-sm">🗑</button></td></tr>
+                <tr><td>Schiri-Ausbildung</td><td><span class="tag tag-gray">Ausb.</span></td><td><button class="btn btn-danger btn-sm">🗑</button></td></tr>
+                <tr><td>TSV Urdenbach sucht Trainer</td><td><span class="tag tag-gray">Verein</span></td><td><button class="btn btn-danger btn-sm">🗑</button></td></tr>
+                <tr><td>U8-Spielrunde beim TSV</td><td><span class="tag tag-gray">Jugend</span></td><td><button class="btn btn-danger btn-sm">🗑</button></td></tr>
+                <tr><td>Kreistag 23. Juni</td><td><span class="tag tag-orange">KT</span></td><td><button class="btn btn-danger btn-sm">🗑</button></td></tr>
               </tbody>
             </table>
           </div>
@@ -748,8 +607,8 @@ body{font-family:'DM Sans',sans-serif;background:var(--dark);color:var(--white);
         <div class="card-body" style="text-align:center;padding:48px">
           <div style="font-size:52px;margin-bottom:14px">🎨</div>
           <h3 style="font-family:'Bebas Neue';font-size:24px;letter-spacing:1px;margin-bottom:8px">Social Media Generator</h3>
-          <p style="color:var(--gray);font-size:13px;margin-bottom:20px">Professionelle Grafiken für Instagram, Facebook & Twitter – direkt aus dem Admin heraus erstellen</p>
-          <button class="btn btn-primary" onclick="window.open('https://bbk-social.netlify.app','_blank')">🎨 Social Generator öffnen → bbk-social.netlify.app</button>
+          <p style="color:var(--gray);font-size:13px;margin-bottom:20px">Professionelle Grafiken für Instagram, Facebook & Twitter</p>
+          <button class="btn btn-primary" onclick="window.open('https://bbk-social.netlify.app','_blank')">🎨 Social Generator öffnen</button>
         </div>
       </div>
     </div>
@@ -757,7 +616,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--dark);color:var(--white);
     <!-- ══ EINSTELLUNGEN ══ -->
     <div class="page" id="page-einstellungen">
       <div class="section-title-bar"><h2>EINSTELLUNGEN</h2></div>
-      <div class="two-col" style="grid-template-columns:1fr 1fr">
+      <div class="two-col">
         <div class="card">
           <div class="card-header"><h3>⚙️ System</h3></div>
           <div class="card-body">
@@ -770,7 +629,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--dark);color:var(--white);
         <div class="card">
           <div class="card-header"><h3>🔌 Integrationen</h3></div>
           <div class="card-body">
-            <div class="form-group"><label>TeamSL API-Key</label><input type="text" id="settings-api" placeholder="Von Luca – kommt noch"><small style="font-size:11px;color:var(--orange);display:block;margin-top:4px">→ Aktiviert automatischen Import aller Spieldaten</small></div>
+            <div class="form-group"><label>TeamSL API-Key</label><input type="text" id="settings-api" placeholder="Von Luca – kommt noch"></div>
             <div class="form-group"><label>Google Sheet ID</label><input type="text" placeholder="Dein Sheet-Link"></div>
             <div class="form-group"><label>Make.com Webhook</label><input type="text" placeholder="https://hook.make.com/..."></div>
             <button class="btn btn-primary" onclick="showToast('Integrationen gespeichert!')">Speichern</button>
@@ -785,9 +644,132 @@ body{font-family:'DM Sans',sans-serif;background:var(--dark);color:var(--white);
 <!-- TOAST -->
 <div class="toast" id="toast">✅ <span id="toast-msg">Gespeichert!</span></div>
 
-<script>
+<!-- ══ TABELLEN EDIT MODAL ══ -->
+<div class="bbk-modal" id="tabellen-modal">
+  <div class="bbk-modal-box" style="max-width:460px">
+    <button class="modal-close" onclick="closeTabellenModal()">✕</button>
+    <h3>✏️ Tabellenzeile bearbeiten</h3>
+    <input type="hidden" id="t-edit-row-idx">
+    <div class="form-group"><label>Verein</label><input type="text" id="t-edit-verein"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px">
+      <div class="form-group"><label>Spiele</label><input type="number" id="t-edit-sp" min="0"></div>
+      <div class="form-group"><label>Siege</label><input type="number" id="t-edit-s" min="0"></div>
+      <div class="form-group"><label>Niederl.</label><input type="number" id="t-edit-n" min="0"></div>
+      <div class="form-group"><label>Punkte</label><input type="number" id="t-edit-pkt" min="0"></div>
+    </div>
+    <p style="font-size:11px;color:var(--gray);margin-bottom:14px">💡 Punkte = 2× Siege + 0× Niederlagen (automatisch berechnen lassen oder manuell eingeben)</p>
+    <div style="display:flex;gap:10px">
+      <button class="btn btn-ghost btn-sm" onclick="autoCalcPunkte()">🔢 Punkte auto</button>
+    </div>
+    <div style="display:flex;gap:12px;margin-top:16px">
+      <button class="btn btn-primary" style="flex:1" onclick="saveTabellenEdit()">💾 Speichern</button>
+      <button class="btn btn-ghost" onclick="closeTabellenModal()">Abbrechen</button>
+    </div>
+  </div>
+</div>
 
-// ── BBK GOOGLE SHEET API ─────────────────────────────────────
+<!-- ══ SPIELPLAN EDIT MODAL ══ -->
+<div class="bbk-modal" id="spielplan-modal">
+  <div class="bbk-modal-box" style="max-width:520px">
+    <button class="modal-close" onclick="closeSpielplanModal()">✕</button>
+    <h3>✏️ Spiel bearbeiten</h3>
+    <input type="hidden" id="sp-row-ref">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <div class="form-group"><label>Datum</label><input type="date" id="sp-edit-datum"></div>
+      <div class="form-group"><label>Uhrzeit</label><input type="time" id="sp-edit-zeit"></div>
+      <div class="form-group"><label>Liga</label>
+        <select id="sp-edit-liga">
+          <option>Kreisliga Herren</option><option>Kreisliga Damen</option>
+          <option>U18</option><option>U16</option><option>U14</option><option>U12</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Status</label>
+        <select id="sp-edit-status" onchange="toggleErgebnisFelder(this.value)">
+          <option value="Offen">Offen</option>
+          <option value="Abgeschlossen">Abgeschlossen</option>
+          <option value="Verschoben">Verschoben</option>
+          <option value="Abgesagt">Abgesagt</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Heimteam</label>
+        <select id="sp-edit-heim">
+          <option>DJK TUSA Düsseldorf</option><option>ART 77/90 Düsseldorf</option>
+          <option>TG Neuss</option><option>Black Eagles Düsseldorf</option>
+          <option>Capitol Bascats</option><option>BG Kaarst-Büttgen</option>
+          <option>SG RW Gierath</option><option>TSV Norf</option>
+          <option>TSV Urdenbach</option><option>FSV Jüchen</option>
+          <option>ART Giants Düsseldorf</option><option>Osterather TV</option>
+          <option>ISD Sportverein</option><option>Greek Baskets Düsseldorf</option>
+          <option>TuS Maccabi Düsseldorf</option><option>TV Grafenberg 1888</option>
+          <option>SSV Düsseldorf-Knittkuhl</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Gastteam</label>
+        <select id="sp-edit-gast">
+          <option>ART 77/90 Düsseldorf</option><option>DJK TUSA Düsseldorf</option>
+          <option>TG Neuss</option><option>Black Eagles Düsseldorf</option>
+          <option>Capitol Bascats</option><option>BG Kaarst-Büttgen</option>
+          <option>SG RW Gierath</option><option>TSV Norf</option>
+          <option>TSV Urdenbach</option><option>FSV Jüchen</option>
+          <option>ART Giants Düsseldorf</option><option>Osterather TV</option>
+          <option>ISD Sportverein</option><option>Greek Baskets Düsseldorf</option>
+          <option>TuS Maccabi Düsseldorf</option><option>TV Grafenberg 1888</option>
+          <option>SSV Düsseldorf-Knittkuhl</option>
+        </select>
+      </div>
+    </div>
+    <!-- Ergebnis-Felder – nur bei "Abgeschlossen" sichtbar -->
+    <div id="sp-ergebnis-wrap" style="display:none;padding:14px;background:var(--dark3);border-radius:8px;border:1px solid rgba(240,128,0,0.3);margin-top:4px">
+      <div style="font-size:11px;font-weight:700;color:var(--orange);margin-bottom:10px;text-transform:uppercase;letter-spacing:1px">🏀 Ergebnis</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <div class="form-group" style="margin:0"><label>Punkte Heim</label><input type="number" id="sp-edit-hp" placeholder="87" min="0"></div>
+        <div class="form-group" style="margin:0"><label>Punkte Gast</label><input type="number" id="sp-edit-gp" placeholder="74" min="0"></div>
+      </div>
+    </div>
+    <div style="display:flex;gap:12px;margin-top:16px">
+      <button class="btn btn-primary" style="flex:1" onclick="saveSpielplanEdit()">💾 Speichern</button>
+      <button class="btn btn-ghost" onclick="closeSpielplanModal()">Abbrechen</button>
+    </div>
+  </div>
+</div>
+
+<!-- NEWS BEARBEITEN MODAL -->
+<div class="bbk-modal" id="edit-modal">
+  <div class="bbk-modal-box">
+    <button class="modal-close" onclick="closeEditModal()">✕</button>
+    <h3>✏️ News bearbeiten</h3>
+    <input type="hidden" id="edit-id">
+    <div class="form-group"><label>Titel</label><input type="text" id="edit-titel" placeholder="Titel der News"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <div class="form-group"><label>Kategorie</label>
+        <select id="edit-kat"><option>Kreisliga</option><option>Jugend</option><option>Ausbildung</option><option>Verein</option><option>Kreistag</option><option>Allgemein</option></select>
+      </div>
+      <div class="form-group"><label>Verein (optional)</label><input type="text" id="edit-verein" placeholder="– Alle –"></div>
+    </div>
+    <div class="form-group"><label>Text</label><textarea id="edit-text" rows="6" placeholder="Text der Meldung..."></textarea></div>
+    <div class="form-group"><label>▶️ YouTube URL (optional)</label><input type="text" id="edit-youtube" placeholder="https://www.youtube.com/watch?v=..."></div>
+    <div class="form-group">
+      <label>🖼️ Bild</label>
+      <div id="edit-img-wrap" style="display:none;margin-bottom:8px;position:relative">
+        <img id="edit-img-preview" style="max-height:120px;border-radius:6px;max-width:100%;object-fit:cover">
+        <button onclick="removeEditImage()" style="position:absolute;top:4px;right:4px;background:rgba(0,0,0,0.7);border:none;color:white;border-radius:50%;width:24px;height:24px;cursor:pointer;font-size:14px">✕</button>
+      </div>
+      <div id="edit-img-drop" onclick="document.getElementById('edit-img-input').click()" style="border:2px dashed var(--border);border-radius:8px;padding:16px;text-align:center;cursor:pointer" onmouseover="this.style.borderColor='var(--orange)'" onmouseout="this.style.borderColor='var(--border)'" ondragover="event.preventDefault()" ondrop="handleEditImageDrop(event)">
+        <div style="font-size:24px">📷</div>
+        <div style="font-size:12px;color:var(--gray);margin-top:4px">Bild ziehen oder klicken</div>
+      </div>
+      <input type="file" id="edit-img-input" accept="image/*" style="display:none" onchange="loadEditImage(this)">
+      <input type="text" id="edit-bild" placeholder="https://i.imgur.com/... (oder Bild hochladen)" style="margin-top:8px">
+    </div>
+    <div style="display:flex;gap:12px;margin-top:8px">
+      <button class="btn btn-primary" style="flex:1" onclick="saveEditNews()">💾 Speichern</button>
+      <button class="btn btn-ghost" onclick="closeEditModal()">Abbrechen</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── APPS SCRIPT API ──────────────────────────────────────────
 const BBK_API = "https://script.google.com/macros/s/AKfycbxBSy3EwXtbxD3_ecN_4p4LAtZ_mrpqT4S6LsP70VZ9yu-q-jxR9hjTf37jGuXjA00rZg/exec";
 
 async function apiPost(action, data) {
@@ -803,13 +785,12 @@ async function apiGet(action) {
   const res = await fetch(BBK_API + '?action=' + action);
   return res.json();
 }
-// ─────────────────────────────────────────────────────────────
 
+// ── LOGIN ────────────────────────────────────────────────────
 const PASS = 'BBK2026!';
 function doLogin() {
   if (document.getElementById('pw-input').value === PASS) {
     document.getElementById('login-screen').style.display = 'none';
-    // News und Ergebnisse aus Sheet laden
     setTimeout(function() {
       loadNewsFromSheet();
       loadErgebnisseFromSheet();
@@ -821,13 +802,9 @@ function doLogin() {
   }
 }
 
-// MOBILE SIDEBAR
-function toggleSidebar() {
-  document.getElementById('sidebar').classList.toggle('open');
-}
-function closeSidebar() {
-  document.getElementById('sidebar').classList.remove('open');
-}
+// ── SIDEBAR ──────────────────────────────────────────────────
+function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); }
+function closeSidebar()  { document.getElementById('sidebar').classList.remove('open'); }
 
 const titles = {
   dashboard:    ['Dashboard','Willkommen zurück, Laszlo'],
@@ -840,6 +817,7 @@ const titles = {
   social:       ['Social Generator','Grafiken für Social Media'],
   einstellungen:['Einstellungen','System & Integrationen'],
 };
+
 function showPage(id, btn) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.getElementById('page-'+id).classList.add('active');
@@ -848,10 +826,10 @@ function showPage(id, btn) {
   const t = titles[id] || [id, ''];
   document.getElementById('page-title').textContent = t[0];
   document.getElementById('page-sub').textContent   = t[1];
-  closeSidebar(); // Sidebar auf dem Handy nach Auswahl schließen
+  closeSidebar();
 }
 
-// MODE TOGGLE
+// ── MODE TOGGLE ───────────────────────────────────────────────
 function setMode(mode) {
   document.getElementById('btn-manual').className = 'mode-btn' + (mode==='manual' ? ' active-manual' : '');
   document.getElementById('btn-api').className    = 'mode-btn' + (mode==='api'    ? ' active-api'    : '');
@@ -859,10 +837,295 @@ function setMode(mode) {
   document.getElementById('panel-api').className    = 'mode-panel' + (mode==='api'    ? ' active' : '');
 }
 
-// API CONNECTION TEST (simulation)
+// ── TOAST ─────────────────────────────────────────────────────
+function showToast(msg, isError) {
+  const t = document.getElementById('toast');
+  document.getElementById('toast-msg').textContent = msg;
+  t.style.borderColor = isError ? 'var(--red)' : 'var(--green)';
+  t.style.color = isError ? 'var(--red)' : 'var(--green)';
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+// ── STAGING QUEUE ─────────────────────────────────────────────
+let stagingQueue = [];
+
+function saveManual(addMore) {
+  const liga  = document.getElementById('m-liga').value;
+  const heim  = document.getElementById('m-heim').value;
+  const gast  = document.getElementById('m-gast').value;
+  const hp    = document.getElementById('m-hp').value;
+  const gp    = document.getElementById('m-gp').value;
+  const datum = document.getElementById('m-datum').value;
+  const spieltag = document.getElementById('m-spieltag').value;
+  if (!hp || !gp) { showToast('⚠️ Bitte Punkte eintragen!', true); return; }
+  if (heim === gast) { showToast('⚠️ Heim- und Gastteam dürfen nicht gleich sein!', true); return; }
+  const entry = { liga, heim, gast, hp, gp, datum, spieltag };
+  if (addMore) {
+    stagingQueue.push(entry);
+    renderStaging();
+    document.getElementById('m-hp').value = '';
+    document.getElementById('m-gp').value = '';
+    document.getElementById('m-spieltag').value = '';
+    document.getElementById('m-heim').selectedIndex = 0;
+    document.getElementById('m-gast').selectedIndex = 1;
+    showToast('➕ Spiel ' + stagingQueue.length + ' in Warteschlange');
+  } else {
+    stagingQueue.push(entry);
+    publishAll();
+  }
+}
+
+function renderStaging() {
+  const wrap  = document.getElementById('staging-wrap');
+  const list  = document.getElementById('staging-list');
+  const count = document.getElementById('staging-count');
+  wrap.style.display = stagingQueue.length ? 'block' : 'none';
+  count.textContent = stagingQueue.length;
+  list.innerHTML = stagingQueue.map((e, i) =>
+    '<div style="display:flex;align-items:center;gap:10px;background:var(--dark2);border-radius:7px;padding:10px 12px;border:1px solid var(--border)">' +
+    '<span style="font-size:11px;font-weight:700;color:var(--orange);min-width:20px">' + (i+1) + '</span>' +
+    '<span style="font-size:13px;font-weight:600;flex:1">' + e.heim.split(' ').slice(0,2).join(' ') + ' <span style="color:var(--orange)">vs.</span> ' + e.gast.split(' ').slice(0,2).join(' ') + '</span>' +
+    '<span style="font-weight:800;color:var(--orange);font-size:15px;min-width:55px;text-align:center">' + e.hp + ':' + e.gp + '</span>' +
+    '<span class="tag tag-gray" style="font-size:10px">' + e.liga.split(' ')[0] + '</span>' +
+    (e.datum ? '<span style="font-size:11px;color:var(--gray)">' + new Date(e.datum).toLocaleDateString('de-DE',{day:'2-digit',month:'2-digit'}) + '</span>' : '') +
+    '<button onclick="removeFromStaging(' + i + ')" style="background:none;border:none;color:var(--red);cursor:pointer;font-size:16px;padding:0 4px">✕</button>' +
+    '</div>'
+  ).join('');
+}
+
+function removeFromStaging(i) { stagingQueue.splice(i, 1); renderStaging(); }
+function clearStaging() { stagingQueue = []; renderStaging(); }
+
+function publishAll() {
+  if (!stagingQueue.length) return;
+  const tbody = document.querySelector('#manual-list tbody');
+  const toSend = [...stagingQueue];
+  stagingQueue.forEach(e => {
+    const today = e.datum
+      ? new Date(e.datum).toLocaleDateString('de-DE',{day:'2-digit',month:'2-digit'})
+      : new Date().toLocaleDateString('de-DE',{day:'2-digit',month:'2-digit'});
+    tbody.insertAdjacentHTML('afterbegin',
+      '<tr><td>' + e.heim.split(' ').slice(0,2).join(' ') + ' vs. ' + e.gast.split(' ').slice(0,2).join(' ') + '</td>' +
+      '<td style="font-weight:800;color:var(--orange)">' + e.hp + ':' + e.gp + '</td>' +
+      '<td><span class="tag tag-orange">' + e.liga.split(' ')[0] + '</span></td>' +
+      '<td style="color:var(--gray)">' + today + '</td>' +
+      '<td><span class="tag tag-green">Gespeichert</span></td></tr>'
+    );
+  });
+  const n = stagingQueue.length;
+  stagingQueue = [];
+  renderStaging();
+  document.getElementById('m-hp').value = '';
+  document.getElementById('m-gp').value = '';
+  document.getElementById('m-spieltag').value = '';
+  Promise.all(toSend.map(e => apiPost('saveErgebnis', {
+    Heimteam: e.heim, Gastteam: e.gast,
+    Punkte_Heim: e.hp, Punkte_Gast: e.gp,
+    Liga: e.liga, Datum: e.datum || '',
+  }).catch(() => null))).then(() => {
+    showToast('✅ ' + n + ' Ergebnis' + (n > 1 ? 'se' : '') + ' im Google Sheet gespeichert!');
+  });
+}
+
+async function saveErgebnis() {
+  const heim  = document.getElementById('e-heim').value;
+  const gast  = document.getElementById('e-gast').value;
+  const hp    = document.getElementById('e-hp').value;
+  const gp    = document.getElementById('e-gp').value;
+  const liga  = document.getElementById('e-liga').value;
+  const datum = document.getElementById('e-datum').value;
+  if (!hp || !gp) { showToast('⚠️ Bitte Punkte eintragen!', true); return; }
+  if (heim === gast) { showToast('⚠️ Heim = Gast!', true); return; }
+  showToast('⏳ Wird gespeichert...');
+  try {
+    const result = await apiPost('saveErgebnis', {
+      Heimteam: heim, Gastteam: gast,
+      Punkte_Heim: hp, Punkte_Gast: gp,
+      Liga: liga, Datum: datum ? new Date(datum).toLocaleDateString('de-DE') : '',
+    });
+    if (result.status === 'ok') {
+      document.querySelector('#ergebnis-liste tbody').insertAdjacentHTML('afterbegin',
+        '<tr><td>' + heim.split(' ').slice(0,2).join(' ') + ' vs. ' + gast.split(' ').slice(0,2).join(' ') + '</td>' +
+        '<td style="font-weight:800;color:var(--orange)">' + hp + ':' + gp + '</td>' +
+        '<td><span class="tag tag-orange">' + liga.split(' ')[0] + '</span></td>' +
+        '<td><span class="tag tag-green">✅ Sheet</span></td></tr>'
+      );
+      document.getElementById('e-hp').value = '';
+      document.getElementById('e-gp').value = '';
+      showToast('✅ Ergebnis gespeichert!');
+    } else { showToast('❌ Fehler: ' + (result.message || ''), true); }
+  } catch(err) { showToast('❌ Verbindungsfehler', true); }
+}
+
+// ── SPIELPLAN HINZUFÜGEN ──────────────────────────────────────
+function addNeuesSpiel() {
+  const liga  = document.getElementById('neu-liga').value;
+  const datum = document.getElementById('neu-datum').value;
+  const zeit  = document.getElementById('neu-zeit').value;
+  const heim  = document.getElementById('neu-heim').value;
+  const gast  = document.getElementById('neu-gast').value;
+  if (!datum) { showToast('⚠️ Datum fehlt!', true); return; }
+  if (heim === gast) { showToast('⚠️ Heim = Gast!', true); return; }
+  const datumDE = new Date(datum).toLocaleDateString('de-DE',{day:'2-digit',month:'2-digit',year:'numeric'});
+  const tagCls = liga.includes('Damen') ? 'tag-orange' : liga.startsWith('U') ? 'tag-gray' : 'tag-orange';
+  const tbody = document.getElementById('spielplan-body');
+  const idx = tbody.querySelectorAll('tr').length;
+  tbody.insertAdjacentHTML('beforeend',
+    '<tr data-idx="' + idx + '" data-datum="' + datum + '" data-zeit="' + zeit + '" data-liga="' + liga + '" data-heim="' + heim + '" data-gast="' + gast + '" data-status="Offen">' +
+    '<td>' + datumDE + '</td><td>' + zeit + '</td>' +
+    '<td><span class="tag ' + tagCls + '">' + liga.split(' ')[0] + '</span></td>' +
+    '<td>' + heim.split(' ').slice(0,2).join(' ') + '</td>' +
+    '<td>' + gast.split(' ').slice(0,2).join(' ') + '</td>' +
+    '<td><span class="tag tag-red">Offen</span></td>' +
+    '<td><button class="btn btn-ghost btn-sm" onclick="openSpielplanEdit(this.closest(\'tr\'))">✏️</button></td>' +
+    '</tr>'
+  );
+  document.getElementById('spiel-form').style.display = 'none';
+  showToast('✅ Spiel hinzugefügt!');
+}
+
+// ── SPIELPLAN EDIT MODAL ──────────────────────────────────────
+var _currentSpielplanRow = null;
+
+function openSpielplanEdit(row) {
+  _currentSpielplanRow = row;
+  document.getElementById('sp-edit-datum').value  = row.dataset.datum  || '';
+  document.getElementById('sp-edit-zeit').value   = row.dataset.zeit   || '';
+  document.getElementById('sp-edit-liga').value   = row.dataset.liga   || 'Kreisliga Herren';
+  document.getElementById('sp-edit-status').value = row.dataset.status || 'Offen';
+  // Heimteam setzen
+  var heimSel = document.getElementById('sp-edit-heim');
+  for (var i=0; i<heimSel.options.length; i++) {
+    if (heimSel.options[i].value === row.dataset.heim || heimSel.options[i].text.indexOf(row.dataset.heim) !== -1) {
+      heimSel.selectedIndex = i; break;
+    }
+  }
+  var gastSel = document.getElementById('sp-edit-gast');
+  for (var j=0; j<gastSel.options.length; j++) {
+    if (gastSel.options[j].value === row.dataset.gast || gastSel.options[j].text.indexOf(row.dataset.gast) !== -1) {
+      gastSel.selectedIndex = j; break;
+    }
+  }
+  toggleErgebnisFelder(row.dataset.status || 'Offen');
+  document.getElementById('sp-edit-hp').value = row.dataset.hp || '';
+  document.getElementById('sp-edit-gp').value = row.dataset.gp || '';
+  document.getElementById('spielplan-modal').style.display = 'block';
+  document.body.style.overflow = 'hidden';
+}
+
+function toggleErgebnisFelder(status) {
+  document.getElementById('sp-ergebnis-wrap').style.display = status === 'Abgeschlossen' ? 'block' : 'none';
+}
+
+function closeSpielplanModal() {
+  document.getElementById('spielplan-modal').style.display = 'none';
+  document.body.style.overflow = '';
+  _currentSpielplanRow = null;
+}
+
+function saveSpielplanEdit() {
+  if (!_currentSpielplanRow) return;
+  const row    = _currentSpielplanRow;
+  const datum  = document.getElementById('sp-edit-datum').value;
+  const zeit   = document.getElementById('sp-edit-zeit').value;
+  const liga   = document.getElementById('sp-edit-liga').value;
+  const status = document.getElementById('sp-edit-status').value;
+  const heim   = document.getElementById('sp-edit-heim').value;
+  const gast   = document.getElementById('sp-edit-gast').value;
+  const hp     = document.getElementById('sp-edit-hp').value;
+  const gp     = document.getElementById('sp-edit-gp').value;
+
+  // data-attrs updaten
+  row.dataset.datum  = datum;
+  row.dataset.zeit   = zeit;
+  row.dataset.liga   = liga;
+  row.dataset.status = status;
+  row.dataset.heim   = heim.split(' ').slice(0,2).join(' ');
+  row.dataset.gast   = gast.split(' ').slice(0,2).join(' ');
+  if (hp) row.dataset.hp = hp;
+  if (gp) row.dataset.gp = gp;
+
+  const datumDE = datum ? new Date(datum).toLocaleDateString('de-DE',{day:'2-digit',month:'2-digit',year:'numeric'}) : '–';
+  const tagCls = liga.includes('Damen') ? 'tag-orange' : liga.startsWith('U') ? 'tag-gray' : 'tag-orange';
+  const statusCls = status === 'Abgeschlossen' ? 'tag-green' : status === 'Offen' ? 'tag-red' : 'tag-gray';
+
+  row.innerHTML =
+    '<td>' + datumDE + '</td>' +
+    '<td>' + zeit + '</td>' +
+    '<td><span class="tag ' + tagCls + '">' + liga.split(' ')[0] + '</span></td>' +
+    '<td>' + heim.split(' ').slice(0,2).join(' ') + '</td>' +
+    '<td>' + gast.split(' ').slice(0,2).join(' ') + '</td>' +
+    (status === 'Abgeschlossen' && hp && gp
+      ? '<td><span class="tag tag-green">' + hp + ':' + gp + '</span></td>'
+      : '<td><span class="tag ' + statusCls + '">' + status + '</span></td>') +
+    '<td><button class="btn btn-ghost btn-sm" onclick="openSpielplanEdit(this.closest(\'tr\'))">✏️</button></td>';
+
+  closeSpielplanModal();
+  showToast('✅ Spiel aktualisiert!');
+}
+
+// ── TABELLEN EDIT MODAL ───────────────────────────────────────
+var _currentTabellenRow = null;
+
+function openTabellenEdit(row) {
+  _currentTabellenRow = row;
+  document.getElementById('t-edit-verein').value = row.dataset.verein || row.cells[1].textContent.trim();
+  document.getElementById('t-edit-sp').value     = row.dataset.sp  || row.cells[2].textContent.trim();
+  document.getElementById('t-edit-s').value      = row.dataset.s   || row.cells[3].textContent.trim();
+  document.getElementById('t-edit-n').value      = row.dataset.n   || row.cells[4].textContent.trim();
+  document.getElementById('t-edit-pkt').value    = row.dataset.pkt || row.cells[5].textContent.trim();
+  document.getElementById('tabellen-modal').style.display = 'block';
+  document.body.style.overflow = 'hidden';
+}
+
+function autoCalcPunkte() {
+  const s = parseInt(document.getElementById('t-edit-s').value) || 0;
+  document.getElementById('t-edit-pkt').value = s * 2;
+}
+
+function closeTabellenModal() {
+  document.getElementById('tabellen-modal').style.display = 'none';
+  document.body.style.overflow = '';
+  _currentTabellenRow = null;
+}
+
+function saveTabellenEdit() {
+  if (!_currentTabellenRow) return;
+  const row    = _currentTabellenRow;
+  const verein = document.getElementById('t-edit-verein').value;
+  const sp     = document.getElementById('t-edit-sp').value;
+  const s      = document.getElementById('t-edit-s').value;
+  const n      = document.getElementById('t-edit-n').value;
+  const pkt    = document.getElementById('t-edit-pkt').value;
+  const platz  = row.cells[0].textContent.trim();
+  const platzNum = parseInt(platz);
+
+  // data-attrs updaten
+  row.dataset.verein = verein;
+  row.dataset.sp = sp;
+  row.dataset.s  = s;
+  row.dataset.n  = n;
+  row.dataset.pkt = pkt;
+
+  const platzStyle = platzNum <= 3 ? 'color:var(--orange);font-weight:700' : 'color:var(--gray)';
+  row.innerHTML =
+    '<td style="' + platzStyle + '">' + platz + '</td>' +
+    '<td style="font-weight:600">' + verein + '</td>' +
+    '<td>' + sp + '</td>' +
+    '<td>' + s + '</td>' +
+    '<td>' + n + '</td>' +
+    '<td style="font-weight:800">' + pkt + '</td>' +
+    '<td><button class="btn btn-ghost btn-sm" onclick="openTabellenEdit(this.closest(\'tr\'))">✏️</button></td>';
+
+  closeTabellenModal();
+  showToast('✅ Tabellenzeile aktualisiert!');
+}
+
+// ── API TEST / IMPORT ─────────────────────────────────────────
 function testApiConnection() {
   const key = document.getElementById('api-key-input').value;
-  if (!key) { showToast('⚠️ Bitte API-Key eingeben'); return; }
+  if (!key) { showToast('⚠️ Bitte API-Key eingeben', true); return; }
   showToast('🔌 Verbindung wird getestet...');
   setTimeout(() => {
     document.getElementById('api-not-configured').style.display = 'none';
@@ -873,7 +1136,6 @@ function testApiConnection() {
   }, 1800);
 }
 
-// SIMULATE IMPORT
 function runImport() {
   const preview = document.getElementById('api-preview');
   const now = new Date().toLocaleTimeString('de-DE');
@@ -888,172 +1150,26 @@ function runImport() {
     '✅ Ergebnisse: 28 Ergebnisse aktualisiert',
     '✅ Tabellen: 4 Tabellen neu berechnet',
     '✅ Website aktualisiert: bbk-basketball.netlify.app',
-    '✅ Google Sheet synchronisiert',
     '\n🎉 Import abgeschlossen – ' + now + ' Uhr',
   ];
   let i = 0;
   const interval = setInterval(() => {
     if (i < lines.length) { preview.textContent += lines[i++] + '\n'; preview.scrollTop = 9999; }
-    else { clearInterval(interval); showToast('✅ Alle Daten importiert!'); }
+    else clearInterval(interval);
   }, 320);
 }
 
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  document.getElementById('toast-msg').textContent = msg;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2800);
-}
-
-// ── STAGING QUEUE ─────────────────────────────────
-let stagingQueue = [];
-
-function saveManual(addMore) {
-  const liga  = document.getElementById('m-liga').value;
-  const heim  = document.getElementById('m-heim').value;
-  const gast  = document.getElementById('m-gast').value;
-  const hp    = document.getElementById('m-hp').value;
-  const gp    = document.getElementById('m-gp').value;
-  const datum = document.getElementById('m-datum').value;
-  const spieltag = document.getElementById('m-spieltag').value;
-
-  if (!hp || !gp) { showToast('⚠️ Bitte Punkte eintragen!'); return; }
-  if (heim === gast) { showToast('⚠️ Heim- und Gastteam dürfen nicht gleich sein!'); return; }
-
-  const entry = { liga, heim, gast, hp, gp, datum, spieltag };
-
-  if (addMore) {
-    // Add to staging queue, keep form open for next entry
-    stagingQueue.push(entry);
-    renderStaging();
-    // Clear only scores, keep liga/datum for convenience
-    document.getElementById('m-hp').value = '';
-    document.getElementById('m-gp').value = '';
-    document.getElementById('m-spieltag').value = '';
-    document.getElementById('m-heim').selectedIndex = 0;
-    document.getElementById('m-gast').selectedIndex = 1;
-    showToast(`➕ Spiel ${stagingQueue.length} in Warteschlange – weiter eintragen!`);
-    document.getElementById('m-hp').focus();
-  } else {
-    // Direct publish – also publish any staged games
-    stagingQueue.push(entry);
-    publishAll();
-  }
-}
-
-function renderStaging() {
-  const wrap = document.getElementById('staging-wrap');
-  const list = document.getElementById('staging-list');
-  const count = document.getElementById('staging-count');
-  wrap.style.display = stagingQueue.length ? 'block' : 'none';
-  count.textContent = stagingQueue.length;
-  list.innerHTML = stagingQueue.map((e, i) => `
-    <div style="display:flex;align-items:center;gap:10px;background:var(--dark2);border-radius:7px;padding:10px 12px;border:1px solid var(--border)">
-      <span style="font-size:11px;font-weight:700;color:var(--orange);min-width:20px">${i+1}</span>
-      <span style="font-size:13px;font-weight:600;flex:1">${e.heim.split(' ').slice(0,2).join(' ')} <span style="color:var(--orange)">vs.</span> ${e.gast.split(' ').slice(0,2).join(' ')}</span>
-      <span style="font-weight:800;color:var(--orange);font-size:15px;min-width:55px;text-align:center">${e.hp}:${e.gp}</span>
-      <span class="tag tag-gray" style="font-size:10px">${e.liga.split(' ')[0]}</span>
-      ${e.datum ? `<span style="font-size:11px;color:var(--gray)">${new Date(e.datum).toLocaleDateString('de-DE',{day:'2-digit',month:'2-digit'})}</span>` : ''}
-      <button onclick="removeFromStaging(${i})" style="background:none;border:none;color:var(--red);cursor:pointer;font-size:16px;padding:0 4px">✕</button>
-    </div>
-  `).join('');
-}
-
-function removeFromStaging(i) {
-  stagingQueue.splice(i, 1);
-  renderStaging();
-}
-
-function clearStaging() {
-  stagingQueue = [];
-  renderStaging();
-}
-
-function publishAll() {
-  if (!stagingQueue.length) return;
-  const tbody = document.querySelector('#manual-list tbody');
-  stagingQueue.forEach(e => {
-    const today = e.datum
-      ? new Date(e.datum).toLocaleDateString('de-DE',{day:'2-digit',month:'2-digit'})
-      : new Date().toLocaleDateString('de-DE',{day:'2-digit',month:'2-digit'});
-    const tagCls = e.liga.includes('Damen') ? 'tag-orange' : e.liga.startsWith('U') ? 'tag-gray' : 'tag-orange';
-    tbody.insertAdjacentHTML('afterbegin', `
-      <tr>
-        <td>${e.heim.split(' ').slice(0,2).join(' ')} vs. ${e.gast.split(' ').slice(0,2).join(' ')}</td>
-        <td style="font-weight:800;color:var(--orange)">${e.hp}:${e.gp}</td>
-        <td><span class="tag ${tagCls}">${e.liga.split(' ')[0]}</span></td>
-        <td style="color:var(--gray)">${today}</td>
-        <td><span class="tag tag-green">Gespeichert</span></td>
-      </tr>`);
-  });
-  const n = stagingQueue.length;
-  stagingQueue = [];
-  renderStaging();
-  // Clear form
-  document.getElementById('m-hp').value = '';
-  document.getElementById('m-gp').value = '';
-  document.getElementById('m-spieltag').value = '';
-  // Alle ans Sheet senden
-  const savePromises = [...tempQueue].map(e => apiPost('saveErgebnis', {
-    Heimteam: e.heim, Gastteam: e.gast,
-    Punkte_Heim: e.hp, Punkte_Gast: e.gp,
-    Liga: e.liga, Datum: e.datum || '',
-  }).catch(() => null));
-  Promise.all(savePromises).then(() => {
-    showToast(`✅ ${n} Ergebnis${n > 1 ? 'se' : ''} im Google Sheet gespeichert!`);
-  });
-}
-
-async function saveErgebnis() {
-  const heim = document.getElementById('e-heim').value;
-  const gast = document.getElementById('e-gast').value;
-  const hp   = document.getElementById('e-hp').value;
-  const gp   = document.getElementById('e-gp').value;
-  const liga = document.getElementById('e-liga').value;
-  const datum = document.getElementById('e-datum').value;
-  if (!hp || !gp) { showToast('⚠️ Bitte Punkte eintragen!'); return; }
-  if (heim === gast) { showToast('⚠️ Heim- und Gastteam dürfen nicht gleich sein!'); return; }
-
-  showToast('⏳ Wird gespeichert...');
-  try {
-    const result = await apiPost('saveErgebnis', {
-      Heimteam:    heim,
-      Gastteam:    gast,
-      Punkte_Heim: hp,
-      Punkte_Gast: gp,
-      Liga:        liga,
-      Datum:       datum ? new Date(datum).toLocaleDateString('de-DE') : '',
-    });
-    if (result.status === 'ok') {
-      const row = `<tr>
-        <td>${heim.split(' ').slice(0,2).join(' ')} vs. ${gast.split(' ').slice(0,2).join(' ')}</td>
-        <td style="font-weight:800;color:var(--orange)">${hp}:${gp}</td>
-        <td><span class="tag tag-orange">${liga.split(' ')[0]}</span></td>
-        <td><span class="tag tag-green">✅ Sheet</span></td>
-      </tr>`;
-      document.querySelector('#ergebnis-liste tbody').insertAdjacentHTML('afterbegin', row);
-      document.getElementById('e-hp').value = '';
-      document.getElementById('e-gp').value = '';
-      showToast('✅ Ergebnis im Google Sheet gespeichert!');
-    } else {
-      showToast('❌ Fehler: ' + (result.message || ''));
-    }
-  } catch(err) {
-    showToast('❌ Verbindungsfehler');
-    console.error(err);
-  }
-}
-
+// ── BILD UPLOAD ───────────────────────────────────────────────
 function previewImage(input) {
   if (!input.files || !input.files[0]) return;
   const file = input.files[0];
-  if (file.size > 5 * 1024 * 1024) { showToast('⚠️ Bild zu groß – max. 5 MB'); return; }
+  if (file.size > 5*1024*1024) { showToast('⚠️ Bild zu groß – max. 5 MB', true); return; }
   const reader = new FileReader();
   reader.onload = e => {
     document.getElementById('img-preview').src = e.target.result;
     document.getElementById('img-preview-wrap').style.display = 'block';
-    document.getElementById('img-placeholder').style.display = 'none';
-    document.getElementById('img-remove-btn').style.display = 'inline-flex';
+    document.getElementById('img-placeholder').style.display  = 'none';
+    document.getElementById('img-remove-btn').style.display   = 'inline-flex';
     document.getElementById('img-drop-zone').style.borderColor = 'var(--orange)';
   };
   reader.readAsDataURL(file);
@@ -1063,8 +1179,8 @@ function removeImage() {
   document.getElementById('n-img').value = '';
   document.getElementById('img-preview').src = '';
   document.getElementById('img-preview-wrap').style.display = 'none';
-  document.getElementById('img-placeholder').style.display = 'block';
-  document.getElementById('img-remove-btn').style.display = 'none';
+  document.getElementById('img-placeholder').style.display  = 'block';
+  document.getElementById('img-remove-btn').style.display   = 'none';
   document.getElementById('img-drop-zone').style.borderColor = 'var(--border)';
 }
 
@@ -1072,124 +1188,75 @@ function previewYoutube(url) {
   const wrap = document.getElementById('yt-preview-wrap');
   const iframe = document.getElementById('yt-iframe');
   if (!url) { wrap.style.display = 'none'; return; }
-  // Extract video ID from various YouTube URL formats
   const match = url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
-  if (match) {
-    iframe.src = `https://www.youtube.com/embed/${match[1]}`;
-    wrap.style.display = 'block';
-  } else {
-    wrap.style.display = 'none';
-  }
+  if (match) { iframe.src = 'https://www.youtube.com/embed/' + match[1]; wrap.style.display = 'block'; }
+  else { wrap.style.display = 'none'; }
 }
 
 async function uploadBildImgur(base64data) {
-  // imgbb.com API - kostenlos und zuverlässig
-  const API_KEY = '2e7b3e3b3b3b3b3b3b3b3b3b3b3b3b3b';
   try {
     const base64 = base64data.includes(',') ? base64data.split(',')[1] : base64data;
     const formData = new FormData();
     formData.append('image', base64);
-    
-    // Versuch 1: imgbb
-    const res = await fetch('https://api.imgbb.com/1/upload?key=' + API_KEY, {
+    formData.append('type', 'base64');
+    const res = await fetch('https://api.imgur.com/3/image', {
       method: 'POST',
+      headers: { 'Authorization': 'Client-ID 8d26ccd12712fca' },
       body: formData
     });
     const data = await res.json();
-    if (data && data.success && data.data && data.data.url) {
-      console.log('✅ Bild hochgeladen:', data.data.url);
-      return data.data.url;
-    }
-    console.error('imgbb Fehler:', JSON.stringify(data));
-    
-    // Versuch 2: Imgur mit anderem Client-ID
-    const formData2 = new FormData();
-    formData2.append('image', base64);
-    formData2.append('type', 'base64');
-    const res2 = await fetch('https://api.imgur.com/3/image', {
-      method: 'POST',
-      headers: { 'Authorization': 'Client-ID 8d26ccd12712fca' },
-      body: formData2
-    });
-    const data2 = await res2.json();
-    if (data2 && data2.success) {
-      console.log('✅ Imgur:', data2.data.link);
-      return data2.data.link;
-    }
-  } catch(e) { 
-    console.error('Upload Fehler:', e);
-  }
+    if (data && data.success) return data.data.link;
+  } catch(e) { console.error('Upload Fehler:', e); }
   return '';
 }
 
 async function saveNews() {
   const titel = document.getElementById('n-titel').value;
-  if (!titel) { showToast('⚠️ Titel fehlt!'); return; }
-
-  // Titel bereinigen (Emojis am Anfang entfernen)
-  const titelClean = titel.replace(/^[^\w\s\u00C0-\u024F]+/, '').trim();
-
-  // Bild zu Imgur hochladen falls vorhanden
+  if (!titel) { showToast('⚠️ Titel fehlt!', true); return; }
   let bildUrl = '';
   const preview = document.getElementById('img-preview');
   if (preview && preview.src && preview.src.startsWith('data:')) {
     showToast('⏳ Bild wird hochgeladen...');
     bildUrl = await uploadBildImgur(preview.src);
-    if (!bildUrl) showToast('⚠️ Bild-Upload fehlgeschlagen – News wird ohne Bild gespeichert');
+    if (!bildUrl) showToast('⚠️ Bild-Upload fehlgeschlagen');
   }
-
   const payload = {
-    Titel:     titelClean,
+    Titel:     titel.replace(/^[^\w\s\u00C0-\u024F]+/, '').trim(),
     Kategorie: document.getElementById('n-kat').value || 'Allgemein',
-    Verein:    document.getElementById('n-verein') ? document.getElementById('n-verein').value : '',
+    Verein:    document.getElementById('n-verein').value || '',
     Text:      document.getElementById('n-text').value || '',
     Bild:      bildUrl,
     YouTube:   document.getElementById('n-youtube').value || '',
   };
-
   showToast('⏳ Wird gespeichert...');
-
   try {
     const result = await apiPost('saveNews', payload);
     if (result.status === 'ok') {
-      // Tabelle aktualisieren
-      const today = new Date().toLocaleDateString('de-DE',{day:'2-digit',month:'2-digit',year:'numeric'});
-      const row = `<tr>
-        <td>${titel}</td>
-        <td><span class="tag tag-orange">${payload.Kategorie.slice(0,8)}</span></td>
-        <td style="color:var(--gray)">${today}</td>
-        <td><button class="btn btn-danger btn-sm" onclick="deleteNewsItem(this,'${result.id}')">🗑</button></td>
-      </tr>`;
-      document.querySelector('#news-liste tbody').insertAdjacentHTML('afterbegin', row);
-      // Felder leeren
-      document.getElementById('n-titel').value = '';
-      document.getElementById('n-text').value  = '';
+      const today = new Date().toLocaleDateString('de-DE',{day:'2-digit',month:'2-digit'});
+      document.querySelector('#news-liste tbody').insertAdjacentHTML('afterbegin',
+        '<tr><td style="font-size:12px">' + payload.Titel.slice(0,28) + '</td>' +
+        '<td><span class="tag tag-orange">' + payload.Kategorie.slice(0,5) + '</span></td>' +
+        '<td><button class="btn btn-danger btn-sm" onclick="deleteNewsItem(this,\'' + (result.id||'') + '\')">🗑</button></td></tr>'
+      );
+      document.getElementById('n-titel').value   = '';
+      document.getElementById('n-text').value    = '';
       document.getElementById('n-youtube').value = '';
       previewYoutube('');
       removeImage();
-      showToast('✅ News im Google Sheet gespeichert!');
-    } else {
-      showToast('❌ Fehler: ' + (result.message || 'Unbekannt'));
-    }
-  } catch(err) {
-    showToast('❌ Verbindungsfehler – bitte prüfe die API-URL');
-    console.error(err);
-  }
+      showToast('✅ News gespeichert!');
+    } else { showToast('❌ Fehler: ' + (result.message || ''), true); }
+  } catch(err) { showToast('❌ Verbindungsfehler', true); console.error(err); }
 }
 
 async function deleteNewsItem(btn, id) {
   if (!confirm('News wirklich löschen?')) return;
   try {
     const result = await apiPost('deleteNews', { id });
-    if (result.status === 'ok') {
-      btn.closest('tr').remove();
-      showToast('🗑 News gelöscht');
-    }
-  } catch(err) { showToast('❌ Löschfehler'); }
+    if (result.status === 'ok') { btn.closest('tr').remove(); showToast('🗑 News gelöscht'); }
+  } catch(err) { showToast('❌ Löschfehler', true); }
 }
 
-
-// News beim Start laden
+// ── NEWS LADEN ────────────────────────────────────────────────
 async function loadNewsFromSheet() {
   try {
     const result = await apiGet('news');
@@ -1198,25 +1265,23 @@ async function loadNewsFromSheet() {
     if (!tbody) return;
     tbody.innerHTML = '';
     result.data.slice(0, 10).forEach(n => {
-      // News in globalem Cache speichern für Edit
       window._newsCache = window._newsCache || {};
       window._newsCache[n.ID] = n;
       const nid = n.ID || '';
       const titelKurz = (n.Titel||'').length > 25 ? (n.Titel||'').slice(0,25) + '...' : (n.Titel||'');
-      const row = '<tr>' +
-        '<td title="' + (n.Titel||'') + '" style="font-size:12px">' + titelKurz + '<br><span style="color:var(--gray);font-size:11px">' + (n.Datum||'') + '</span></td>' +
+      tbody.insertAdjacentHTML('beforeend',
+        '<tr><td title="' + (n.Titel||'') + '" style="font-size:12px">' + titelKurz +
+        '<br><span style="color:var(--gray);font-size:11px">' + (n.Datum||'') + '</span></td>' +
         '<td><span class="tag tag-orange">' + (n.Kategorie||'').slice(0,5) + '</span></td>' +
         '<td style="white-space:nowrap">' +
-          '<button class="btn btn-ghost btn-sm" style="padding:4px 8px" onclick="openEditFromCache(\'' + nid + '\')">✏️</button>' +
-          '<button class="btn btn-danger btn-sm" style="padding:4px 8px;margin-left:4px" onclick="deleteNewsItem(this,\'' + nid + '\')">🗑</button>' +
-        '</td>' +
-      '</tr>';
-      tbody.insertAdjacentHTML('beforeend', row);
+        '<button class="btn btn-ghost btn-sm" style="padding:4px 8px" onclick="openEditFromCache(\'' + nid + '\')">✏️</button>' +
+        '<button class="btn btn-danger btn-sm" style="padding:4px 8px;margin-left:4px" onclick="deleteNewsItem(this,\'' + nid + '\')">🗑</button>' +
+        '</td></tr>'
+      );
     });
-  } catch(e) { /* Sheet leer oder API nicht erreichbar */ }
+  } catch(e) { /* Sheet leer */ }
 }
 
-// Ergebnisse laden beim Start
 async function loadErgebnisseFromSheet() {
   try {
     const result = await apiGet('ergebnisse');
@@ -1225,95 +1290,20 @@ async function loadErgebnisseFromSheet() {
     if (!tbody) return;
     tbody.innerHTML = '';
     result.data.slice(0, 10).forEach(e => {
-      const hp = e.Punkte_Heim || '', gp = e.Punkte_Gast || '';
-      const row = `<tr>
-        <td>${e.Heimteam||''} vs. ${e.Gastteam||''}</td>
-        <td style="font-weight:800;color:var(--orange)">${hp}:${gp}</td>
-        <td><span class="tag tag-orange">${(e.Liga||'').split(' ')[0]}</span></td>
-        <td><span class="tag tag-green">✅ Sheet</span></td>
-      </tr>`;
-      tbody.insertAdjacentHTML('beforeend', row);
+      tbody.insertAdjacentHTML('beforeend',
+        '<tr><td>' + (e.Heimteam||'') + ' vs. ' + (e.Gastteam||'') + '</td>' +
+        '<td style="font-weight:800;color:var(--orange)">' + (e.Punkte_Heim||'') + ':' + (e.Punkte_Gast||'') + '</td>' +
+        '<td><span class="tag tag-orange">' + (e.Liga||'').split(' ')[0] + '</span></td>' +
+        '<td><span class="tag tag-green">✅ Sheet</span></td></tr>'
+      );
     });
   } catch(e) { /* Sheet leer */ }
 }
 
-// Nach Login laden
-const origLogin = typeof doLogin === 'function' ? doLogin : null;
-document.addEventListener('DOMContentLoaded', () => {
-  // Nach erfolgreichem Login nachladen
-  const pwBtn = document.querySelector('.btn-primary[onclick="doLogin()"]');
-  if (pwBtn) {
-    const origOnclick = pwBtn.getAttribute('onclick');
-    pwBtn.setAttribute('onclick', origOnclick + '; setTimeout(()=>{loadNewsFromSheet();loadErgebnisseFromSheet();},800);');
-  }
-});
-
-
-ment.getElementById('e-datum').valueAsDate = new Date();
-</script>
-
-<!-- NEWS BEARBEITEN MODAL -->
-<div id="edit-modal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85);z-index:9999;overflow-y:auto;">
-  <div style="max-width:600px;margin:60px auto;background:var(--dark2);border-radius:16px;padding:32px;position:relative;">
-    <button onclick="closeEditModal()" style="position:absolute;top:16px;right:16px;background:none;border:none;color:var(--gray);font-size:24px;cursor:pointer;">✕</button>
-    <h3 style="font-family:'Bebas Neue',sans-serif;font-size:24px;margin-bottom:20px;color:var(--orange)">✏️ News bearbeiten</h3>
-    <input type="hidden" id="edit-id">
-    <div class="form-group">
-      <label>TITEL</label>
-      <input type="text" id="edit-titel" placeholder="Titel der News">
-    </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-      <div class="form-group">
-        <label>KATEGORIE</label>
-        <select id="edit-kat">
-          <option>Kreisliga</option><option>Jugend</option><option>Ausbildung</option>
-          <option>Verein</option><option>Kreistag</option><option>Allgemein</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label>VEREIN (optional)</label>
-        <input type="text" id="edit-verein" placeholder="– Alle –">
-      </div>
-    </div>
-    <div class="form-group">
-      <label>TEXT</label>
-      <textarea id="edit-text" rows="6" placeholder="Text der Meldung..."></textarea>
-    </div>
-    <div class="form-group">
-      <label>▶️ YOUTUBE URL (optional)</label>
-      <input type="text" id="edit-youtube" placeholder="https://www.youtube.com/watch?v=...">
-    </div>
-    <div class="form-group">
-      <label>🖼️ BILD</label>
-      <div id="edit-img-wrap" style="display:none;margin-bottom:8px;position:relative">
-        <img id="edit-img-preview" style="max-height:120px;border-radius:6px;max-width:100%;object-fit:cover">
-        <button onclick="removeEditImage()" style="position:absolute;top:4px;right:4px;background:rgba(0,0,0,0.7);border:none;color:white;border-radius:50%;width:24px;height:24px;cursor:pointer;font-size:14px">✕</button>
-      </div>
-      <div id="edit-img-drop" onclick="document.getElementById('edit-img-input').click()"
-        style="border:2px dashed var(--border);border-radius:8px;padding:16px;text-align:center;cursor:pointer;transition:border-color .2s"
-        onmouseover="this.style.borderColor='var(--orange)'" onmouseout="this.style.borderColor='var(--border)'"
-        ondragover="event.preventDefault();this.style.borderColor='var(--orange)'"
-        ondragleave="this.style.borderColor='var(--border)'"
-        ondrop="handleEditImageDrop(event)">
-        <div style="font-size:24px">📷</div>
-        <div style="font-size:12px;color:var(--gray);margin-top:4px">Bild vom PC ziehen oder klicken</div>
-      </div>
-      <input type="file" id="edit-img-input" accept="image/*" style="display:none" onchange="loadEditImage(this)">
-      <input type="text" id="edit-bild" placeholder="https://i.imgur.com/... (oder Bild hochladen)" style="margin-top:8px">
-    </div>
-    <div style="display:flex;gap:12px;margin-top:8px">
-      <button class="btn btn-primary" style="flex:1" onclick="saveEditNews()">💾 Speichern</button>
-      <button class="btn btn-ghost" onclick="closeEditModal()">Abbrechen</button>
-    </div>
-  </div>
-</div>
-
-
-<script>
-// ── NEWS BEARBEITEN ──────────────────────────────────────────
+// ── NEWS EDIT ─────────────────────────────────────────────────
 function openEditFromCache(id) {
   var n = (window._newsCache || {})[id];
-  if (!n) { showToast('⚠️ News nicht gefunden'); return; }
+  if (!n) { showToast('⚠️ News nicht gefunden', true); return; }
   document.getElementById('edit-id').value      = id;
   document.getElementById('edit-titel').value   = n.Titel    || '';
   document.getElementById('edit-kat').value     = n.Kategorie|| 'Allgemein';
@@ -1321,14 +1311,12 @@ function openEditFromCache(id) {
   document.getElementById('edit-text').value    = n.Text     || '';
   document.getElementById('edit-youtube').value = n.YouTube  || '';
   document.getElementById('edit-bild').value    = n.Bild     || '';
-  // Bild-Vorschau
   var bild = n.Bild || '';
   if (bild && bild.startsWith('http')) {
     document.getElementById('edit-img-preview').src = bild;
     document.getElementById('edit-img-wrap').style.display = 'block';
     document.getElementById('edit-img-drop').style.display = 'none';
   } else {
-    document.getElementById('edit-img-preview').src = '';
     document.getElementById('edit-img-wrap').style.display = 'none';
     document.getElementById('edit-img-drop').style.display = 'block';
   }
@@ -1349,26 +1337,15 @@ async function saveEditNews() {
   const text    = document.getElementById('edit-text').value;
   const youtube = document.getElementById('edit-youtube').value;
   let   bild    = document.getElementById('edit-bild').value;
-
-  if (!titel) { showToast('⚠️ Titel fehlt!'); return; }
-
-  // Neues Bild hochladen falls vorhanden
+  if (!titel) { showToast('⚠️ Titel fehlt!', true); return; }
   const editPreview = document.getElementById('edit-img-preview');
   if (editPreview && editPreview.src && editPreview.src.startsWith('data:')) {
-    showToast('⏳ Bild wird zu Imgur hochgeladen...');
+    showToast('⏳ Bild wird hochgeladen...');
     const imgUrl = await uploadBildImgur(editPreview.src);
-    if (imgUrl) {
-      bild = imgUrl;
-      document.getElementById('edit-bild').value = imgUrl;
-      showToast('✅ Bild hochgeladen: ' + imgUrl.slice(0,40));
-    } else {
-      showToast('❌ Bild-Upload fehlgeschlagen! Bitte URL manuell eingeben.');
-      return; // Abbrechen damit Nutzer URL manuell eingeben kann
-    }
+    if (imgUrl) { bild = imgUrl; document.getElementById('edit-bild').value = imgUrl; }
+    else { showToast('❌ Bild-Upload fehlgeschlagen', true); return; }
   }
-
   showToast('⏳ Wird gespeichert...');
-
   try {
     await apiPost('deleteNews', { id: id });
     const result = await apiPost('saveNewsWithId', {
@@ -1379,23 +1356,12 @@ async function saveEditNews() {
       showToast('✅ News aktualisiert!');
       closeEditModal();
       setTimeout(loadNewsFromSheet, 600);
-    } else {
-      showToast('❌ Fehler: ' + (result.message || ''));
-    }
-  } catch(e) {
-    showToast('❌ Verbindungsfehler');
-    console.error(e);
-  }
+    } else { showToast('❌ Fehler: ' + (result.message || ''), true); }
+  } catch(e) { showToast('❌ Verbindungsfehler', true); }
 }
-
-document.addEventListener('keydown', function(e) {
-  if (e.key === 'Escape') closeEditModal();
-});
-// ─────────────────────────────────────────────────────────────
 
 function handleEditImageDrop(event) {
   event.preventDefault();
-  event.currentTarget.style.borderColor = 'var(--border)';
   var file = event.dataTransfer.files[0];
   if (file && file.type.startsWith('image/')) processEditImage(file);
 }
@@ -1403,7 +1369,7 @@ function loadEditImage(input) {
   if (input.files && input.files[0]) processEditImage(input.files[0]);
 }
 function processEditImage(file) {
-  if (file.size > 5 * 1024 * 1024) { showToast('⚠️ Bild zu groß – max. 5 MB'); return; }
+  if (file.size > 5*1024*1024) { showToast('⚠️ Bild zu groß', true); return; }
   var reader = new FileReader();
   reader.onload = function(e) {
     document.getElementById('edit-img-preview').src = e.target.result;
@@ -1419,7 +1385,21 @@ function removeEditImage() {
   document.getElementById('edit-img-drop').style.display = 'block';
   document.getElementById('edit-bild').value = '';
 }
-</script>
 
+// ── ESC SCHLIESSEN ────────────────────────────────────────────
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    closeTabellenModal();
+    closeSpielplanModal();
+    closeEditModal();
+  }
+});
+
+// ── INIT ──────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', function() {
+  document.getElementById('e-datum').valueAsDate = new Date();
+  document.getElementById('m-datum').valueAsDate = new Date();
+});
+</script>
 </body>
 </html>
