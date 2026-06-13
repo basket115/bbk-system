@@ -695,7 +695,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--dark);color:var(--white);
           <div class="card-header"><h3>📋 Online</h3><span class="tag tag-green">6 aktiv</span></div>
           <div class="card-body" style="padding:0">
             <table class="data-table" id="news-liste">
-              <thead><tr><th>Titel</th><th>Kat.</th><th>Datum</th><th style="width:80px"></th></tr></thead>
+              <thead><tr><th>Titel</th><th>Kat.</th><th style="width:80px">Aktionen</th></tr></thead>
               <tbody>
                 <tr><td>TUSA ist Kreismeister!</td><td><span class="tag tag-orange">KL</span></td><td style="color:var(--gray)">07.06.</td><td><button class="btn btn-danger btn-sm">🗑</button></td></tr>
                 <tr><td>Meldebogen Saison 26/27</td><td><span class="tag tag-gray">Allg.</span></td><td style="color:var(--gray)">05.06.</td><td><button class="btn btn-danger btn-sm">🗑</button></td></tr>
@@ -1187,13 +1187,13 @@ async function loadNewsFromSheet() {
       window._newsCache = window._newsCache || {};
       window._newsCache[n.ID] = n;
       const nid = n.ID || '';
+      const titelKurz = (n.Titel||'').length > 25 ? (n.Titel||'').slice(0,25) + '...' : (n.Titel||'');
       const row = '<tr>' +
-        '<td>' + (n.Titel||'') + '</td>' +
-        '<td><span class="tag tag-orange">' + (n.Kategorie||'').slice(0,8) + '</span></td>' +
-        '<td style="color:var(--gray)">' + (n.Datum||'') + '</td>' +
+        '<td title="' + (n.Titel||'') + '" style="font-size:12px">' + titelKurz + '<br><span style="color:var(--gray);font-size:11px">' + (n.Datum||'') + '</span></td>' +
+        '<td><span class="tag tag-orange">' + (n.Kategorie||'').slice(0,5) + '</span></td>' +
         '<td style="white-space:nowrap">' +
-          '<button class="btn btn-ghost btn-sm" onclick="openEditFromCache(\'' + nid + '\')">✏️</button> ' +
-          '<button class="btn btn-danger btn-sm" onclick="deleteNewsItem(this,\'' + nid + '\')">🗑</button>' +
+          '<button class="btn btn-ghost btn-sm" style="padding:4px 8px" onclick="openEditFromCache(\'' + nid + '\')">✏️</button>' +
+          '<button class="btn btn-danger btn-sm" style="padding:4px 8px;margin-left:4px" onclick="deleteNewsItem(this,\'' + nid + '\')">🗑</button>' +
         '</td>' +
       '</tr>';
       tbody.insertAdjacentHTML('beforeend', row);
@@ -1269,8 +1269,22 @@ ment.getElementById('e-datum').valueAsDate = new Date();
       <input type="text" id="edit-youtube" placeholder="https://www.youtube.com/watch?v=...">
     </div>
     <div class="form-group">
-      <label>🖼️ BILD URL (Imgur-Link)</label>
-      <input type="text" id="edit-bild" placeholder="https://i.imgur.com/...">
+      <label>🖼️ BILD</label>
+      <div id="edit-img-wrap" style="display:none;margin-bottom:8px;position:relative">
+        <img id="edit-img-preview" style="max-height:120px;border-radius:6px;max-width:100%;object-fit:cover">
+        <button onclick="removeEditImage()" style="position:absolute;top:4px;right:4px;background:rgba(0,0,0,0.7);border:none;color:white;border-radius:50%;width:24px;height:24px;cursor:pointer;font-size:14px">✕</button>
+      </div>
+      <div id="edit-img-drop" onclick="document.getElementById('edit-img-input').click()"
+        style="border:2px dashed var(--border);border-radius:8px;padding:16px;text-align:center;cursor:pointer;transition:border-color .2s"
+        onmouseover="this.style.borderColor='var(--orange)'" onmouseout="this.style.borderColor='var(--border)'"
+        ondragover="event.preventDefault();this.style.borderColor='var(--orange)'"
+        ondragleave="this.style.borderColor='var(--border)'"
+        ondrop="handleEditImageDrop(event)">
+        <div style="font-size:24px">📷</div>
+        <div style="font-size:12px;color:var(--gray);margin-top:4px">Bild vom PC ziehen oder klicken</div>
+      </div>
+      <input type="file" id="edit-img-input" accept="image/*" style="display:none" onchange="loadEditImage(this)">
+      <input type="text" id="edit-bild" placeholder="https://i.imgur.com/... (oder Bild hochladen)" style="margin-top:8px">
     </div>
     <div style="display:flex;gap:12px;margin-top:8px">
       <button class="btn btn-primary" style="flex:1" onclick="saveEditNews()">💾 Speichern</button>
@@ -1292,6 +1306,17 @@ function openEditFromCache(id) {
   document.getElementById('edit-text').value    = n.Text     || '';
   document.getElementById('edit-youtube').value = n.YouTube  || '';
   document.getElementById('edit-bild').value    = n.Bild     || '';
+  // Bild-Vorschau
+  var bild = n.Bild || '';
+  if (bild && bild.startsWith('http')) {
+    document.getElementById('edit-img-preview').src = bild;
+    document.getElementById('edit-img-wrap').style.display = 'block';
+    document.getElementById('edit-img-drop').style.display = 'none';
+  } else {
+    document.getElementById('edit-img-preview').src = '';
+    document.getElementById('edit-img-wrap').style.display = 'none';
+    document.getElementById('edit-img-drop').style.display = 'block';
+  }
   document.getElementById('edit-modal').style.display = 'block';
   document.body.style.overflow = 'hidden';
 }
@@ -1308,9 +1333,18 @@ async function saveEditNews() {
   const verein  = document.getElementById('edit-verein').value;
   const text    = document.getElementById('edit-text').value;
   const youtube = document.getElementById('edit-youtube').value;
-  const bild    = document.getElementById('edit-bild').value;
+  let   bild    = document.getElementById('edit-bild').value;
 
   if (!titel) { showToast('⚠️ Titel fehlt!'); return; }
+
+  // Neues Bild hochladen falls vorhanden
+  const editPreview = document.getElementById('edit-img-preview');
+  if (editPreview && editPreview.src && editPreview.src.startsWith('data:')) {
+    showToast('⏳ Bild wird hochgeladen...');
+    const imgUrl = await uploadBildImgur(editPreview.src);
+    if (imgUrl) bild = imgUrl;
+  }
+
   showToast('⏳ Wird gespeichert...');
 
   try {
@@ -1336,6 +1370,33 @@ document.addEventListener('keydown', function(e) {
   if (e.key === 'Escape') closeEditModal();
 });
 // ─────────────────────────────────────────────────────────────
+
+function handleEditImageDrop(event) {
+  event.preventDefault();
+  event.currentTarget.style.borderColor = 'var(--border)';
+  var file = event.dataTransfer.files[0];
+  if (file && file.type.startsWith('image/')) processEditImage(file);
+}
+function loadEditImage(input) {
+  if (input.files && input.files[0]) processEditImage(input.files[0]);
+}
+function processEditImage(file) {
+  if (file.size > 5 * 1024 * 1024) { showToast('⚠️ Bild zu groß – max. 5 MB'); return; }
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    document.getElementById('edit-img-preview').src = e.target.result;
+    document.getElementById('edit-img-wrap').style.display = 'block';
+    document.getElementById('edit-img-drop').style.display = 'none';
+    document.getElementById('edit-bild').value = '';
+  };
+  reader.readAsDataURL(file);
+}
+function removeEditImage() {
+  document.getElementById('edit-img-preview').src = '';
+  document.getElementById('edit-img-wrap').style.display = 'none';
+  document.getElementById('edit-img-drop').style.display = 'block';
+  document.getElementById('edit-bild').value = '';
+}
 </script>
 
 </body>
