@@ -1480,24 +1480,27 @@ async function sendeAnONLANGApp(payload, bildUrl, newsId) {
     'Ausbildung':'Schiedsrichterwart','Verein':'Vorstand',
     'Kreistag':'Vorstand','Allgemein':'News'
   };
-  const body = {
-    action:'add_beitrag', kundenId:'V006',
-    vereinName:'BBK Düsseldorf/Neuss',
-    id, datum, date,
-    titel:    payload.Titel   || '',
-    text:     payload.Text    || '',
-    bildUrl:  bildUrl         || '',
-    videoUrl: payload.YouTube || '',
-    kategorie: kategorieMap[payload.Kategorie] || 'News',
-    type:'news', teamIds:'',
-    weiterlesenLink:'', Weiterlesen_Link:'',
-    postSocial: false
-  };
+  const params = new URLSearchParams({
+    action:     'add_beitrag',
+    kundenId:   'V006',
+    vereinName: 'BBK Düsseldorf/Neuss',
+    id:         id,
+    datum:      datum,
+    date:       date,
+    titel:      payload.Titel   || '',
+    text:       payload.Text    || '',
+    bildUrl:    bildUrl         || '',
+    videoUrl:   payload.YouTube || '',
+    kategorie:  kategorieMap[payload.Kategorie] || 'News',
+    type:       'news',
+    teamIds:    '',
+    weiterlesenLink:  '',
+    Weiterlesen_Link: '',
+    postSocial: 'false'
+  });
   try {
-    const res  = await fetch(ONLANG_API, {
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body: JSON.stringify(body)
+    const res  = await fetch(ONLANG_API + '?' + params.toString(), {
+      method: 'GET'
     });
     const data = await res.json();
     if (data.success) {
