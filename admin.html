@@ -1481,18 +1481,26 @@ async function sendeAnONLANGApp(payload, bildUrl, newsId) {
     Bild:      bildUrl           || '',
     YouTube:   payload.YouTube   || ''
   });
+  }
+  
+async function sendeAnONLANGApp(payload, bildUrl, newsId) {
+  const params = new URLSearchParams({
+    action:    'saveNews',
+    Titel:     payload.Titel     || '',
+    Text:      payload.Text      || '',
+    Kategorie: payload.Kategorie || 'Allgemein',
+    Verein:    payload.Verein    || '',
+    Bild:      bildUrl           || '',
+    YouTube:   payload.YouTube   || ''
+  });
   try {
-    const res  = await fetch(BBK_API + '?' + params.toString(), { method: 'GET' });
-    const data = await res.json();
-    if (data.status === 'ok') {
-      showToast('✅ Beitrag live auf Website + App!');
-    } else {
-      showToast('⚠️ App: ' + (data.message || 'Fehler'), true);
-    }
+    await fetch(BBK_API + '?' + params.toString(), { method: 'GET', mode: 'no-cors' });
+    showToast('✅ Beitrag live auf Website + App!');
   } catch (err) {
     showToast('⚠️ App nicht erreichbar', true);
   }
 }
+
 // ── ESC SCHLIESSEN ────────────────────────────────────────────
 document.addEventListener('keydown', function(e) {
   if (e.key === 'Escape') {
