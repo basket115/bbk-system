@@ -1472,44 +1472,25 @@ function removeEditImage() {
   document.getElementById('edit-bild').value = '';
 }
 async function sendeAnONLANGApp(payload, bildUrl, newsId) {
-  const id    = newsId || ('b' + Date.now());
-  const datum = new Date().toLocaleDateString('de-DE', {day:'2-digit',month:'2-digit',year:'numeric'});
-  const date  = new Date().toLocaleString('de-DE');
-  const kategorieMap = {
-    'Kreisliga':'News','Jugend':'Spielleitungen-Jugend',
-    'Ausbildung':'Schiedsrichterwart','Verein':'Vorstand',
-    'Kreistag':'Vorstand','Allgemein':'News'
-  };
   const params = new URLSearchParams({
-    action:     'add_beitrag',
-    kundenId:   'V006',
-    vereinName: 'BBK Düsseldorf/Neuss',
-    id:         id,
-    datum:      datum,
-    date:       date,
-    titel:      payload.Titel   || '',
-    text:       payload.Text    || '',
-    bildUrl:    bildUrl         || '',
-    videoUrl:   payload.YouTube || '',
-    kategorie:  kategorieMap[payload.Kategorie] || 'News',
-    type:       'news',
-    teamIds:    '',
-    weiterlesenLink:  '',
-    Weiterlesen_Link: '',
-    postSocial: 'false'
+    action:    'saveNews',
+    Titel:     payload.Titel     || '',
+    Text:      payload.Text      || '',
+    Kategorie: payload.Kategorie || 'Allgemein',
+    Verein:    payload.Verein    || '',
+    Bild:      bildUrl           || '',
+    YouTube:   payload.YouTube   || ''
   });
   try {
-    const res  = await fetch(BBK_API + '?' + params.toString(), {
-      method: 'GET'
-    });
+    const res  = await fetch(BBK_API + '?' + params.toString(), { method: 'GET' });
     const data = await res.json();
-    if (data.success) {
+    if (data.status === 'ok') {
       showToast('✅ Beitrag live auf Website + App!');
     } else {
-      showToast('⚠️ Website OK – App: ' + (data.error || 'Fehler'), true);
+      showToast('⚠️ App: ' + (data.message || 'Fehler'), true);
     }
   } catch (err) {
-    showToast('⚠️ Website OK – App nicht erreichbar', true);
+    showToast('⚠️ App nicht erreichbar', true);
   }
 }
 // ── ESC SCHLIESSEN ────────────────────────────────────────────
