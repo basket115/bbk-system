@@ -856,7 +856,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--dark);color:var(--white);
 <script>
 // ── APPS SCRIPT API ──────────────────────────────────────────
 const BBK_API = "https://script.google.com/macros/s/AKfycbxBSy3EwXtbxD3_ecN_4p4LAtZ_mrpqT4S6LsP70VZ9yu-q-jxR9hjTf37jGuXjA00rZg/exec";
-
+const ONLANG_API = "https://script.google.com/macros/s/AKfycbxVwdaPILfxKl8VeNV0Ra1it21dLpB_qpPaAwDvt4Ks_Et1-Dyq2gG9S8vJtDo0Kal7_w/exec";
 async function apiPost(action, data) {
   const res = await fetch(BBK_API, {
     method: 'POST',
@@ -1328,7 +1328,8 @@ async function saveNews() {
       document.getElementById('n-youtube').value = '';
       previewYoutube('');
       removeImage();
-      showToast('✅ News gespeichert!');
+      showToast('✅ Website gespeichert – sende an App...');
+sendeAnONLANGApp(payload, bildUrl, result.id || '');
     } else { showToast('❌ Fehler: ' + (result.message || ''), true); }
   } catch(err) { showToast('❌ Verbindungsfehler', true); console.error(err); }
 }
@@ -1470,7 +1471,44 @@ function removeEditImage() {
   document.getElementById('edit-img-drop').style.display = 'block';
   document.getElementById('edit-bild').value = '';
 }
-
+async function sendeAnONLANGApp(payload, bildUrl, newsId) {
+  const id    = newsId || ('b' + Date.now());
+  const datum = new Date().toLocaleDateString('de-DE', {day:'2-digit',month:'2-digit',year:'numeric'});
+  const date  = new Date().toLocaleString('de-DE');
+  const kategorieMap = {
+    'Kreisliga':'News','Jugend':'Spielleitungen-Jugend',
+    'Ausbildung':'Schiedsrichterwart','Verein':'Vorstand',
+    'Kreistag':'Vorstand','Allgemein':'News'
+  };
+  const body = {
+    action:'add_beitrag', kundenId:'V006',
+    vereinName:'BBK Düsseldorf/Neuss',
+    id, datum, date,
+    titel:    payload.Titel   || '',
+    text:     payload.Text    || '',
+    bildUrl:  bildUrl         || '',
+    videoUrl: payload.YouTube || '',
+    kategorie: kategorieMap[payload.Kategorie] || 'News',
+    type:'news', teamIds:'',
+    weiterlesenLink:'', Weiterlesen_Link:'',
+    postSocial: false
+  };
+  try {
+    const res  = await fetch(ONLANG_API, {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify(body)
+    });
+    const data = await res.json();
+    if (data.success) {
+      showToast('✅ Beitrag live auf Website + App!');
+    } else {
+      showToast('⚠️ Website OK – App: ' + (data.error || 'Fehler'), true);
+    }
+  } catch (err) {
+    showToast('⚠️ Website OK – App nicht erreichbar', true);
+  }
+}
 // ── ESC SCHLIESSEN ────────────────────────────────────────────
 document.addEventListener('keydown', function(e) {
   if (e.key === 'Escape') {
