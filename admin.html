@@ -1499,7 +1499,7 @@ async function sendeAnONLANGApp(payload, bildUrl, newsId) {
     postSocial: 'false'
   });
   try {
-    const res  = await fetch(ONLANG_API + '?' + params.toString(), {
+    const res  = await fetch(BBK_API + '?' + params.toString(), {
       method: 'GET'
     });
     const data = await res.json();
