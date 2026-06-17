@@ -1321,7 +1321,10 @@ async function saveNews() {
       document.querySelector('#news-liste tbody').insertAdjacentHTML('afterbegin',
         '<tr><td style="font-size:12px">' + payload.Titel.slice(0,28) + '</td>' +
         '<td><span class="tag tag-orange">' + payload.Kategorie.slice(0,5) + '</span></td>' +
-        '<td><button class="btn btn-danger btn-sm" onclick="deleteNewsItem(this,\'' + (result.id||'') + '\')">🗑</button></td></tr>'
+        '<td>' +
+        '<button class="btn btn-ghost btn-sm" style="padding:4px 8px" onclick="openEditFromCache(\'' + (result.id||'') + '\')">✏️</button>' +
+        '<button class="btn btn-danger btn-sm" style="padding:4px 8px;margin-left:4px" onclick="deleteNewsItem(this,\'' + (result.id||'') + '\')">🗑</button>' +
+        '</td></tr>'
       );
       document.getElementById('n-titel').value   = '';
       document.getElementById('n-text').value    = '';
