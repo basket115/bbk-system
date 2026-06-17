@@ -1473,19 +1473,8 @@ function removeEditImage() {
 }
 async function sendeAnONLANGApp(payload, bildUrl, newsId) {
   const params = new URLSearchParams({
-    action:    'saveNews',
-    Titel:     payload.Titel     || '',
-    Text:      payload.Text      || '',
-    Kategorie: payload.Kategorie || 'Allgemein',
-    Verein:    payload.Verein    || '',
-    Bild:      bildUrl           || '',
-    YouTube:   payload.YouTube   || ''
-  });
-  }
-  
-async function sendeAnONLANGApp(payload, bildUrl, newsId) {
-  const params = new URLSearchParams({
-    action:    'saveNews',
+    action:    'add_beitrag',
+    kundenId:  'V006',
     Titel:     payload.Titel     || '',
     Text:      payload.Text      || '',
     Kategorie: payload.Kategorie || 'Allgemein',
@@ -1494,7 +1483,7 @@ async function sendeAnONLANGApp(payload, bildUrl, newsId) {
     YouTube:   payload.YouTube   || ''
   });
   try {
-    await fetch(BBK_API + '?' + params.toString(), { method: 'GET', mode: 'no-cors' });
+    await fetch(ONLANG_API + '?' + params.toString(), { method: 'GET', mode: 'no-cors' });
     showToast('✅ Beitrag live auf Website + App!');
   } catch (err) {
     showToast('⚠️ App nicht erreichbar', true);
