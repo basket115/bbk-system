@@ -1072,7 +1072,7 @@ async function loadLiveData() {
         });
 
         grid.innerHTML = '';
-        d.news.slice(0, 6).forEach(function(n, i) {
+        d.news.slice(0, 7).forEach(function(n, i) {
           var kat   = (n.Kategorie || n.kategorie || 'Allgemein').trim();
           var titel = (n.Titel || n.titel || '').trim();
           var text  = (n.Text  || n.text  || '').trim();
