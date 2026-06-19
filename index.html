@@ -1068,7 +1068,9 @@ async function loadLiveData() {
             var p = s.split('.');
             return p.length === 3 ? p[2] + p[1] + p[0] : s;
           }
-          return toSort(db).localeCompare(toSort(da));
+          var dateCmp = toSort(db).localeCompare(toSort(da));
+if (dateCmp !== 0) return dateCmp;
+return (b._rowNum || 0) - (a._rowNum || 0);
         });
 
         grid.innerHTML = '';
