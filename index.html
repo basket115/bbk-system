@@ -455,62 +455,107 @@ footer .logo-text strong { font-size:15px; }
       </div>
       <a href="https://bbk-tv.netlify.app" target="_blank" class="link-all">Im Vollbild öffnen →</a>
     </div>
-    <p style="color:var(--gray);margin-bottom:28px;font-size:15px;max-width:620px;line-height:1.7">
-      Videos, Highlights und News aus allen BBK-Vereinen — automatisch aktualisiert. Bilder und Inhalte werden über das Admin-Panel gepflegt.
+    <p style="color:var(--gray);margin-bottom:24px;font-size:15px;max-width:620px;line-height:1.7">
+      Videos, Highlights und News aus allen BBK-Vereinen — automatisch aktualisiert.
     </p>
-    <!-- TV EMBED -->
-    <div class="tv-embed-wrapper">
-      <iframe
-        id="bbk-tv-frame"
-        src="https://bbk-tv.netlify.app"
+
+    <!-- TV PLAYER — Click to Load (verhindert iframe-Loop) -->
+    <div id="tv-container" style="position:relative;width:100%;background:#000;border-radius:14px;overflow:hidden;border:2px solid rgba(240,128,0,0.25);box-shadow:0 12px 60px rgba(240,128,0,0.2)">
+
+      <!-- VORSCHAU-BILD (solange iframe nicht geladen) -->
+      <div id="tv-preview" onclick="loadTV()"
+        style="cursor:pointer;position:relative;width:100%;padding-top:56.25%;background:linear-gradient(135deg,#111418,#1C2128)">
+
+        <!-- Basketball Hintergrundbild -->
+        <img src="https://bbk-tv.netlify.app/Herobild_fuer_BBK.png"
+          style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;opacity:0.6"
+          onerror="this.style.display='none'">
+
+        <!-- Dunkler Overlay -->
+        <div style="position:absolute;inset:0;background:rgba(0,0,0,0.45)"></div>
+
+        <!-- Play Button mittig -->
+        <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center">
+          <div style="width:80px;height:80px;background:var(--orange);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;box-shadow:0 0 40px rgba(240,128,0,0.5)">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg>
+          </div>
+          <div style="color:#fff;font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:2px">BBK VEREINS-TV</div>
+          <div style="color:rgba(255,255,255,0.7);font-size:13px;margin-top:6px">Klicken zum Starten · Videos · Bilder · News</div>
+        </div>
+
+        <!-- BBK Logo oben links -->
+        <div style="position:absolute;top:16px;left:16px;display:flex;align-items:center;gap:10px">
+          <img src="https://bbk-tv.netlify.app/bbk-logo.png"
+            style="width:36px;height:36px;border-radius:6px;object-fit:contain"
+            onerror="this.style.display='none'">
+          <div>
+            <div style="color:#fff;font-size:12px;font-weight:700">BBK Basketball Düsseldorf/Neuss</div>
+            <div style="color:var(--orange);font-size:10px">Basketballkreis Vereins-TV · powered by ONLANG</div>
+          </div>
+        </div>
+
+        <!-- LIVE Badge -->
+        <div style="position:absolute;top:16px;right:16px;background:var(--orange);color:#fff;font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;letter-spacing:1px">
+          ● LIVE
+        </div>
+      </div>
+
+      <!-- IFRAME (erst nach Klick sichtbar) -->
+      <iframe id="bbk-tv-frame"
+        style="display:none;width:100%;height:600px;border:none"
         allow="autoplay; fullscreen"
         allowfullscreen
-        title="BBK Vereins-TV"
-        loading="lazy">
+        title="BBK Vereins-TV">
       </iframe>
     </div>
 
-    <!-- SPONSOR-LEISTE — liest Daten aus bbk-tv.netlify.app via postMessage -->
-    <div id="bbk-sponsor-bar" style="margin-top:16px;background:var(--dark2);border-radius:10px;padding:12px 16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;border:1px solid var(--border);min-height:56px">
-      <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--gray);flex-shrink:0">Gesponsert von</div>
+    <!-- SPONSOR-LEISTE -->
+    <div id="bbk-sponsor-bar" style="margin-top:14px;background:var(--dark2);border-radius:10px;padding:10px 16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;border:1px solid var(--border)">
+      <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--gray);flex-shrink:0;white-space:nowrap">Gesponsert von</div>
       <div id="bbk-sp-slots" style="display:flex;gap:8px;flex:1;flex-wrap:wrap;align-items:center">
-        <!-- wird per JS befüllt -->
-        <div style="font-size:11px;color:var(--gray);font-style:italic">Sponsoren werden geladen…</div>
+        <div style="font-size:11px;color:var(--gray);font-style:italic">wird geladen…</div>
       </div>
     </div>
 
-    <!-- Buttons unter dem TV -->
+    <!-- Buttons -->
     <div style="display:flex;gap:12px;margin-top:16px;flex-wrap:wrap">
-      <a href="https://bbk-tv.netlify.app" target="_blank" class="btn btn-primary">
-        🎬 Vollbild öffnen
-      </a>
-      <a href="https://bbk-tv.netlify.app/admin.html" target="_blank" class="btn btn-ghost">
-        ⚙️ Admin-Panel
-      </a>
+      <a href="https://bbk-tv.netlify.app" target="_blank" class="btn btn-primary">🎬 Im Vollbild öffnen</a>
+      <a href="https://bbk-tv.netlify.app/admin.html" target="_blank" class="btn btn-ghost">⚙️ Admin-Panel</a>
     </div>
-    <!-- Sponsoring-Hinweis -->
-    <div style="margin-top:20px;background:rgba(240,128,0,0.06);border:1px solid rgba(240,128,0,0.15);border-radius:10px;padding:16px 20px;display:flex;align-items:center;gap:16px;flex-wrap:wrap">
-      <div style="font-size:24px">💛</div>
+
+    <!-- Sponsoring Hinweis -->
+    <div style="margin-top:16px;background:rgba(240,128,0,0.06);border:1px solid rgba(240,128,0,0.15);border-radius:10px;padding:14px 18px;display:flex;align-items:center;gap:14px">
+      <div style="font-size:20px">💛</div>
       <div>
-        <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--orange);margin-bottom:4px">Vereins-TV Sponsoring</div>
-        <div style="font-size:13px;color:var(--gray)">Das BBK Vereins-TV wird durch Sponsoren ermöglicht. Interesse an einem Werbeplatz? <a href="#kontakt" style="color:var(--orange);text-decoration:none;font-weight:600">Kontakt aufnehmen →</a></div>
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--orange);margin-bottom:3px">Vereins-TV Sponsoring</div>
+        <div style="font-size:13px;color:var(--gray)">Interesse an einem Werbeplatz? <a href="#kontakt" style="color:var(--orange);text-decoration:none;font-weight:600">Kontakt aufnehmen →</a></div>
       </div>
     </div>
+  </div>
+</div>
+<!-- ████████████ ENDE VEREINS-TV ████████████ -->
 
 <script>
-// ── SPONSOR-DATEN von bbk-tv.netlify.app laden ──────────────────────────────
-// Methode: fetch der sponsor-daten.json ODER direkt die Google Sheet API
-// Da localStorage domain-gebunden ist, lesen wir die Daten über die Apps Script API
+// TV laden wenn auf Play-Button geklickt
+function loadTV() {
+  const preview = document.getElementById('tv-preview');
+  const frame   = document.getElementById('bbk-tv-frame');
+  if (!preview || !frame) return;
+  preview.style.display = 'none';
+  frame.src = 'https://bbk-tv.netlify.app';
+  frame.style.display = 'block';
+  // Höhe dynamisch anpassen
+  frame.style.height = Math.round(frame.offsetWidth * 9/16) + 'px';
+}
 
-const BBK_SP_API = 'https://script.google.com/macros/s/AKfycbzyO08Fvv6sTpFm9xYEgEjUROcSDNucOdlOl73uVvqtZg4FRFMCIRdb0_r465oE7Zp9fg/exec';
-
+// Sponsor-Daten laden
 const SP_SLOT_MAP = [
-  { key:'haupt', label:'Hauptsponsor', preis:'1.500 €/J', cls:'sp-haupt' },
-  { key:'coA',   label:'Co-Sponsor A', preis:'750 €/J',   cls:'sp-co' },
-  { key:'coB',   label:'Co-Sponsor B', preis:'750 €/J',   cls:'sp-co' },
-  { key:'v1',    label:'Vereinssponsor 1', preis:'300 €/J', cls:'sp-v' },
-  { key:'v2',    label:'Vereinssponsor 2', preis:'300 €/J', cls:'sp-v' },
-  { key:'v3',    label:'Vereinssponsor 3', preis:'300 €/J', cls:'sp-v' },
+  { key:'haupt', label:'Hauptsponsor', preis:'1.500 €/J' },
+  { key:'coA',   label:'Co-Sponsor A', preis:'750 €/J'   },
+  { key:'coB',   label:'Co-Sponsor B', preis:'750 €/J'   },
+  { key:'v1',    label:'Vereinssponsor', preis:'300 €/J'  },
+  { key:'v2',    label:'Vereinssponsor', preis:'300 €/J'  },
+  { key:'v3',    label:'Vereinssponsor', preis:'300 €/J'  },
 ];
 
 function renderSponsors(spData) {
@@ -524,81 +569,42 @@ function renderSponsors(spData) {
     const hasLogo = sp.logo && sp.logo.length > 10;
     const hasName = sp.name && sp.name.trim();
     const isBooked = hasLogo || hasName;
-    if (slot.cls === 'sp-v' && !isBooked) return; // Vereinssponsoren nur wenn gebucht
+    if ((slot.key==='v1'||slot.key==='v2'||slot.key==='v3') && !isBooked) return;
 
     const el = document.createElement(sp.web ? 'a' : 'div');
-    if (sp.web) { el.href = sp.web; el.target = '_blank'; el.rel = 'noopener'; }
+    if (sp.web) { el.href=sp.web; el.target='_blank'; el.rel='noopener'; }
 
     if (isBooked) {
       anyBooked = true;
-      el.style.cssText = 'display:flex;align-items:center;gap:8px;background:rgba(255,255,255,0.05);border:1px solid rgba(240,128,0,0.3);border-radius:8px;padding:6px 14px;text-decoration:none;transition:all .2s';
-      el.onmouseenter = () => el.style.background = 'rgba(240,128,0,0.1)';
-      el.onmouseleave = () => el.style.background = 'rgba(255,255,255,0.05)';
-      if (hasLogo) {
-        el.innerHTML = `<img src="${sp.logo}" alt="${sp.name||slot.label}"
-          style="max-height:32px;max-width:90px;object-fit:contain"
-          onerror="this.style.display='none'">
-          ${hasName ? `<span style="font-size:12px;font-weight:600;color:#fff">${sp.name}</span>` : ''}`;
-      } else {
-        el.innerHTML = `<span style="font-size:12px;font-weight:700;color:#fff">${sp.name}</span>`;
-      }
-    } else if (slot.cls === 'sp-haupt' || slot.cls === 'sp-co') {
-      // Platzhalter für Haupt + Co
-      el.style.cssText = 'display:flex;align-items:center;gap:6px;background:rgba(240,128,0,0.04);border:1px dashed rgba(240,128,0,0.25);border-radius:8px;padding:6px 14px;cursor:default';
-      el.innerHTML = `<span style="font-size:11px;color:rgba(240,128,0,0.6)">${slot.label}</span>
-        <span style="font-size:10px;color:var(--gray)">${slot.preis}</span>`;
+      el.style.cssText = 'display:flex;align-items:center;gap:8px;background:rgba(255,255,255,0.06);border:1px solid rgba(240,128,0,0.4);border-radius:8px;padding:5px 12px;text-decoration:none;transition:background .2s';
+      el.onmouseenter=()=>el.style.background='rgba(240,128,0,0.12)';
+      el.onmouseleave=()=>el.style.background='rgba(255,255,255,0.06)';
+      el.innerHTML = (hasLogo ? `<img src="${sp.logo}" alt="${sp.name||slot.label}" style="max-height:28px;max-width:80px;object-fit:contain" onerror="this.style.display='none'">` : '')
+        + (hasName ? `<span style="font-size:12px;font-weight:700;color:#fff">${sp.name}</span>` : '');
+    } else {
+      el.style.cssText='display:flex;align-items:center;gap:5px;background:rgba(240,128,0,0.03);border:1px dashed rgba(240,128,0,0.2);border-radius:7px;padding:4px 10px';
+      el.innerHTML=`<span style="font-size:10px;color:rgba(240,128,0,0.5)">${slot.label}</span><span style="font-size:9px;color:var(--gray)">${slot.preis}</span>`;
     }
-
     container.appendChild(el);
   });
 
   if (!anyBooked) {
-    container.innerHTML = '<div style="font-size:12px;color:var(--gray)">Sponsoren-Plätze verfügbar — <a href="https://bbk-tv.netlify.app/admin.html" target="_blank" style="color:var(--orange);text-decoration:none">jetzt buchen</a></div>';
+    container.innerHTML = `<span style="font-size:12px;color:var(--gray)">Sponsoren-Plätze verfügbar — <a href="https://bbk-tv.netlify.app/admin.html" target="_blank" style="color:var(--orange);text-decoration:none;font-weight:600">jetzt buchen →</a></span>`;
   }
 }
 
-// Sponsor-Daten aus Google Sheet laden (action=sponsoren)
-async function loadSponsorsFromSheet() {
+async function loadSponsors() {
+  // Zuerst sponsors.json von bbk-tv laden
   try {
-    const res = await fetch(BBK_SP_API + '?action=sponsoren&kundeId=V006');
-    const json = await res.json();
-    if (json.status === 'ok' && json.data) {
-      renderSponsors(json.data);
-      return;
-    }
+    const res = await fetch('https://bbk-tv.netlify.app/sponsors.json?t='+Date.now(), {cache:'no-store'});
+    if (res.ok) { renderSponsors(await res.json()); return; }
   } catch(e) {}
-
-  // Fallback: Direkt aus bbk-tv via iframe postMessage anfragen
-  requestSponsorsFromIframe();
+  // Fallback: Platzhalter
+  renderSponsors({});
 }
 
-function requestSponsorsFromIframe() {
-  const frame = document.getElementById('bbk-tv-frame');
-  if (!frame) return;
-  // Warten bis iframe geladen
-  frame.addEventListener('load', () => {
-    try {
-      frame.contentWindow.postMessage({ type: 'GET_SPONSORS' }, 'https://bbk-tv.netlify.app');
-    } catch(e) {}
-  }, { once: true });
-}
-
-// postMessage Antwort empfangen
-window.addEventListener('message', (event) => {
-  if (event.origin !== 'https://bbk-tv.netlify.app') return;
-  if (event.data && event.data.type === 'SPONSORS_DATA') {
-    renderSponsors(event.data.sponsors);
-  }
-});
-
-// Starten
-window.addEventListener('DOMContentLoaded', () => {
-  setTimeout(loadSponsorsFromSheet, 500);
-});
+window.addEventListener('DOMContentLoaded', () => setTimeout(loadSponsors, 400));
 </script>
-  </div>
-</div>
-<!-- ████████████ ENDE VEREINS-TV ████████████ -->
 
 <hr class="divider">
 
