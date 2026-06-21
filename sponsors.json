@@ -1,0 +1,12 @@
+{
+  "haupt": {
+    "name": "Vereins-App powered by ONLANG",
+    "logo": "https://bbk-tv.netlify.app/bbk-logo.png",
+    "web": "https://app.onlang.de/"
+  },
+  "coA":   { "name": "", "logo": "", "web": "" },
+  "coB":   { "name": "", "logo": "", "web": "" },
+  "v1":    { "name": "", "logo": "", "web": "", "verein": "" },
+  "v2":    { "name": "", "logo": "", "web": "", "verein": "" },
+  "v3":    { "name": "", "logo": "", "web": "", "verein": "" }
+}
