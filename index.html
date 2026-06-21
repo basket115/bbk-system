@@ -638,15 +638,33 @@ function renderSponsors(spData) {
 }
 
 async function loadSponsors() {
+  const API = 'https://script.google.com/macros/s/AKfycbzyO08Fvv6sTpFm9xYEgEjUROcSDNucOdlOl73uVvqtZg4FRFMCIRdb0_r465oE7Zp9fg/exec';
+  const DEFAULT = {
+    haupt: { name:'Vereins-App powered by ONLANG', logo:'https://bbk-tv.netlify.app/bbk-logo.png', web:'https://app.onlang.de/' }
+  };
+
+  // 1. Google Sheet (vom Admin gespeichert)
   try {
-    const res = await fetch('https://bbk-tv.netlify.app/sponsors.json?t='+Date.now(), {cache:'no-store'});
-    if (res.ok) {
-      const data = await res.json();
-      renderSponsors(data);
-      return;
+    const res = await fetch(API + '?action=getSponsorenJSON&kundeId=V006');
+    const json = await res.json();
+    if (json.status === 'ok' && json.data) {
+      const hasData = Object.values(json.data).some(s => s && (s.name || s.logo));
+      if (hasData) { renderSponsors(json.data); return; }
     }
   } catch(e) {}
-  renderSponsors({});
+
+  // 2. GitHub Raw Fallback
+  try {
+    const res = await fetch('https://raw.githubusercontent.com/basket115/bbk-system/main/sponsors.json?t='+Date.now());
+    if (res.ok) {
+      const data = await res.json();
+      const hasData = Object.values(data).some(s => s && (s.name || s.logo));
+      if (hasData) { renderSponsors(data); return; }
+    }
+  } catch(e) {}
+
+  // 3. Fest eingebaut
+  renderSponsors(DEFAULT);
 }
 
 window.addEventListener('DOMContentLoaded', () => setTimeout(loadSponsors, 400));
