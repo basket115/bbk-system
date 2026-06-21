@@ -459,61 +459,44 @@ footer .logo-text strong { font-size:15px; }
       Videos, Highlights und News aus allen BBK-Vereinen — automatisch aktualisiert.
     </p>
 
-    <!-- TV PLAYER — Click to Load (verhindert iframe-Loop) -->
-    <div id="tv-container" style="position:relative;width:100%;background:#000;border-radius:14px;overflow:hidden;border:2px solid rgba(240,128,0,0.25);box-shadow:0 12px 60px rgba(240,128,0,0.2)">
+    <!-- TV PLAYER — Klick öffnet bbk-tv.netlify.app direkt -->
+    <a href="https://bbk-tv.netlify.app" target="_blank"
+      style="display:block;position:relative;width:100%;background:#000;border-radius:14px;overflow:hidden;border:2px solid rgba(240,128,0,0.25);box-shadow:0 12px 60px rgba(240,128,0,0.2);text-decoration:none;padding-top:56.25%">
 
-      <!-- VORSCHAU-BILD (solange iframe nicht geladen) -->
-      <div id="tv-preview" onclick="loadTV()"
-        style="cursor:pointer;position:relative;width:100%;padding-top:56.25%;background:linear-gradient(135deg,#111418,#1C2128)">
+      <img src="https://bbk-tv.netlify.app/Herobild_fuer_BBK.png"
+        style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;opacity:0.6"
+        onerror="this.style.display='none'">
 
-        <!-- Basketball Hintergrundbild -->
-        <img src="https://bbk-tv.netlify.app/Herobild_fuer_BBK.png"
-          style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;opacity:0.6"
+      <div style="position:absolute;inset:0;background:rgba(0,0,0,0.45)"></div>
+
+      <!-- Play Button mittig -->
+      <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center">
+        <div style="width:80px;height:80px;background:var(--orange);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;box-shadow:0 0 40px rgba(240,128,0,0.5)">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg>
+        </div>
+        <div style="color:#fff;font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:2px">BBK VEREINS-TV</div>
+        <div style="color:rgba(255,255,255,0.7);font-size:13px;margin-top:6px">Klicken zum Öffnen · Videos · Bilder · Sponsoren · News</div>
+      </div>
+
+      <!-- BBK Logo oben links -->
+      <div style="position:absolute;top:16px;left:16px;display:flex;align-items:center;gap:10px">
+        <img src="https://bbk-tv.netlify.app/bbk-logo.png"
+          style="width:36px;height:36px;border-radius:6px;object-fit:contain"
           onerror="this.style.display='none'">
-
-        <!-- Dunkler Overlay -->
-        <div style="position:absolute;inset:0;background:rgba(0,0,0,0.45)"></div>
-
-        <!-- Play Button mittig -->
-        <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center">
-          <div style="width:80px;height:80px;background:var(--orange);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;box-shadow:0 0 40px rgba(240,128,0,0.5)">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg>
-          </div>
-          <div style="color:#fff;font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:2px">BBK VEREINS-TV</div>
-          <div style="color:rgba(255,255,255,0.7);font-size:13px;margin-top:6px">Klicken zum Starten · Videos · Bilder · News</div>
-        </div>
-
-        <!-- BBK Logo oben links -->
-        <div style="position:absolute;top:16px;left:16px;display:flex;align-items:center;gap:10px">
-          <img src="https://bbk-tv.netlify.app/bbk-logo.png"
-            style="width:36px;height:36px;border-radius:6px;object-fit:contain"
-            onerror="this.style.display='none'">
-          <div>
-            <div style="color:#fff;font-size:12px;font-weight:700">BBK Basketball Düsseldorf/Neuss</div>
-            <div style="color:var(--orange);font-size:10px">Basketballkreis Vereins-TV · powered by ONLANG</div>
-          </div>
-        </div>
-
-        <!-- LIVE Badge -->
-        <div style="position:absolute;top:16px;right:16px;background:var(--orange);color:#fff;font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;letter-spacing:1px">
-          ● LIVE
+        <div>
+          <div style="color:#fff;font-size:12px;font-weight:700">BBK Basketball Düsseldorf/Neuss</div>
+          <div style="color:var(--orange);font-size:10px">Basketballkreis Vereins-TV · powered by ONLANG</div>
         </div>
       </div>
 
-      <!-- Vorschau — Klick öffnet TV als Vollbild-Overlay -->
-    </div>
-
-    <!-- SPONSOR-LEISTE -->
-    <div id="bbk-sponsor-bar" style="margin-top:14px;background:var(--dark2);border-radius:10px;padding:10px 16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;border:1px solid var(--border)">
-      <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--gray);flex-shrink:0;white-space:nowrap">Gesponsert von</div>
-      <div id="bbk-sp-slots" style="display:flex;gap:8px;flex:1;flex-wrap:wrap;align-items:center">
-        <div style="font-size:11px;color:var(--gray);font-style:italic">wird geladen…</div>
+      <div style="position:absolute;top:16px;right:16px;background:var(--orange);color:#fff;font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;letter-spacing:1px">
+        ● LIVE
       </div>
-    </div>
+    </a>
 
     <!-- Buttons -->
     <div style="display:flex;gap:12px;margin-top:16px;flex-wrap:wrap">
-      <a href="https://bbk-tv.netlify.app" target="_blank" class="btn btn-primary">🎬 Im Vollbild öffnen</a>
+      <a href="https://bbk-tv.netlify.app" target="_blank" class="btn btn-primary">🎬 Vereins-TV öffnen</a>
       <a href="https://bbk-tv.netlify.app/admin.html" target="_blank" class="btn btn-ghost">⚙️ Admin-Panel</a>
     </div>
 
@@ -643,7 +626,10 @@ async function loadSponsors() {
     haupt: { name:'Vereins-App powered by ONLANG', logo:'https://bbk-tv.netlify.app/bbk-logo.png', web:'https://app.onlang.de/' }
   };
 
-  // 1. Google Sheet (vom Admin gespeichert)
+  // SOFORT Fallback anzeigen — nie leer
+  renderSponsors(DEFAULT);
+
+  // Dann versuchen bessere Daten zu laden
   try {
     const res = await fetch(API + '?action=getSponsorenJSON&kundeId=V006');
     const json = await res.json();
@@ -653,18 +639,14 @@ async function loadSponsors() {
     }
   } catch(e) {}
 
-  // 2. GitHub Raw Fallback
   try {
     const res = await fetch('https://raw.githubusercontent.com/basket115/bbk-system/main/sponsors.json?t='+Date.now());
     if (res.ok) {
       const data = await res.json();
       const hasData = Object.values(data).some(s => s && (s.name || s.logo));
-      if (hasData) { renderSponsors(data); return; }
+      if (hasData) { renderSponsors(data); }
     }
   } catch(e) {}
-
-  // 3. Fest eingebaut
-  renderSponsors(DEFAULT);
 }
 
 window.addEventListener('DOMContentLoaded', () => setTimeout(loadSponsors, 400));
