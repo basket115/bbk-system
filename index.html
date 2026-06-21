@@ -530,14 +530,12 @@ footer .logo-text strong { font-size:15px; }
 <!-- ████████████ ENDE VEREINS-TV ████████████ -->
 
 <script>
-// TV als Vollbild-Overlay öffnen (kein iframe-Loop)
+// TV als Vollbild-Overlay öffnen
 function loadTV() {
-  // Overlay erstellen
   const overlay = document.createElement('div');
   overlay.id = 'tv-overlay';
   overlay.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:#000;z-index:99999;display:flex;flex-direction:column';
 
-  // Schließen-Button
   const closeBar = document.createElement('div');
   closeBar.style.cssText = 'background:#111;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:2px solid #F08000;flex-shrink:0';
   closeBar.innerHTML = `
@@ -557,19 +555,26 @@ function loadTV() {
       </button>
     </div>`;
 
-  // iframe
   const frame = document.createElement('iframe');
+  frame.id = 'tv-overlay-frame';
   frame.src = 'https://bbk-tv.netlify.app';
   frame.style.cssText = 'flex:1;width:100%;border:none';
   frame.allow = 'autoplay; fullscreen';
-  frame.allowFullscreen = true;
 
   overlay.appendChild(closeBar);
   overlay.appendChild(frame);
   document.body.appendChild(overlay);
   document.body.style.overflow = 'hidden';
 
-  // ESC zum Schließen
+  // Sponsor-Daten vom TV-iframe holen (nach Laden)
+  frame.addEventListener('load', () => {
+    setTimeout(() => {
+      try {
+        frame.contentWindow.postMessage({type:'GET_SPONSORS'}, 'https://bbk-tv.netlify.app');
+      } catch(e) {}
+    }, 1000);
+  });
+
   document.addEventListener('keydown', function escClose(e) {
     if (e.key === 'Escape') {
       overlay.remove();
@@ -578,6 +583,14 @@ function loadTV() {
     }
   });
 }
+
+// postMessage Antwort vom TV-iframe empfangen → Sponsoren anzeigen
+window.addEventListener('message', (event) => {
+  if (event.origin !== 'https://bbk-tv.netlify.app') return;
+  if (event.data && event.data.type === 'SPONSORS_DATA') {
+    renderSponsors(event.data.sponsors);
+  }
+});
 
 // Sponsor-Daten laden
 const SP_SLOT_MAP = [
@@ -625,16 +638,50 @@ function renderSponsors(spData) {
 }
 
 async function loadSponsors() {
-  // Zuerst sponsors.json von bbk-tv laden
+  // Zuerst sponsors.json versuchen
   try {
     const res = await fetch('https://bbk-tv.netlify.app/sponsors.json?t='+Date.now(), {cache:'no-store'});
-    if (res.ok) { renderSponsors(await res.json()); return; }
+    if (res.ok) {
+      const data = await res.json();
+      // Prüfen ob wirklich Daten drin sind
+      const hasData = Object.values(data).some(s => s.name || s.logo);
+      if (hasData) { renderSponsors(data); return; }
+    }
   } catch(e) {}
-  // Fallback: Platzhalter
-  renderSponsors({});
+
+  // Fallback: versteckter iframe → postMessage → Sponsor-Daten holen
+  const hiddenFrame = document.createElement('iframe');
+  hiddenFrame.src = 'https://bbk-tv.netlify.app';
+  hiddenFrame.style.cssText = 'position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;top:-9999px';
+  hiddenFrame.id = 'sp-hidden-frame';
+  document.body.appendChild(hiddenFrame);
+
+  let answered = false;
+  window.addEventListener('message', (event) => {
+    if (event.origin !== 'https://bbk-tv.netlify.app') return;
+    if (event.data && event.data.type === 'SPONSORS_DATA' && !answered) {
+      answered = true;
+      hiddenFrame.remove();
+      renderSponsors(event.data.sponsors);
+    }
+  });
+
+  hiddenFrame.addEventListener('load', () => {
+    setTimeout(() => {
+      try { hiddenFrame.contentWindow.postMessage({type:'GET_SPONSORS'}, 'https://bbk-tv.netlify.app'); } catch(e){}
+    }, 800);
+  });
+
+  // Timeout nach 6 Sek → Platzhalter
+  setTimeout(() => {
+    if (!answered) {
+      hiddenFrame.remove();
+      renderSponsors({});
+    }
+  }, 6000);
 }
 
-window.addEventListener('DOMContentLoaded', () => setTimeout(loadSponsors, 400));
+window.addEventListener('DOMContentLoaded', () => setTimeout(loadSponsors, 500));
 </script>
 
 <hr class="divider">
