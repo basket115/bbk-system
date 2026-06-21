@@ -500,13 +500,7 @@ footer .logo-text strong { font-size:15px; }
         </div>
       </div>
 
-      <!-- IFRAME (erst nach Klick sichtbar) -->
-      <iframe id="bbk-tv-frame"
-        style="display:none;width:100%;height:600px;border:none"
-        allow="autoplay; fullscreen"
-        allowfullscreen
-        title="BBK Vereins-TV">
-      </iframe>
+      <!-- Vorschau — Klick öffnet TV als Vollbild-Overlay -->
     </div>
 
     <!-- SPONSOR-LEISTE -->
@@ -536,16 +530,53 @@ footer .logo-text strong { font-size:15px; }
 <!-- ████████████ ENDE VEREINS-TV ████████████ -->
 
 <script>
-// TV laden wenn auf Play-Button geklickt
+// TV als Vollbild-Overlay öffnen (kein iframe-Loop)
 function loadTV() {
-  const preview = document.getElementById('tv-preview');
-  const frame   = document.getElementById('bbk-tv-frame');
-  if (!preview || !frame) return;
-  preview.style.display = 'none';
+  // Overlay erstellen
+  const overlay = document.createElement('div');
+  overlay.id = 'tv-overlay';
+  overlay.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:#000;z-index:99999;display:flex;flex-direction:column';
+
+  // Schließen-Button
+  const closeBar = document.createElement('div');
+  closeBar.style.cssText = 'background:#111;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:2px solid #F08000;flex-shrink:0';
+  closeBar.innerHTML = `
+    <div style="display:flex;align-items:center;gap:10px">
+      <img src="https://bbk-tv.netlify.app/bbk-logo.png" style="width:28px;height:28px;border-radius:4px" onerror="this.style.display='none'">
+      <span style="color:#fff;font-size:13px;font-weight:600">BBK Vereins-TV</span>
+      <span style="color:#F08000;font-size:11px">● LIVE</span>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center">
+      <a href="https://bbk-tv.netlify.app" target="_blank"
+        style="color:#F08000;font-size:11px;text-decoration:none;border:1px solid #F08000;padding:3px 10px;border-radius:5px">
+        ↗ Eigenes Fenster
+      </a>
+      <button onclick="document.getElementById('tv-overlay').remove();document.body.style.overflow=''"
+        style="background:#F08000;border:none;color:#fff;padding:5px 14px;border-radius:5px;cursor:pointer;font-size:13px;font-weight:700">
+        ✕ Schließen
+      </button>
+    </div>`;
+
+  // iframe
+  const frame = document.createElement('iframe');
   frame.src = 'https://bbk-tv.netlify.app';
-  frame.style.display = 'block';
-  // Höhe dynamisch anpassen
-  frame.style.height = Math.round(frame.offsetWidth * 9/16) + 'px';
+  frame.style.cssText = 'flex:1;width:100%;border:none';
+  frame.allow = 'autoplay; fullscreen';
+  frame.allowFullscreen = true;
+
+  overlay.appendChild(closeBar);
+  overlay.appendChild(frame);
+  document.body.appendChild(overlay);
+  document.body.style.overflow = 'hidden';
+
+  // ESC zum Schließen
+  document.addEventListener('keydown', function escClose(e) {
+    if (e.key === 'Escape') {
+      overlay.remove();
+      document.body.style.overflow = '';
+      document.removeEventListener('keydown', escClose);
+    }
+  });
 }
 
 // Sponsor-Daten laden
