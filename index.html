@@ -638,50 +638,18 @@ function renderSponsors(spData) {
 }
 
 async function loadSponsors() {
-  // Zuerst sponsors.json versuchen
   try {
     const res = await fetch('https://bbk-tv.netlify.app/sponsors.json?t='+Date.now(), {cache:'no-store'});
     if (res.ok) {
       const data = await res.json();
-      // Prüfen ob wirklich Daten drin sind
-      const hasData = Object.values(data).some(s => s.name || s.logo);
-      if (hasData) { renderSponsors(data); return; }
+      renderSponsors(data);
+      return;
     }
   } catch(e) {}
-
-  // Fallback: versteckter iframe → postMessage → Sponsor-Daten holen
-  const hiddenFrame = document.createElement('iframe');
-  hiddenFrame.src = 'https://bbk-tv.netlify.app';
-  hiddenFrame.style.cssText = 'position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;top:-9999px';
-  hiddenFrame.id = 'sp-hidden-frame';
-  document.body.appendChild(hiddenFrame);
-
-  let answered = false;
-  window.addEventListener('message', (event) => {
-    if (event.origin !== 'https://bbk-tv.netlify.app') return;
-    if (event.data && event.data.type === 'SPONSORS_DATA' && !answered) {
-      answered = true;
-      hiddenFrame.remove();
-      renderSponsors(event.data.sponsors);
-    }
-  });
-
-  hiddenFrame.addEventListener('load', () => {
-    setTimeout(() => {
-      try { hiddenFrame.contentWindow.postMessage({type:'GET_SPONSORS'}, 'https://bbk-tv.netlify.app'); } catch(e){}
-    }, 800);
-  });
-
-  // Timeout nach 6 Sek → Platzhalter
-  setTimeout(() => {
-    if (!answered) {
-      hiddenFrame.remove();
-      renderSponsors({});
-    }
-  }, 6000);
+  renderSponsors({});
 }
 
-window.addEventListener('DOMContentLoaded', () => setTimeout(loadSponsors, 500));
+window.addEventListener('DOMContentLoaded', () => setTimeout(loadSponsors, 400));
 </script>
 
 <hr class="divider">
