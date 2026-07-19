@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BBK TV – Vorschau</title>
+<style>
+:root{
+  --orange:#F08000;
+  --orange-light:#FF9F20;
+  --dark:#0B1018;
+  --dark2:#111927;
+  --card:#151F31;
+  --text:#F7F8FA;
+  --muted:#9BA8B8;
+  --border:rgba(255,255,255,.10);
+  --live:#ef4444;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,Helvetica,sans-serif;background:transparent;color:var(--text)}
+button,a{font:inherit;cursor:pointer}
+a{color:inherit}
+img{max-width:100%;display:block}
+
+.wrap{background:linear-gradient(135deg,#101721,#0a0f16);border:1px solid var(--border);border-radius:16px;padding:18px;overflow:hidden}
+.head{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:16px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px}
+.logo-wrap{width:38px;height:38px;border-radius:9px;background:#fff;padding:4px;flex-shrink:0}
+.logo-wrap img{width:100%;height:100%;object-fit:contain}
+.logo-fallback{width:38px;height:38px;border-radius:9px;background:var(--orange);display:none;align-items:center;justify-content:center;font-weight:900;font-size:11px}
+.brand h2{font-size:20px;font-weight:900}
+.brand p{font-size:11px;color:var(--muted);margin-top:2px}
+.open{background:var(--orange);color:#fff;text-decoration:none;padding:10px 14px;border-radius:9px;font-size:13px;font-weight:700;white-space:nowrap}
+.open:hover{background:var(--orange-light)}
+
+.layout{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:14px}
+.main-card{background:#05080d;border-radius:13px;overflow:hidden;border:1px solid var(--border)}
+.frame{position:relative;aspect-ratio:16/9;background:linear-gradient(135deg,#1d293d,#080d14)}
+.frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.placeholder{position:absolute;inset:0;text-align:center;color:var(--muted);padding:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px}
+.placeholder .play{font-size:32px;color:var(--orange)}
+.placeholder b{display:block;color:#fff;font-size:15px}
+
+.ad-overlay{position:absolute;inset:0;z-index:6;display:none;flex-direction:column;background:#05070c}
+.ad-overlay.show{display:flex}
+.ad-slide-wrap{position:relative;flex:1;overflow:hidden;background:#000}
+.ad-slide{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;opacity:0;transition:opacity .3s ease;background:#0a0f16}
+.ad-slide.active{opacity:1}
+.ad-slide-fallback{position:absolute;inset:0;display:none;align-items:center;justify-content:center;flex-direction:column;gap:6px;text-align:center;padding:12px;background:linear-gradient(135deg,#182338,#0b1018)}
+.ad-slide-fallback.show{display:flex}
+.ad-slide-fallback b{font-size:13px}
+.ad-slide-fallback span{color:var(--muted);font-size:10px}
+.ad-bar{display:flex;justify-content:space-between;align-items:center;padding:7px 10px;background:rgba(5,7,12,.85);font-size:10px}
+.ad-label{color:var(--muted);letter-spacing:.05em;text-transform:uppercase;font-weight:800}
+.ad-countdown{color:var(--orange-light);font-weight:800;font-variant-numeric:tabular-nums}
+
+.info{padding:11px 13px;background:var(--dark2)}
+.type{font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--orange);font-weight:800}
+.title{font-size:15px;font-weight:800;margin-top:4px;line-height:1.3}
+.meta{font-size:11px;color:var(--muted);margin-top:4px}
+
+.side{display:grid;grid-template-columns:1fr;gap:8px}
+.item{display:grid;grid-template-columns:92px 1fr;gap:9px;background:var(--dark2);border:1px solid var(--border);border-radius:10px;padding:8px;text-align:left;color:#fff}
+.item:hover,.item:focus-visible{border-color:rgba(240,128,0,.65)}
+.item.is-active{border-color:var(--orange)}
+.thumb{aspect-ratio:16/9;border-radius:7px;background:#222 center/cover no-repeat;display:flex;align-items:center;justify-content:center;color:var(--orange);font-size:20px}
+.item h3{font-size:12px;line-height:1.3}
+.item p{font-size:10px;color:var(--muted);margin-top:4px}
+
+.status{font-size:12px;color:var(--muted);padding:10px}
+
+@media(max-width:780px){
+  .layout{grid-template-columns:1fr}
+  .side{grid-template-columns:1fr 1fr}
+  .item{grid-template-columns:1fr}
+}
+@media(max-width:520px){
+  .wrap{padding:12px}
+  .head p{display:none}
+  .open{padding:9px 10px}
+  .side{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<section class="wrap">
+  <div class="head">
+    <div class="brand">
+      <div class="logo-wrap"><img id="tvLogo" src="./bbk-logo.png" alt="BBK Düsseldorf/Neuss"></div>
+      <div class="logo-fallback" id="tvLogoFallback">BBK</div>
+      <div>
+        <h2>BBK TV</h2>
+        <p>Highlights · Interviews · Vereinsvideos</p>
+      </div>
+    </div>
+    <a class="open" href="./index-tv-final.html">Alle Videos ansehen →</a>
+  </div>
+
+  <div class="layout">
+    <article class="main-card">
+      <div class="frame" id="frame">
+        <div class="placeholder" id="placeholder"><div class="play">▶</div><b>Video wird geladen …</b></div>
+        <div class="ad-overlay" id="adOverlay">
+          <div class="ad-slide-wrap">
+            <img class="ad-slide" id="adSlide1" src="./ad-folie-1.png" alt="Werbung">
+            <img class="ad-slide" id="adSlide2" src="./ad-folie-2.png" alt="Werbung">
+            <img class="ad-slide" id="adSlide3" src="./ad-folie-3.png" alt="Werbung">
+            <div class="ad-slide-fallback" id="adFallback">
+              <b>Vereins-App powered by ONLANG</b>
+              <span>Der digitale Videokanal für den Basketballkreis</span>
+            </div>
+          </div>
+          <div class="ad-bar">
+            <span class="ad-label">Werbung</span>
+            <span class="ad-countdown">endet in <span id="adCount">06</span></span>
+          </div>
+        </div>
+      </div>
+      <div class="info">
+        <div class="type" id="type">BBK TV</div>
+        <div class="title" id="title">Aktuelle Videos aus dem Basketballkreis</div>
+        <div class="meta" id="meta">Düsseldorf/Neuss</div>
+      </div>
+    </article>
+    <div class="side" id="list"><div class="status">Videos werden geladen …</div></div>
+  </div>
+</section>
+
+<script>
+"use strict";
+
+/* ── Datenquelle: dieselbe bestehende BBK-API wie in index-tv-final.html / index.html ── */
+const BBK_API = "https://script.google.com/macros/s/AKfycbxBSy3EwXtbxD3_ecN_4p4LAtZ_mrpqT4S6LsP70VZ9yu-q-jxR9hjTf37jGuXjA00rZg/exec";
+
+const AD_SLIDES = [
+  {id:"adSlide1", duration:2},
+  {id:"adSlide2", duration:2},
+  {id:"adSlide3", duration:2}
+];
+const AD_TOTAL = AD_SLIDES.reduce((s,x)=>s+x.duration,0);
+
+let videos = [];
+let currentIndex = 0;
+
+function esc(s){
+  return String(s == null ? "" : s).replace(/[&<>"']/g, c => ({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+  }[c]));
+}
+function ytId(url){
+  const m = String(url || "").match(/(?:youtube\.com\/(?:watch\?v=|shorts\/|embed\/)|youtu\.be\/)([^?&/\s]+)/i);
+  return m ? m[1] : "";
+}
+function thumbFor(v){
+  if (v.image) return v.image;
+  const id = ytId(v.youtube);
+  return id ? `https://img.youtube.com/vi/${id}/hqdefault.jpg` : "";
+}
+function pad2(n){ return String(Math.max(0, n)).padStart(2, "0"); }
+
+/* ── Robuste Bild-Fallback-Prüfung (Race Condition bei file:// vermeiden) ── */
+function robustImgFallback(img, onFail){
+  if (img.complete){
+    if (img.naturalWidth === 0) onFail();
+  } else {
+    img.addEventListener("error", onFail);
+  }
+}
+
+/* Logo-Fallback */
+(function(){
+  const img = document.getElementById("tvLogo");
+  const fb = document.getElementById("tvLogoFallback");
+  robustImgFallback(img, function(){
+    img.closest(".logo-wrap").style.display = "none";
+    fb.style.display = "flex";
+  });
+})();
+
+/* ── Werbe-Overlay: exakt EIN Timer gleichzeitig ── */
+let adTimerHandle = null;
+let adRunToken = 0;
+
+function stopAd(){
+  if (adTimerHandle){ clearInterval(adTimerHandle); adTimerHandle = null; }
+}
+function slideFallbackFor(slideEl){
+  const wrap = slideEl.closest(".ad-slide-wrap");
+  return wrap ? wrap.querySelector(".ad-slide-fallback") : null;
+}
+function runAdSequence(onDone){
+  stopAd();
+  const myToken = ++adRunToken;
+
+  const overlay = document.getElementById("adOverlay");
+  const countEl = document.getElementById("adCount");
+  const fallback = document.getElementById("adFallback");
+  const slideEls = AD_SLIDES.map(s => document.getElementById(s.id));
+
+  overlay.classList.add("show");
+  slideEls.forEach(el => el.classList.remove("active"));
+
+  let remaining = AD_TOTAL;
+  countEl.textContent = pad2(remaining);
+
+  function showSlideForElapsed(elapsed){
+    let acc = 0, activeIdx = AD_SLIDES.length - 1;
+    for (let i = 0; i < AD_SLIDES.length; i++){
+      acc += AD_SLIDES[i].duration;
+      if (elapsed < acc){ activeIdx = i; break; }
+    }
+    slideEls.forEach((el, idx) => el.classList.toggle("active", idx === activeIdx));
+    if (fallback) fallback.classList.toggle("show", slideEls[activeIdx].dataset.failed === "1");
+  }
+  showSlideForElapsed(0);
+
+  adTimerHandle = setInterval(function(){
+    if (myToken !== adRunToken){ clearInterval(adTimerHandle); return; }
+    remaining--;
+    countEl.textContent = pad2(remaining);
+    showSlideForElapsed(AD_TOTAL - remaining);
+    if (remaining <= 0){
+      clearInterval(adTimerHandle);
+      adTimerHandle = null;
+      overlay.classList.remove("show");
+      if (myToken === adRunToken) onDone();
+    }
+  }, 1000);
+}
+
+AD_SLIDES.forEach(s => {
+  const el = document.getElementById(s.id);
+  robustImgFallback(el, function(){
+    el.dataset.failed = "1";
+    el.style.display = "none";
+    if (el.classList.contains("active")){
+      const fb = slideFallbackFor(el);
+      if (fb) fb.classList.add("show");
+    }
+  });
+});
+
+function playVideo(index){
+  const v = videos[index];
+  if (!v) return;
+  currentIndex = index;
+
+  document.getElementById("type").textContent = v.type || "Video";
+  document.getElementById("title").textContent = v.title;
+  document.getElementById("meta").textContent = (v.club || "BBK") + (v.date ? " · " + v.date : "");
+
+  const frame = document.getElementById("frame");
+  const ph = document.getElementById("placeholder");
+  const oldIframe = frame.querySelector("iframe");
+  if (oldIframe) oldIframe.remove();
+
+  renderList();
+
+  const id = ytId(v.youtube);
+  if (!id){
+    stopAd();
+    document.getElementById("adOverlay").classList.remove("show");
+    ph.style.display = "flex";
+    ph.innerHTML = `<div class="play">▶</div><b>${esc(v.title)}</b>`;
+    return;
+  }
+
+  ph.style.display = "none";
+  runAdSequence(function(){
+    const f = document.createElement("iframe");
+    f.src = `https://www.youtube-nocookie.com/embed/${encodeURIComponent(id)}?autoplay=1&mute=1&rel=0`;
+    f.allow = "autoplay; encrypted-media; picture-in-picture";
+    f.allowFullscreen = true;
+    f.title = v.title || "BBK TV Video";
+    frame.appendChild(f);
+  });
+}
+window.playVideo = playVideo;
+
+function renderList(){
+  const list = videos.filter((_, i) => i !== currentIndex).slice(0, 4);
+  document.getElementById("list").innerHTML = list.map(v => {
+    const realIndex = videos.indexOf(v);
+    const bg = thumbFor(v);
+    return `<button class="item" onclick="playVideo(${realIndex})">
+      <span class="thumb" style="${bg ? `background-image:url('${esc(bg)}')` : ""}">${bg ? "" : "▶"}</span>
+      <span><h3>${esc(v.title)}</h3><p>${esc(v.club || v.type || "BBK")}${v.date ? " · " + esc(v.date) : ""}</p></span>
+    </button>`;
+  }).join("");
+}
+
+function demoVideos(){
+  return [
+    {id:1, title:"BBK TV – Basketball im Kreis", club:"BBK Düsseldorf/Neuss", date:"Demo", type:"BBK TV", youtube:"", image:""},
+    {id:2, title:"Highlights aus dem Basketballkreis", club:"Mitgliedsvereine", date:"Demo", type:"Highlight", youtube:"", image:""}
+  ];
+}
+
+async function loadVideos(){
+  let rows = [];
+  try{
+    const res = await fetch(BBK_API + "?action=news");
+    const json = await res.json();
+    rows = (json && json.status === "ok" && Array.isArray(json.data)) ? json.data : [];
+  }catch(e){
+    rows = [];
+  }
+
+  videos = rows.map((n, i) => ({
+    id: i + 1,
+    title: (n.Titel || n.titel || "BBK Video").toString().trim(),
+    club: (n.Verein || n.verein || "BBK Düsseldorf/Neuss").toString().trim(),
+    date: (n.Datum || n.datum || "").toString().trim(),
+    type: (n.Kategorie || n.kategorie || "Video").toString().trim(),
+    youtube: (n.YouTube || n.youtube || "").toString().trim(),
+    image: (n.Bild || n.bild || "").toString().trim()
+  })).filter(v => ytId(v.youtube));
+
+  if (!videos.length) videos = demoVideos();
+
+  const originals = [...videos];
+  while (videos.length < 5 && originals.length){
+    const src = originals[videos.length % originals.length];
+    videos.push({ ...src, id: videos.length + 1 });
+  }
+
+  renderList();
+  playVideo(0);
+}
+
+loadVideos();
+</script>
+</body>
+</html>
